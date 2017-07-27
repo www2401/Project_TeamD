@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -192,6 +194,12 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             mGoogleMap.setMyLocationEnabled(true);
 
         }
+
+        CircleOptions circle1KM = new CircleOptions().center(new LatLng(34, -118)) //원점
+                .radius(1000)      //반지름 단위 : m
+                .strokeWidth(0f)  //선너비 0f : 선없음
+                .fillColor(Color.parseColor("#880000ff")); //배경색
+        map.addCircle(circle1KM);
 
     }
 
