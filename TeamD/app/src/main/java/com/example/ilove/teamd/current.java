@@ -123,6 +123,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             mGoogleApiClient.unregisterConnectionCallbacks(this);
             mGoogleApiClient.unregisterConnectionFailedListener(this);
 
+
             if (mGoogleApiClient.isConnected()) {
                 LocationServices.FusedLocationApi
                         .removeLocationUpdates(mGoogleApiClient, this);
@@ -189,12 +190,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             if (mGoogleApiClient == null) {
                 buildGoogleApiClient();
             }
-
-
             mGoogleMap.setMyLocationEnabled(true);
-
         }
-
         CircleOptions circle1KM = new CircleOptions().center(new LatLng(34, -118)) //원점
                 .radius(100000000)      //반지름 단위 : m
                 .strokeWidth(0f)  //선너비 0f : 선없음
