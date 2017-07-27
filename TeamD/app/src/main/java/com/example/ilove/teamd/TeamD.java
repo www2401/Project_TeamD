@@ -179,8 +179,8 @@ public class TeamD extends AppCompatActivity
         Log.v("CLicked","asd");
         try {
             int id = item.getItemId();
-            if (id == R.id.nav_map) {
-                Intent page = new Intent(TeamD.this, map.class);
+            if (id == R.id.nav_current) {
+                Intent page = new Intent(TeamD.this, current.class);
                 startActivity(page);
             } else if (id == R.id.nav_graph) {
                 Intent page = new Intent(TeamD.this, graph.class);

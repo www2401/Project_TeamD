@@ -11,7 +11,7 @@
     <item android:title="information">
         <menu>
             <item
-                android:id="@+id/nav_map"
+                android:id="@+id/nav_current"
                 android:icon="@drawable/map"
                 android:title="Map" />
             <item
