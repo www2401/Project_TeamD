@@ -196,7 +196,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         }
 
         CircleOptions circle1KM = new CircleOptions().center(new LatLng(34, -118)) //원점
-                .radius(1000)      //반지름 단위 : m
+                .radius(100000000)      //반지름 단위 : m
                 .strokeWidth(0f)  //선너비 0f : 선없음
                 .fillColor(Color.parseColor("#880000ff")); //배경색
         map.addCircle(circle1KM);
