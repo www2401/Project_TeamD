@@ -39,6 +39,7 @@
         </activity>
         <activity android:name=".login">
         </activity>
+        <activity android:name=".DeviceListActivity"/>
         <activity android:name=".registration">
         </activity>
         <activity android:name=".registration_authentification">
