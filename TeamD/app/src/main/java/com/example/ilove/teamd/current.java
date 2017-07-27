@@ -131,7 +131,6 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             }
 
         }
-
         super.onDestroy();
     }
 
