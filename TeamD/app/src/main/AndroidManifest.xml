@@ -10,16 +10,15 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="project"
+        android:label="DML"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCw1BFB06fiW9uVUwPDO5t-kk0YLH9H5y8"
+            android:value="AIzaSyBM-QI_cobHtSMdo56T1ZijHBDpU0HtCBE"
             />
-
         <activity
             android:name=".TeamD"
             android:label="DML"

@@ -525,7 +525,6 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                     setCurrentLocation(null, "위치정보 가져올 수 없음",
                             "위치 퍼미션과 GPS 활성 요부 확인하세요");
                 }
-
                 break;
         }
     }
