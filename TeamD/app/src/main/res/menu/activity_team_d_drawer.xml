@@ -15,10 +15,6 @@
                 android:icon="@drawable/map"
                 android:title="Map" />
             <item
-                android:id="@+id/nav_heart"
-                android:icon="@drawable/heart"
-                android:title="Heart Rate" />
-            <item
                 android:id="@+id/nav_graph"
                 android:icon="@drawable/graph"
                 android:title="Graph"/>

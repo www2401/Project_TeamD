@@ -196,9 +196,6 @@ public class TeamD extends AppCompatActivity
             } else if (id == R.id.nav_login) {
                 Intent page = new Intent(TeamD.this, login.class);
                 startActivity(page);
-            } else if (id == R.id.nav_heart) {
-                Intent page = new Intent(TeamD.this, heart.class);
-                startActivity(page);
             }
         }catch (Exception e){
             Log.v("catched","sdf");

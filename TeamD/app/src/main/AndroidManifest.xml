@@ -35,8 +35,6 @@
         </activity>
         <activity android:name=".map">
         </activity>
-        <activity android:name=".heart">
-        </activity>
         <activity android:name=".login">
         </activity>
         <activity android:name=".DeviceListActivity"/>
