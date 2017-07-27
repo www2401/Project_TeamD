@@ -1,14 +1,9 @@
 package com.example.ilove.teamd;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -66,7 +61,7 @@ public class TeamD extends AppCompatActivity
         }
     }
     //블루투스 채팅 핸들러 메인 부분
-    private final Handler mHandler = new Handler() {
+   /* private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             FragmentActivity activity = TeamD.this;
@@ -110,10 +105,12 @@ public class TeamD extends AppCompatActivity
                     break;
             }
         }
-    };
+    }; */
+
+    /*
     public boolean onPrepareOptionsMenu(Menu menu) {
         return super.onPrepareOptionsMenu(menu);
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -125,7 +122,7 @@ public class TeamD extends AppCompatActivity
         }
     }
 
-    @Override
+    /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -137,8 +134,8 @@ public class TeamD extends AppCompatActivity
         }
         //noinspection SimplifiableIfStatement
         return super.onOptionsItemSelected(item);
-    }
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    } */
+   /* public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE_SECURE:
                 // When DeviceListActivity returns with a device to connect
@@ -165,8 +162,8 @@ public class TeamD extends AppCompatActivity
                     this.finish();
                 }
         }
-    }
-    private void connectDevice(Intent data, boolean secure) {
+    } */
+   /* private void connectDevice(Intent data, boolean secure) {
         // Get the device MAC address
         String address = data.getExtras()
                 .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
@@ -174,7 +171,7 @@ public class TeamD extends AppCompatActivity
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         // Attempt to connect to the device
         mChatService.connect(device, secure);
-    }
+    } */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
