@@ -12,15 +12,13 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.*;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -151,8 +149,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
 
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에
         //지도의 초기위치를 서울로 이동
-        setCurrentLocation(null, "위치정보 가져올 수 없음",
-                "위치 퍼미션과 GPS 활성 요부 확인하세요");
+        setCurrentLocation(null, "Can't load location info.",
+                "Please check location permission and GPS activation.");
 
         mGoogleMap.getUiSettings().setCompassEnabled(true);
         //mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -205,8 +203,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
 
         android.util.Log.d(TAG, "onLocationChanged");
         String markerTitle = getCurrentAddress(location);
-        String markerSnippet = "위도:" + String.valueOf(location.getLatitude())
-                + " 경도:" + String.valueOf(location.getLongitude());
+        String markerSnippet = "Latitude:" + String.valueOf(location.getLatitude())
+                + " Longitude:" + String.valueOf(location.getLongitude());
 
         //현재 위치에 마커 생성
         setCurrentLocation(location, markerTitle, markerSnippet);
@@ -267,8 +265,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         location.setLatitude(DEFAULT_LOCATION.latitude);
         location.setLongitude(DEFAULT_LOCATION.longitude);
 
-        setCurrentLocation(location, "위치정보 가져올 수 없음",
-                "위치 퍼미션과 GPS 활성 요부 확인하세요");
+        setCurrentLocation(location, "Can't load location info.",
+                "Please check location permission and GPS activation.");
     }
 
 
@@ -298,18 +296,18 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                     1);
         } catch (IOException ioException) {
             //네트워크 문제
-            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
-            return "지오코더 서비스 사용불가";
+            Toast.makeText(this, "Can't use GEO coder service.", Toast.LENGTH_LONG).show();
+            return "Can't use GEO coder service.";
         } catch (IllegalArgumentException illegalArgumentException) {
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
-            return "잘못된 GPS 좌표";
+            Toast.makeText(this, "Wrong GPS 잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
+            return "잘못된 GPS location";
 
         }
 
 
         if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
-            return "주소 미발견";
+            Toast.makeText(this, "Not found address.", Toast.LENGTH_LONG).show();
+            return "Not found address.";
 
         } else {
             Address address = addresses.get(0);
@@ -373,12 +371,12 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
 
         if (hasFineLocationPermission == PackageManager
                 .PERMISSION_DENIED && fineLocationRationale)
-            showDialogForPermission("앱을 실행하려면 퍼미션을 허가하셔야합니다.");
+            showDialogForPermission("For app activation, check permission.");
 
         else if (hasFineLocationPermission
                 == PackageManager.PERMISSION_DENIED && !fineLocationRationale) {
-            showDialogForPermissionSetting("퍼미션 거부 + Don't ask again(다시 묻지 않음) " +
-                    "체크 박스를 설정한 경우로 설정에서 퍼미션 허가해야합니다.");
+            showDialogForPermissionSetting("permission deny + Don't ask again " +
+                    "Please check your permission in setting for checkbox.");
         } else if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED) {
 
             if (mGoogleApiClient == null) {
@@ -427,10 +425,10 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     private void showDialogForPermission(String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(current.this);
-        builder.setTitle("알림");
+        builder.setTitle("Alert");
         builder.setMessage(msg);
         builder.setCancelable(false);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 ActivityCompat.requestPermissions(mActivity,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -438,7 +436,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             }
         });
 
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
             }
@@ -449,10 +447,10 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     private void showDialogForPermissionSetting(String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(current.this);
-        builder.setTitle("알림");
+        builder.setTitle("Alert");
         builder.setMessage(msg);
         builder.setCancelable(true);
-        builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
                 askPermissionOnceAgain = true;
@@ -464,7 +462,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 mActivity.startActivity(myAppSettings);
             }
         });
-        builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
             }
@@ -477,11 +475,11 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     private void showDialogForLocationServiceSetting() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(current.this);
-        builder.setTitle("위치 서비스 비활성화");
-        builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
-                + "위치 설정을 수정하실래요?");
+        builder.setTitle("Location service inactivate.");
+        builder.setMessage("For app use, need location service.\n"
+                + "modified location service? ");
         builder.setCancelable(true);
-        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Setting", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 Intent callGPSSettingIntent
@@ -489,7 +487,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
             }
         });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
@@ -526,8 +524,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                         return;
                     }
                 } else {
-                    setCurrentLocation(null, "위치정보 가져올 수 없음",
-                            "위치 퍼미션과 GPS 활성 요부 확인하세요");
+                    setCurrentLocation(null, "Can't load location info.",
+                            "Check location permission and GPS activation.");
                 }
 
                 break;
