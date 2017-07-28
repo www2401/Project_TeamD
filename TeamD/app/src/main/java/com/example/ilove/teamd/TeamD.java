@@ -319,8 +319,8 @@ public class TeamD extends AppCompatActivity
                 Log.e(TAG, "Unable to initialize Bluetooth");
                 finish();
             }
-
-            mPolarBleService.connect("00:22:D0:9C:F9:8E", false);
+            mPolarBleService.connect("00:22:D0:3D:2E:81", false);
+           // mPolarBleService.connect("00:22:D0:9C:F9:8E", false);
         }
 
         @Override

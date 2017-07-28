@@ -46,7 +46,8 @@ import android.widget.Toast;
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
-    View view;
+    public View view;
+    TextView test;
 
     private static final String TAG = "BluetoothChatFragment";
 
@@ -59,7 +60,6 @@ public class BluetoothChatFragment extends Fragment {
     private ListView mConversationView;
     private EditText mOutEditText;
     private Button mSendButton;
-    TextView test;
 
     /**
      * Name of the connected device
@@ -100,8 +100,6 @@ public class BluetoothChatFragment extends Fragment {
             activity.finish();
         }
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -111,8 +109,15 @@ public class BluetoothChatFragment extends Fragment {
         test = (TextView)view.findViewById(R.id.textView);
         return view;
     }
-
-
+    public void test(int value) {
+        try {
+            if (test != null)
+                test.setText("" + value);
+            Log.w("test234", "" + value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -150,6 +155,7 @@ public class BluetoothChatFragment extends Fragment {
             }
         }
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.secure_connect_scan: {
@@ -166,6 +172,7 @@ public class BluetoothChatFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
     }
+
     /**
      * Makes this device discoverable for 300 seconds (5 minutes).
      */
@@ -285,9 +292,9 @@ public class BluetoothChatFragment extends Fragment {
                     String readMessage = new String(readBuf, 0, msg.arg1);
 
 
-                    Toast.makeText(getContext(), readMessage,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), readMessage, Toast.LENGTH_SHORT).show();
                     setText1(readMessage);
-                    Log.e("test","" +  test);
+                    Log.e("test", "" + test);
                     Log.d("read text : ", readMessage);     // 조장이 코딩 한 토스트부
 
                     break;
@@ -353,28 +360,17 @@ public class BluetoothChatFragment extends Fragment {
         // Attempt to connect to the device
         mChatService.connect(device, secure);
     }
-    void setText1(String s){
+
+    void setText1(String s) {
         try {
             if (test != null) {
                 //test.setText(s);
-                Log.v("ttt","ttttt"+test.getText());
+                Log.v("ttt", "ttttt" + test.getText());
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             Log.v("eror", "salkdjflkd");
         }
     }
-
-    void test(int value){
-        try{
-            if(test != null)
-                test.setText("" + value);
-            Log.w("test234", "" + value);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-
 }
