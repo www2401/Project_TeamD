@@ -84,16 +84,16 @@
         android:layout_alignBottom="@+id/textView"
         android:layout_toEndOf="@+id/editText15"/>
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="bpm"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="231dp"
-        tools:layout_editor_absoluteY="68dp"
-        android:layout_alignBottom="@+id/editText15"
-        android:layout_toEndOf="@+id/editText15"/>
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editText15"
+            android:layout_toEndOf="@+id/editText15"
+            android:text="feet"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="231dp"
+            tools:layout_editor_absoluteY="68dp"/>
 
     <ImageView
         android:id="@+id/imageView3"
