@@ -132,9 +132,9 @@
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editText10"
+            android:text="continue"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="26dp"
-            android:text="continue"/>
+            android:layout_marginBottom="11dp"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
