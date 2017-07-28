@@ -120,12 +120,21 @@
             />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="confirm"
             android:layout_alignBaseline="@+id/textView33"
             android:layout_alignBottom="@+id/textView33"
-            android:layout_alignStart="@+id/textView32"/>
+            android:layout_alignStart="@+id/textView32"
+            android:text="confirm"/>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText10"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp"
+            android:text="continue"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

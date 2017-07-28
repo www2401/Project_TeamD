@@ -17,7 +17,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBM-QI_cobHtSMdo56T1ZijHBDpU0HtCBE"
             />
-        <service android:name="com.example.ilove.teamd.Heart.PolarBleService" android:enabled="true"/>
+        <service android:name="com.example.ilove.teamd.Heart.PolarBleService"
+                  android:enabled="true"/>
         <activity
             android:name=".TeamD"
             android:label="DML"
@@ -37,8 +38,7 @@
         <activity android:name=".login">
         </activity>
         <activity android:name=".DeviceListActivity"/>
-        <activity android:name=".registration">
-        </activity>
+
         <activity android:name=".registration_authentification">
         </activity>
         <activity android:name=".reset_authentification">
@@ -48,6 +48,8 @@
         <activity android:name=".new_password">
         </activity>
         <activity android:name=".current">
+        </activity>
+        <activity android:name=".registration">
         </activity>
     </application>
 
