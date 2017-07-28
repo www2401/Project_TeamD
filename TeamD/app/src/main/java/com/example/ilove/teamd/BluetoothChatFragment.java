@@ -59,7 +59,7 @@ public class BluetoothChatFragment extends Fragment {
     private ListView mConversationView;
     private EditText mOutEditText;
     private Button mSendButton;
-    static public TextView test;
+    TextView test;
 
     /**
      * Name of the connected device
@@ -100,6 +100,8 @@ public class BluetoothChatFragment extends Fragment {
             activity.finish();
         }
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -354,13 +356,23 @@ public class BluetoothChatFragment extends Fragment {
     void setText1(String s){
         try {
             if (test != null) {
-                test.setText(s);
+                //test.setText(s);
                 Log.v("ttt","ttttt"+test.getText());
 
             }
         }catch (Exception e){
             e.printStackTrace();
             Log.v("eror", "salkdjflkd");
+        }
+    }
+
+    void test(int value){
+        try{
+            if(test != null)
+                test.setText("" + value);
+            Log.w("test234", "" + value);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

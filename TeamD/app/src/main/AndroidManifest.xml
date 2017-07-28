@@ -17,6 +17,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBM-QI_cobHtSMdo56T1ZijHBDpU0HtCBE"
             />
+        <service android:name="com.example.ilove.teamd.Heart.PolarBleService" android:enabled="true"/>
         <activity
             android:name=".TeamD"
             android:label="DML"

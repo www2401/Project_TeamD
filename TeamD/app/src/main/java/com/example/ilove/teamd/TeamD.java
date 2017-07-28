@@ -1,8 +1,14 @@
 package com.example.ilove.teamd;
 
 import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -15,8 +21,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.ilove.teamd.Heart.PolarBleService;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
+
+
 public class TeamD extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final String TAG = "TeamD";
+
+    PolarBleService mPolarBleService;
+    String mpolarBleDeviceAddress;	//Your need to pass the address
+    int batteryLevel=0;
 
     BluetoothChatFragment bt;
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
@@ -39,6 +66,10 @@ public class TeamD extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_d);
+
+        Log.w(this.getClass().getName(), "onCreate()");
+        activatePolar();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,6 +90,7 @@ public class TeamD extends AppCompatActivity
             BluetoothChatFragment fragment = new BluetoothChatFragment();
             transaction.replace(R.id.content_team_d, fragment).commit();
         }
+
     }
     //블루투스 채팅 핸들러 메인 부분
    /* private final Handler mHandler = new Handler() {
@@ -204,5 +236,101 @@ public class TeamD extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(this.getClass().getName(), "onDestroy()");
+
+        deactivatePolar();
+
+    }
+
+    protected void activatePolar() {
+        Log.w(this.getClass().getName(), "** activatePolar()");
+        Intent gattactivateClickerServiceIntent = new Intent(this, PolarBleService.class);
+        bindService(gattactivateClickerServiceIntent, mPolarBleServiceConnection, BIND_AUTO_CREATE);
+        registerReceiver(mPolarBleUpdateReceiver, makePolarGattUpdateIntentFilter());
+    }
+
+    protected void deactivatePolar() {
+        Log.w(this.getClass().getName(), "deactivatePolar()");
+        if(mPolarBleService!=null){
+            unbindService(mPolarBleServiceConnection);
+        }
+        unregisterReceiver(mPolarBleUpdateReceiver);
+        mPolarBleService.disconnect();
+    }
+
+    private final BroadcastReceiver mPolarBleUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context ctx, Intent intent) {
+            final String action = intent.getAction();
+            if (PolarBleService.ACTION_GATT_CONNECTED.equals(action)) {
+            } else if (PolarBleService.ACTION_GATT_DISCONNECTED.equals(action)) {
+                //dataFragPolar.stopAnimation();
+            } else if (PolarBleService.ACTION_HR_DATA_AVAILABLE.equals(action)) {
+                //heartRate+";"+pnnPercentage+";"+pnnCount+";"+rrThreshold+";"+bioHarnessSessionData.totalNN
+                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
+                StringTokenizer tokens = new StringTokenizer(data, ";");
+                int hr = Integer.parseInt(tokens.nextToken());
+                Log.w("test", "" + hr);
+                bt.test(hr);
+
+                int prrPercenteage = Integer.parseInt(tokens.nextToken());
+                int prrCount = Integer.parseInt(tokens.nextToken());
+                int rrThreshold = Integer.parseInt(tokens.nextToken());	//50%, 30%, etc.
+                int rrTotal = Integer.parseInt(tokens.nextToken());
+                int rrValue = Integer.parseInt(tokens.nextToken());
+                long sid = Long.parseLong(tokens.nextToken());
+
+                //dataFragPolar.settvHR(Integer.toString(hr));
+            }else if (PolarBleService.ACTION_BATTERY_DATA_AVAILABLE.equals(action)) {
+                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
+                batteryLevel = Integer.parseInt(data);
+            }else if (PolarBleService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
+                String data = intent.getStringExtra(PolarBleService.EXTRA_DATA);
+                StringTokenizer tokens = new StringTokenizer(data, ";");
+                int totalNN = Integer.parseInt(tokens.nextToken());
+                long lSessionId = Long.parseLong(tokens.nextToken());
+
+                //Enable your UI
+            }
+        }
+    };
+
+    private static IntentFilter makePolarGattUpdateIntentFilter() {
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(PolarBleService.ACTION_GATT_CONNECTED);
+        intentFilter.addAction(PolarBleService.ACTION_GATT_DISCONNECTED);
+        intentFilter.addAction(PolarBleService.ACTION_GATT_SERVICES_DISCOVERED);
+        intentFilter.addAction(PolarBleService.ACTION_HR_DATA_AVAILABLE);
+        intentFilter.addAction(PolarBleService.ACTION_BATTERY_DATA_AVAILABLE);
+        return intentFilter;
+    }
+
+    private final ServiceConnection mPolarBleServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mPolarBleService = ((PolarBleService.LocalBinder) service).getService();
+            if (!mPolarBleService.initialize()) {
+                Log.e(TAG, "Unable to initialize Bluetooth");
+                finish();
+            }
+
+            mPolarBleService.connect("00:22:D0:9C:F9:8E", false);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+      //      if(app.runtimeLogging)
+           //     LOG.warn("onServiceDisconnected() ");
+
+            mPolarBleService = null;
+        }
+    };
+
 
 }
