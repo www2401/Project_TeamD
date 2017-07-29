@@ -47,7 +47,7 @@ import android.widget.Toast;
  */
 public class BluetoothChatFragment extends Fragment {
     public View view;
-    TextView test;
+    static TextView test;
 
     private static final String TAG = "BluetoothChatFragment";
 
@@ -106,7 +106,7 @@ public class BluetoothChatFragment extends Fragment {
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(getActivity(), mHandler);
         view = inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
-        test = (TextView)view.findViewById(R.id.textView);
+        test = (TextView)view.findViewById(R.id.text_view);
         return view;
     }
     public void test(int value) {

@@ -63,13 +63,14 @@
         android:layout_toStartOf="@+id/textView23"/> -->
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text_view"
             android:layout_width="130dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="49dp"
             android:layout_toStartOf="@+id/textView23"
-            android:ems="10"/>
+            android:ems="10"
+            />
 
 
     <TextView
@@ -80,9 +81,8 @@
         android:textSize="24sp"
         tools:layout_editor_absoluteX="231dp"
         tools:layout_editor_absoluteY="68dp"
-        android:layout_alignBaseline="@+id/textView"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toEndOf="@+id/editText15"/>
+        android:layout_toEndOf="@+id/editText15"
+        android:layout_alignBottom="@+id/text_view"/>
 
         <TextView
             android:id="@+id/textView11"
@@ -100,9 +100,9 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         app:srcCompat="@drawable/running"
-        android:layout_marginTop="87dp"
-        android:layout_below="@+id/textView"
-        android:layout_alignEnd="@+id/imageView"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_marginBottom="160dp"/>
 
     </RelativeLayout>
 
