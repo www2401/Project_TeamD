@@ -39,6 +39,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.
@@ -56,11 +59,12 @@ public class BluetoothChatFragment extends Fragment {
     // Layout Views
     private EditText mOutEditText;
 
-    static public TextView test;
-    static public TextView test1;
-    static public TextView test2;
-    static public TextView test3;
-    static public TextView test4;
+    static public TextView temp;
+    static public TextView co_air;
+    static public TextView o3_air;
+    static public TextView so2_air;
+    static public TextView no2_air;
+    static public TextView pm25_air;
 
     /**
      * Name of the connected device
@@ -107,11 +111,13 @@ public class BluetoothChatFragment extends Fragment {
         // Initialize the BluetoothChatService to perform bluetooth connections
         mChatService = new BluetoothChatService(getActivity(), mHandler);
         view = inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
-        test = (TextView)view.findViewById(R.id.CO);
-        test1 = (TextView)view.findViewById(R.id.O3);
-        test2 = (TextView)view.findViewById(R.id.SO2);
-        test3 = (TextView)view.findViewById(R.id.NO2);
-        test4 = (TextView)view.findViewById(R.id.PM2_5);
+
+        temp = (TextView)view.findViewById(R.id.TEMPtextview);
+        co_air = (TextView)view.findViewById(R.id.COtextview);
+        o3_air = (TextView)view.findViewById(R.id.O3textview);
+        so2_air = (TextView)view.findViewById(R.id.SO2textview);
+        no2_air = (TextView)view.findViewById(R.id.NO2textview);
+        pm25_air = (TextView)view.findViewById(R.id.PM25textview);
         return view;
     }
 
@@ -288,12 +294,36 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    test.setText(readMessage);
+                    temp.setText(readMessage);
 
-                    air_info_split = readMessage.split(",");
+                    try {
+                        JSONObject JsonAir = new JSONObject(readMessage);
+                        /*temp = setText.String.valueOf(JsonAir.getInt("temp"));
+                        co_air = setText.String.valueOf(JsonAir.getInt("CO"));
+                        o3_air = setText.JsonAir.getInt("O3");
+                        so2_air = setText.JsonAir.getInt("SO2");
+                        no2_air = setText.JsonAir.getInt("NO2");
+                        pm25_air = setText.JsonAir.getInt("PM2.5");*/
 
-                    for(int i=3;i<air_info_split.length;i++)
+                        temp.setText(JsonAir.getString("temp"));
+                        co_air.setText(JsonAir.getString("CO"));   //toString 이 뭔가를 String으로 바꿔주는거
+                        o3_air.setText(JsonAir.getString("O3"));
+                        so2_air.setText(JsonAir.getString("SO2"));   //toString 이 뭔가를 String으로 바꿔주는거
+                        no2_air.setText(JsonAir.getString("NO2"));
+                        pm25_air.setText(JsonAir.getString("PM25"));
+
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+
+                    /* air_info_split = readMessage.split(",");
+
+                    for(int i=2;i<air_info_split.length;i++)
                     {
+                        if(i==2)
+                        {
+                            temp.setText(air_info_split[i]);
+                        }
                         if(i==3)
                         {
                             test.setText(air_info_split[i]);
@@ -314,7 +344,7 @@ public class BluetoothChatFragment extends Fragment {
                         {
                             test4.setText(air_info_split[i]);
                         }
-                    }
+                    } */
 
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -379,11 +409,12 @@ public class BluetoothChatFragment extends Fragment {
         // Attempt to connect to the device
         mChatService.connect(device, secure);
     }
+
     void setText1(String s){
         try {
-            if (test != null) {
-                test.setText(s);
-                Log.v("ttt","ttttt"+test.getText());
+            if (temp != null) {
+                temp.setText(s);
+                Log.v("ttt","ttttt"+temp.getText());
 
             }
         }catch (Exception e){

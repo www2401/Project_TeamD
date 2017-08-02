@@ -33,6 +33,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="TEMP"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/TEMPtextview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_weight="1">
 
@@ -44,7 +66,7 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/CO"
+                android:id="@+id/COtextview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -66,7 +88,7 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/O3"
+                android:id="@+id/O3textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -88,7 +110,7 @@
                 android:text="SO2"/>
 
             <TextView
-                android:id="@+id/SO2"
+                android:id="@+id/SO2textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -110,7 +132,7 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/NO2"
+                android:id="@+id/NO2textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -132,7 +154,7 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/PM2.5"
+                android:id="@+id/PM25textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

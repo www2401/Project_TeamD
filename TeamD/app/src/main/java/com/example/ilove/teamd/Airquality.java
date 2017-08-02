@@ -1,11 +1,10 @@
 package com.example.ilove.teamd;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-
 
 import static com.example.ilove.teamd.R.layout.activity_airquality;
 
@@ -33,5 +32,8 @@ public class Airquality extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.bluetooth_chat, menu);
         return true;
     }
-    }
+
+
+}
+
 
