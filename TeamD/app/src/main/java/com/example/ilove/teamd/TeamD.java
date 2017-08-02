@@ -59,7 +59,7 @@ public class TeamD extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_team_d);
-        text_input = (TextView)findViewById(R.id.CO);
+        text_input = (TextView)findViewById(R.id.heartrate);
 
         Log.w(this.getClass().getName(), "onCreate()");
         activatePolar();

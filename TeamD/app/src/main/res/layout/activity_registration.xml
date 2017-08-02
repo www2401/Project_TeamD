@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/editText3"
-            android:text="ID"
+            android:text="ID(email)"
             android:textSize="18sp"/>
 
         <EditText
@@ -76,7 +76,7 @@
             android:id="@+id/textView31"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="password"
+            android:text="Password"
             android:textSize="18sp"
             android:layout_below="@+id/editText7"
             android:layout_alignParentStart="true"/>
@@ -104,7 +104,7 @@
             android:id="@+id/textView33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="password"
+            android:text="Password"
             android:textSize="18sp"
             android:layout_below="@+id/editText9"
             android:layout_alignParentStart="true"/>
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/editText9"
-            android:text="password"
+            android:text="Password"
             android:textSize="18sp"/>
 
         <EditText
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/editText10"
-            android:text="birth(yyyy/mm/dd)"
+            android:text="Birth(yyyy/mm/dd)"
             android:textSize="18sp"/>
 
         <EditText
@@ -167,7 +167,7 @@
             android:id="@+id/textView24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sex"
+            android:text="Gender"
             android:textSize="18sp"
             android:layout_below="@+id/editText11"
             android:layout_alignParentStart="true"/>
@@ -196,7 +196,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/checkBox"
-            android:text="weight"
+            android:text="Weight"
             android:textSize="18sp"/>
 
         <EditText
@@ -214,7 +214,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/editText14"
             android:layout_toEndOf="@+id/button"
-            android:text="height"
+            android:text="Height"
             android:textSize="18sp"/>
 
         <EditText

@@ -41,20 +41,21 @@
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/CO"
+            android:id="@+id/heartrate"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="49dp"
             android:layout_toStartOf="@+id/textView23"
-            android:ems="10" />
+            android:ems="10"
+            android:textSize="30dp"/>
 
         <TextView
             android:id="@+id/textView23"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/CO"
-            android:layout_alignBottom="@+id/CO"
+            android:layout_alignBaseline="@+id/heartrate"
+            android:layout_alignBottom="@+id/heartrate"
             android:layout_toEndOf="@+id/editText15"
             android:text="bpm"
             android:textSize="24sp"
@@ -77,7 +78,7 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:layout_alignEnd="@+id/imageView"
-            android:layout_below="@+id/CO"
+            android:layout_below="@+id/heartrate"
             android:layout_marginTop="70dp"
             app:srcCompat="@drawable/running" />
 

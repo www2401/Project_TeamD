@@ -260,7 +260,7 @@ public class BluetoothChatFragment extends Fragment {
         actionBar.setSubtitle(subTitle);
     }
 
-    private String [] air_info_split = null;
+    // private String [] air_info_split = null;  에어값 나눠주는거
 
     /**
      * The Handler that gets information back from the BluetoothChatService
