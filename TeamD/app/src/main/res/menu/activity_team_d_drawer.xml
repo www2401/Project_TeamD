@@ -13,7 +13,7 @@
             <item
                 android:id="@+id/Airquality"
                 android:title="Airquality"
-                android:icon="@drawable/ic_toys_black_24dp"/>
+                android:icon="@drawable/flyfly"/>
             <item
                 android:id="@+id/nav_current"
                 android:icon="@drawable/map"

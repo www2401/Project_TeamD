@@ -3,12 +3,62 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+        android:orientation="vertical"
               tools:context=".current" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/check_co"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="CO"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/check_o3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="O3"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/check_so2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="SO2"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/check_no2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="NO2"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/check_pm2.5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="PM2.5"
+            android:gravity="center" />
+
+    </LinearLayout>
 
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.google.android.gms.maps.MapFragment" />
+        class="com.google.android.gms.maps.MapFragment"
+        android:layout_weight="0.08"/>
 
 </LinearLayout>
