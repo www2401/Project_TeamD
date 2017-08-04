@@ -38,17 +38,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".account"></activity>
-        <activity android:name=".logout"></activity>
+        <activity android:name=".userfage.account"></activity>
+        <activity android:name=".userfage.logout"></activity>
         <activity android:name=".graph"></activity>
-        <activity android:name=".login"></activity>
+        <activity android:name=".userfage.login"></activity>
         <activity android:name=".DeviceListActivity" />
-        <activity android:name=".registration_authentification"></activity>
-        <activity android:name=".reset_authentification"></activity>
-        <activity android:name=".reset_password"></activity>
-        <activity android:name=".new_password"></activity>
+        <activity android:name=".userfage.reset_password"></activity>
+        <activity android:name=".userfage.new_password"></activity>
         <activity android:name=".current"></activity>
-        <activity android:name=".registration"></activity>
+        <activity android:name=".userfage.registration"></activity>
         <activity android:name=".Airquality" />
     </application>
 

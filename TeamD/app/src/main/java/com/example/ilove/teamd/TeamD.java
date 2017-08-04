@@ -21,6 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ilove.teamd.Heart.PolarBleService;
+import com.example.ilove.teamd.userfage.account;
+import com.example.ilove.teamd.userfage.login;
+import com.example.ilove.teamd.userfage.registration;
 
 import java.util.StringTokenizer;
 
