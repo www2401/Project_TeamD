@@ -299,8 +299,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             Toast.makeText(this, "Can't use GEO coder service.", Toast.LENGTH_LONG).show();
             return "Can't use GEO coder service.";
         } catch (IllegalArgumentException illegalArgumentException) {
-            Toast.makeText(this, "Wrong GPS 잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
-            return "잘못된 GPS location";
+            Toast.makeText(this, "Wrong GPS coordinate.", Toast.LENGTH_LONG).show();
+            return "Wrong GPS location";
 
         }
 
