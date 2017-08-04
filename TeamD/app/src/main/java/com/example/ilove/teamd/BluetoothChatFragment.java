@@ -315,6 +315,8 @@ public class BluetoothChatFragment extends Fragment {
                         JsonTransfer airdata_transfer = new JsonTransfer();
 
                         JSONObject json_AirdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
+
+                        /*
                         json_AirdataTransfer.put("macaddress", "00:00:00:00");
                         json_AirdataTransfer.put("datetime", "2017/08/03");
                         json_AirdataTransfer.put("lat", "0");
@@ -325,10 +327,22 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("o3", JsonAir.getString("O3"));
                         json_AirdataTransfer.put("pm25", JsonAir.getString("PM25"));
                         json_AirdataTransfer.put("temperature", JsonAir.getString("TEMP"));
+                        */
+
+                        json_AirdataTransfer.put("tid", "11");
+                        json_AirdataTransfer.put("time", "00:00:00");
+                        json_AirdataTransfer.put("type", "asdf");
+                        json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
+                        json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
+                        json_AirdataTransfer.put("SO2",JsonAir.getString("SO2"));
+                        json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
+                        json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
+
                         //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
                         String json_Astring = json_AirdataTransfer.toString();
 
-                        airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
+                        airdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/apptest","["+json_Astring+"]");
+                        // airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
 
 
                     }catch (JSONException e){

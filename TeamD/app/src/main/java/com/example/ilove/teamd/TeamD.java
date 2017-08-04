@@ -238,8 +238,8 @@ public class TeamD extends AppCompatActivity
             }
 
             //mPolarBleService.connect("00:07:80:78:9F:8B", false); 이거 아까 해봄
-           mPolarBleService.connect("00:22:D0:9C:F9:8E", false);  // 인교오빠
-            //-- 이상한거 mPolarBleService.connect("00:22:D0:3D:2E:81", false);
+            //mPolarBleService.connect("00:22:D0:9C:F9:8E", false);  // 인교오빠
+              mPolarBleService.connect("00:22:D0:3D:2E:81", false);  //이게 잘 된대
 
         }
 
