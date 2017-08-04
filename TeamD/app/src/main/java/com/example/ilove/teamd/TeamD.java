@@ -173,6 +173,28 @@ public class TeamD extends AppCompatActivity
                 text_input.setText(""+ hr);
                 Log.w("heart", ""+ hr);
 
+                /* 심박수 데이터 서버로 전송
+                try
+                {
+                    JsonTransfer heartdata_transfer = new JsonTransfer();
+
+                    JSONObject json_HeartdataTransfer = new JSONObject();
+
+                    json_HeartdataTransfer.put("hid", "00");
+                    json_HeartdataTransfer.put("uid", "asdf");
+                    json_HeartdataTransfer.put("heart_bit", hr);
+                    json_HeartdataTransfer.put("htime", "00:00:00");
+
+                    String json_Astring = json_HeartdataTransfer.toString();
+
+                    heartdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
+
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                } */
+
                 int prrPercenteage = Integer.parseInt(tokens.nextToken());
                 int prrCount = Integer.parseInt(tokens.nextToken());
                 int rrThreshold = Integer.parseInt(tokens.nextToken());	//50%, 30%, etc.
