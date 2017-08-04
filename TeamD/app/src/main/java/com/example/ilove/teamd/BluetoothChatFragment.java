@@ -312,6 +312,25 @@ public class BluetoothChatFragment extends Fragment {
                         no2_air.setText(JsonAir.getString("NO2"));
                         pm25_air.setText(JsonAir.getString("PM25"));
 
+                        JsonTransfer airdata_transfer = new JsonTransfer();
+
+                        JSONObject json_AirdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
+                        json_AirdataTransfer.put("macaddress", "00:00:00:00");
+                        json_AirdataTransfer.put("datetime", "2017/08/03");
+                        json_AirdataTransfer.put("lat", "0");
+                        json_AirdataTransfer.put("lng", "0");
+                        json_AirdataTransfer.put("co", JsonAir.getString("CO"));
+                        json_AirdataTransfer.put("co2", JsonAir.getString("NO2"));
+                        json_AirdataTransfer.put("so2", JsonAir.getString("SO2"));
+                        json_AirdataTransfer.put("o3", JsonAir.getString("O3"));
+                        json_AirdataTransfer.put("pm25", JsonAir.getString("PM25"));
+                        json_AirdataTransfer.put("temperature", JsonAir.getString("TEMP"));
+                        //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
+                        String json_Astring = json_AirdataTransfer.toString();
+
+                        airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
+
+
                     }catch (JSONException e){
                         e.printStackTrace();
                     }

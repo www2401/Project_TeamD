@@ -12,6 +12,8 @@ public class Airquality extends AppCompatActivity {
 
     BluetoothChatFragment bt;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
