@@ -43,7 +43,7 @@ public class registration extends AppCompatActivity {
                     json_UserdataTransfer.put("fname", "0");
                     json_UserdataTransfer.put("lname", "0");
                     json_UserdataTransfer.put("gender", "0");
-                    json_UserdataTransfer.put("birthday", editText11.getText().toString());
+                    json_UserdataTransfer.put("birthday", "0");
                     json_UserdataTransfer.put("height", "0");
                     json_UserdataTransfer.put("weight", "0");
                     //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
