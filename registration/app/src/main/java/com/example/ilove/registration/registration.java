@@ -1,11 +1,9 @@
-package com.example.ilove.teamd.userfage;
+package com.example.ilove.registration;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.nsd.NsdManager;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telecom.Connection;
@@ -13,16 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-import com.example.ilove.teamd.JsonTransfer;
-import com.example.ilove.teamd.R;
-import com.example.ilove.teamd.TeamD;
+import com.example.ilove.registration.R;
+import com.example.ilove.registration.registration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,9 +40,9 @@ import java.util.Map;
 public class registration extends AppCompatActivity {
     public Button bt1,bt2,bt3;
     public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_c_pw,et_birthday,et_weight,et_height;
+    public boolean validate=false;
     public AlertDialog dialog;
-    public RadioButton rb_male,rb_female;
-    String resulto,myResult;
+    public String myResult,resulto;
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_sign_up);
@@ -72,12 +64,8 @@ public class registration extends AppCompatActivity {
                 //빈칸이 있을 경우
                 if ((et_id.getText().toString().equals("")||et_pw.getText().toString().equals("")) ||(et_c_pw.getText().toString().equals(""))||(et_lname.getText().toString().equals(""))
                         ||(et_fname.getText().toString().equals(""))||(et_birthday.getText().toString().equals(""))||(et_height.getText().toString().equals(""))||(et_weight.getText().toString().equals("")))
-                {
-                    AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                    dialog = a.setMessage("Please fill out ").setPositiveButton("OK", null).create();
-                    dialog.show();
-                }
-                //빈칸없이 모두 채워졌을 경우
+                    Toast.makeText(registration.this, "please fill out", Toast.LENGTH_SHORT).show();
+                    //빈칸없이 모두 채워졌을 경우
                 else {
                     try {
                         JSONObject json_UserdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
@@ -86,7 +74,7 @@ public class registration extends AppCompatActivity {
                         json_UserdataTransfer.put("password", et_pw.getText().toString());
                         json_UserdataTransfer.put("fname", et_fname.getText().toString());
                         json_UserdataTransfer.put("lname", et_lname.getText().toString());
-                        json_UserdataTransfer.put("gender", "1");
+                        json_UserdataTransfer.put("gender", "0");
                         json_UserdataTransfer.put("birthday", et_birthday.getText().toString());
                         json_UserdataTransfer.put("height", et_height.getText().toString());
                         json_UserdataTransfer.put("weight", et_weight.getText().toString());
@@ -101,7 +89,7 @@ public class registration extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Intent page = new Intent(registration.this, TeamD.class);
+                    Intent page = new Intent(registration.this, registration.class);
                     startActivity(page);
                 }
             }
@@ -109,34 +97,31 @@ public class registration extends AppCompatActivity {
         //이메일이 존재하는지 체크하는 버튼을 눌렀을 때
         bt2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(et_id.getText().toString().equals("")){
-                    AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                    dialog = a.setMessage("Please fill out email ").setPositiveButton("OK", null).create();
+                //아이디가 빈칸일 때
+                if (et_id.getText().toString().equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
+                    dialog = builder.setMessage("Please fill out e-mail").setPositiveButton("OK", null).create();
                     dialog.show();
+                    return;
                 }
-                else {
+                //아이디가 빈칸이 아닐 때
+                else if(et_id.getText().toString()!=""){
                     try {
-
                         URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/email_check");
                         HttpURLConnection http = (HttpURLConnection) url.openConnection();
-
                         http.setDefaultUseCaches(false);
                         http.setDoInput(true);//서버에서 읽기모드지정
                         http.setDoOutput(true); //서버에서 쓰기모드 지정
                         http.setRequestMethod("POST"); //전송방식
-
                         http.setRequestProperty("content_type", "application/x-www-form-urlencoded");//서버에서 웹에게 FORM으로 값이 넘어온 것과 같은 방식으로 처리한다고알림
-
 
                         StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼떄
                         buffer.append("email").append("=").append(et_id.getText().toString());
-
-                        OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR"); //OutputStream 전송길을 만들어주는거
+                        OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR");
                         PrintWriter writer = new PrintWriter(outStream);
                         writer.write(buffer.toString());
                         writer.flush();
 
-                        //서버에서 전송받기
                         InputStreamReader tmp = new InputStreamReader(http.getInputStream(), "EUC-KR");
                         BufferedReader reader = new BufferedReader(tmp);
                         StringBuilder builder = new StringBuilder();
@@ -145,33 +130,32 @@ public class registration extends AppCompatActivity {
                         while ((str = reader.readLine()) != null) {
                             builder.append(str + "\n");
                         }
+
                         myResult = builder.toString();
-                        Toast.makeText(registration.this, "" + myResult, Toast.LENGTH_LONG).show();
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        JSONObject Json_confirmid = new JSONObject(myResult);
-                        resulto = Json_confirmid.getString("status");
-
-                    } catch (JSONException e) {
+                    try{
+                        JSONObject jsonid = new JSONObject(myResult);
+                        resulto= jsonid.getString("status");
+                    }
+                    catch (JSONException e) {
                         e.printStackTrace();
                     }
                     if (resulto == "true") {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);//알림창이 뜨게한다 여기에
-                        builder.setMessage("Vaild ID").setPositiveButton("OK", null).create().show();
-                        et_id.setEnabled(false); //아이디 변경불가
-                        //input_User_ID.setBackgroundColor(0xff14148c);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
+                        builder.setMessage("true").setPositiveButton("OK", null).create().show();
                     }
                     if (resulto == "false") {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);//알림창이 뜨게한다 여기에
-                        builder.setMessage("Invaild ID").setNegativeButton("OK", null).create().show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
+                        builder.setMessage("false").setNegativeButton("OK", null).create().show();
                     }
                 }
             }
         });
+
         //회원가입 입력 중 비밀번호, 비밀번호 재입력 두개의 비밀번호가 일치하는지 확인하는 버튼
         bt3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -179,19 +163,19 @@ public class registration extends AppCompatActivity {
                 if((et_pw.getText().toString().getBytes().length>0)&&(et_c_pw.getText().toString().getBytes().length>0)) {
                     if (et_pw.getText().toString().equals(et_c_pw.getText().toString())) {
                         AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                        dialog = a.setMessage("correct").setPositiveButton("OK", null).create();
+                        dialog = a.setMessage("correct").setPositiveButton("확인", null).create();
                         dialog.show();
                     }
                     else if(et_pw.getText().toString()!=et_c_pw.getText().toString()) {
                         AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                        dialog = a.setMessage("not correct!").setPositiveButton("OK", null).create();
+                        dialog = a.setMessage("not correct!").setPositiveButton("확인", null).create();
                         dialog.show();
                     }
                 }
                 //비밀번호, 재입력 중 하나라도 입력값이 없으면 채우라는 메세지가 뜸
                 else {
                     AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                    dialog = a.setMessage("Please fill out ").setPositiveButton("OK", null).create();
+                    dialog = a.setMessage("Please fill out ").setPositiveButton("확인", null).create();
                     dialog.show();
                 }
             }
@@ -201,7 +185,7 @@ public class registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-            init();
+        init();
 
         StrictMode.ThreadPolicy policy =new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

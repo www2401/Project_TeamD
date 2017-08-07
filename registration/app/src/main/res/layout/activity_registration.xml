@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ilove.registration.registration">
+
+    <RelativeLayout
+        android:layout_width="384dp"
+        android:layout_height="517dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_lname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:text="Last Name"
+            android:textSize="18sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <EditText
+            android:id="@+id/et_lname"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_lname"
+            android:layout_below="@+id/tv_lname"
+            android:ems="10"
+            android:inputType="textPersonName"/>
+
+        <TextView
+            android:id="@+id/tv_fname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/et_lname"
+            android:layout_marginStart="21dp"
+            android:layout_toEndOf="@+id/et_lname"
+            android:text="First Name"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_fname"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_fname"
+            android:layout_below="@+id/tv_fname"
+            android:ems="10"
+            android:inputType="textPersonName"/>
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/et_lname"
+            android:layout_below="@+id/et_lname"
+            android:text="ID(E-mail)"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_id"
+            android:layout_below="@+id/tv_id"
+            android:ems="10"
+            android:inputType="textPersonName"
+            />
+
+        <TextView
+            android:id="@+id/tv_pw"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/et_id"
+            android:layout_below="@+id/et_id"
+            android:text="Password"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_pw"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_pw"
+            android:layout_below="@+id/tv_pw"
+            android:ems="10"
+            android:inputType="textPassword"/>
+
+        <TextView
+            android:id="@+id/tv_c_pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/et_pw"
+            android:layout_below="@+id/et_pw"
+            android:text="Password (within 8 letters)"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_c_pw"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_c_pw"
+            android:layout_below="@+id/tv_c_pw"
+            android:ems="10"
+            android:inputType="textPassword"/>
+
+        <TextView
+            android:id="@+id/tv_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/et_c_pw"
+            android:layout_below="@+id/et_c_pw"
+            android:text="Gender"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/bt_pw"
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:text="check"
+            android:layout_alignBaseline="@+id/tv_c_pw"
+            android:layout_alignBottom="@+id/tv_c_pw"
+            android:layout_toEndOf="@+id/tv_c_pw"/>
+
+        <Button
+            android:id="@+id/bt_id"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_alignBaseline="@+id/tv_id"
+            android:layout_alignBottom="@+id/tv_id"
+            android:layout_toEndOf="@+id/tv_id"
+            android:text="check"/>
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_gender"
+            android:layout_below="@+id/tv_gender"
+            android:text="male"
+            android:textSize="18sp"/>
+
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/bt_id"
+            android:layout_alignTop="@+id/rb_male"
+            android:text="female"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tv_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/rb_male"
+            android:layout_below="@+id/rb_male"
+            android:text="Birthday(yyyy-mm-dd)"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_birthday"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_birthday"
+            android:layout_below="@+id/tv_birthday"
+            android:ems="10"
+            android:inputType="textPersonName"
+            />
+
+        <TextView
+            android:id="@+id/tv_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/et_birthday"
+            android:layout_below="@+id/et_birthday"
+            android:text="Height"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_height"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_height"
+            android:layout_below="@+id/tv_height"
+            android:ems="10"
+            android:inputType="textPersonName"
+            />
+
+        <TextView
+            android:id="@+id/tv_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/et_fname"
+            android:layout_below="@+id/et_birthday"
+            android:text="Weight"
+            android:textSize="18sp"/>
+
+        <EditText
+            android:id="@+id/et_weight"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_weight"
+            android:layout_below="@+id/tv_weight"
+            android:ems="10"
+            android:inputType="textPersonName"
+            />
+
+        <Button
+            android:id="@+id/bt_sign_up"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="sign-up"
+            android:layout_marginStart="20dp"
+            android:layout_below="@+id/et_height"
+            android:layout_toEndOf="@+id/tv_lname"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
