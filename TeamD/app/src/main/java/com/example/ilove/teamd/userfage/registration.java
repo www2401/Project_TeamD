@@ -154,7 +154,6 @@ public class registration extends AppCompatActivity {
                     try {
                         JSONObject Json_confirmid = new JSONObject(myResult);
                         resulto = Json_confirmid.getString("status");
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
