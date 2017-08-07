@@ -145,7 +145,7 @@ public class registration extends AppCompatActivity {
                             builder.append(str + "\n");
                         }
                         myResult = builder.toString();
-                        Toast.makeText(registration.this, "" + myResult, Toast.LENGTH_LONG).show();
+
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

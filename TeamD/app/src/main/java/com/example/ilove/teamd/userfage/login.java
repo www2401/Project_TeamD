@@ -83,7 +83,7 @@ public class login extends AppCompatActivity {
                             builder.append(str + "\n");
                         }
                         myResult = builder.toString();
-                        Toast.makeText(login.this, "" + myResult, Toast.LENGTH_LONG).show();
+
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -100,6 +100,8 @@ public class login extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
                         builder.setMessage("log in complete").setPositiveButton("OK", null).create().show();
                         et_id.setEnabled(false); //로그인 가능
+                        Intent page = new Intent(login.this, TeamD.class);
+                        startActivity(page);
                     }
                     if (resulto == "false") {
                         AlertDialog.Builder builder = new AlertDialog.Builder(login.this);//로그인 불가
