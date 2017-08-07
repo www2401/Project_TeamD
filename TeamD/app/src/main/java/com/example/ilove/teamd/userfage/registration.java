@@ -94,13 +94,15 @@ public class registration extends AppCompatActivity {
         //이메일이 존재하는지 체크하는 버튼을 눌렀을 때
         bt2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                JsonTransfer userdata_transfer = new JsonTransfer();
+                //아이디가 빈칸일 때
                 if (et_id.getText().toString().equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
                     dialog = builder.setMessage("아이디는 빈칸일 수 없습니다.").setPositiveButton("확인", null).create();
                     dialog.show();
                     return;
-                } else {
+                }
+                //아이디가 빈칸이 아닐 때
+                else {
                     try {
                         URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/signtest");
                         HttpURLConnection http=(HttpURLConnection)url.openConnection();
@@ -112,7 +114,7 @@ public class registration extends AppCompatActivity {
                         http.setRequestProperty("content-type","application/x-www-form-urlencoded");
 
                         StringBuffer buffer=new StringBuffer();
-                        buffer.append("id").append("=").append(et_id).append("&");
+                        buffer.append("email").append("=").append(et_id).append("&");
 
                         OutputStreamWriter outStream=new OutputStreamWriter(http.getOutputStream(),"euc-kr");
                         PrintWriter writer=new PrintWriter(outStream);
@@ -128,14 +130,17 @@ public class registration extends AppCompatActivity {
                         }
                         String myResult=builder.toString();
 
+                        //json추출
                         JSONObject json_UserdataTransfer = new JSONObject(myResult);
-                        String result = json_UserdataTransfer.getString("true");
-
-                        if (result=="true") {
+                        String tresult = json_UserdataTransfer.getString("true");//아이디가 존재할때 true
+                        String fresult= json_UserdataTransfer.getString("false");//아이디가 없을 때 false
+                        //아이디가 존재하지않을 때
+                        if (tresult=="true") {
                             AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
                             dialog = a.setMessage("사용할수있는 아이디입니다.").setPositiveButton("확인", null).create();
                             dialog.show();
-                        } else {
+                        }//아이디가 존재할 때
+                        else if(fresult=="false") {
                             AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
                             dialog = a.setMessage("사용할수없는 아이디입니다.").setNegativeButton("확인", null).create();
                             dialog.show();
@@ -152,14 +157,23 @@ public class registration extends AppCompatActivity {
             public void onClick(View v) {
                 //비밀번호,재입력 둘다 빈칸이 아닐 때
                 if((et_pw.getText().toString().getBytes().length>0)&&(et_c_pw.getText().toString().getBytes().length>0)) {
-                    if (et_pw.getText().toString().equals(et_c_pw.getText().toString()))
-                        Toast.makeText(registration.this, "correct!", Toast.LENGTH_SHORT).show();
-                    else if(et_pw.getText().toString()!=et_c_pw.getText().toString())
-                        Toast.makeText(registration.this, "not correct!", Toast.LENGTH_SHORT).show();
+                    if (et_pw.getText().toString().equals(et_c_pw.getText().toString())) {
+                        AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
+                        dialog = a.setMessage("correct").setPositiveButton("확인", null).create();
+                        dialog.show();
+                    }
+                    else if(et_pw.getText().toString()!=et_c_pw.getText().toString()) {
+                        AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
+                        dialog = a.setMessage("not correct!").setPositiveButton("확인", null).create();
+                        dialog.show();
+                    }
                 }
                 //비밀번호, 재입력 중 하나라도 입력값이 없으면 채우라는 메세지가 뜸
-                else
-                    Toast.makeText(registration.this, "please fill out", Toast.LENGTH_SHORT).show();
+                else {
+                    AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
+                    dialog = a.setMessage("Please fill out ").setPositiveButton("확인", null).create();
+                    dialog.show();
+                }
             }
         });
     }
