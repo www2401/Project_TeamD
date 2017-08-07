@@ -24,7 +24,7 @@
                 android:title="Graph"/>
             <item
                 android:id="@+id/nav_account"
-                android:icon="@drawable/account"
+                android:icon="@drawable/user-shape"
                 android:title="account" />
             <item
                 android:id="@+id/nav_registration"
