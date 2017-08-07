@@ -312,6 +312,7 @@ public class BluetoothChatFragment extends Fragment {
                         no2_air.setText(JsonAir.getString("NO2"));
                         pm25_air.setText(JsonAir.getString("PM25"));
 
+
                         JsonTransfer airdata_transfer = new JsonTransfer();
 
                         JSONObject json_AirdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
