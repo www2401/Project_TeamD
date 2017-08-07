@@ -111,9 +111,6 @@ public class TeamD extends AppCompatActivity
             } else if (id == R.id.nav_graph) {
                 Intent page = new Intent(TeamD.this, graph.class);
                 startActivity(page);
-            } else if (id == R.id.nav_account) {
-                Intent page = new Intent(TeamD.this, account.class);
-                startActivity(page);
             } else if (id == R.id.nav_registration) {
                 Intent page = new Intent(TeamD.this, registration.class);
                 startActivity(page);
