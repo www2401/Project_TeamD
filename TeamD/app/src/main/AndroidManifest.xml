@@ -38,7 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".userfage.account"></activity>
         <activity android:name=".userfage.logout"></activity>
         <activity android:name=".graph"></activity>
         <activity android:name=".userfage.login"></activity>
