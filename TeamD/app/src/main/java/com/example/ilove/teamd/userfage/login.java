@@ -98,12 +98,12 @@ public class login extends AppCompatActivity {
                     }
                     if (resulto == "true") {
                         AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
-                        builder.setMessage("Vaild login").setPositiveButton("OK", null).create().show();
+                        builder.setMessage("log in complete").setPositiveButton("OK", null).create().show();
                         et_id.setEnabled(false); //로그인 가능
                     }
                     if (resulto == "false") {
                         AlertDialog.Builder builder = new AlertDialog.Builder(login.this);//로그인 불가
-                        builder.setMessage("Invaild login").setNegativeButton("OK", null).create().show();
+                        builder.setMessage("Not log in").setNegativeButton("OK", null).create().show();
                     }
                 }
             }
