@@ -3,6 +3,7 @@ package com.example.ilove.teamd.userfage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,11 +15,23 @@ import com.example.ilove.teamd.JsonTransfer;
 import com.example.ilove.teamd.R;
 import com.example.ilove.teamd.TeamD;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class login extends AppCompatActivity {
     public Button bt1;
-    public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_c_pw,et_birthday,et_weight,et_height;
+    public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_birthday,et_weight,et_height;
+    public AlertDialog dialog;
+    String resulto,myResult;
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_login);
@@ -29,38 +42,70 @@ public class login extends AppCompatActivity {
         et_birthday= (EditText)findViewById(R.id.et_birthday);
         et_weight= (EditText)findViewById(R.id.et_weight);
         et_height= (EditText)findViewById(R.id.et_height);
+
         bt1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                JsonTransfer userdata_transfer = new JsonTransfer();
-
-                try
-                {
-                    JSONObject json_UserdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
-                    //json_dataTransfer에 ("키값" : "보낼데이터") 형식으로 저장한다.
-                    json_UserdataTransfer.put("email", et_id.getText().toString());
-                    json_UserdataTransfer.put("password", et_pw.getText().toString());
-                    json_UserdataTransfer.put("fname","0");
-                    json_UserdataTransfer.put("lname", "0");
-                    json_UserdataTransfer.put("gender","0");
-                    json_UserdataTransfer.put("birthday","0");
-                    json_UserdataTransfer.put("height", "0");
-                    json_UserdataTransfer.put("weight", "0");
-                    //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
-                    String json_Ustring = json_UserdataTransfer.toString();
-
-                    //보내기 전에 json_string 양 쪽 끝에 대괄호를 붙인다. (Object로 처리하기 때문이다. 만약 Array로 처리한다면, 대괄호는 필요없다고 한다.)
-                    userdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/signtest","["+json_Ustring+"]");  //보낼주소추가
-
-                    Toast.makeText(login.this, "login complete!", Toast.LENGTH_SHORT).show();
-
-                } catch (Exception e) {
-                    Log.d("error :", e.toString());
-                    e.printStackTrace();
+                if(et_id.getText().toString().equals("")||et_pw.getText().toString().equals("")){
+                    AlertDialog.Builder a = new AlertDialog.Builder(login.this);
+                    dialog = a.setMessage("Please fill out email ").setPositiveButton("OK", null).create();
+                    dialog.show();
                 }
+                else {
+                    try {
+
+                        URL url = new URL("http://teama-iot.calit2.net/slim-api/android-login");
+                        HttpURLConnection http = (HttpURLConnection) url.openConnection();
+
+                        http.setDefaultUseCaches(false);
+                        http.setDoInput(true);//서버에서 읽기모드지정
+                        http.setDoOutput(true); //서버에서 쓰기모드 지정
+                        http.setRequestMethod("POST"); //전송방식
+
+                        http.setRequestProperty("content_type", "application/x-www-form-urlencoded");//서버에서 웹에게 FORM으로 값이 넘어온 것과 같은 방식으로 처리한다고알림
 
 
-                Intent page = new Intent(login.this, TeamD.class);
-                startActivity(page);
+                        StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼떄
+                        buffer.append("user_id").append("=").append(et_id.getText().toString()).append("&");
+                        buffer.append("user_password").append("=").append(et_pw.getText().toString());
+
+                        OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR"); //OutputStream 전송길을 만들어주는거
+                        PrintWriter writer = new PrintWriter(outStream);
+                        writer.write(buffer.toString());
+                        writer.flush();
+
+                        //서버에서 전송받기
+                        InputStreamReader tmp = new InputStreamReader(http.getInputStream(), "EUC-KR");
+                        BufferedReader reader = new BufferedReader(tmp);
+                        StringBuilder builder = new StringBuilder();
+                        String str;
+
+                        while ((str = reader.readLine()) != null) {
+                            builder.append(str + "\n");
+                        }
+                        myResult = builder.toString();
+                        Toast.makeText(login.this, "" + myResult, Toast.LENGTH_LONG).show();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        JSONObject Json_confirmid = new JSONObject(myResult);
+                        resulto = Json_confirmid.getString("result");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (resulto == "true") {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                        builder.setMessage("Vaild login").setPositiveButton("OK", null).create().show();
+                        et_id.setEnabled(false); //로그인 가능
+                    }
+                    if (resulto == "false") {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(login.this);//로그인 불가
+                        builder.setMessage("Invaild login").setNegativeButton("OK", null).create().show();
+                    }
+                }
             }
         });
     }

@@ -49,7 +49,6 @@ public class registration extends AppCompatActivity {
     public Button bt1,bt2,bt3;
     public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_c_pw,et_birthday,et_weight,et_height;
     public AlertDialog dialog;
-    public RadioButton rb_male,rb_female;
     String resulto,myResult;
 
     public void init() {
