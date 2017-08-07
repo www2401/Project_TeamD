@@ -17,9 +17,11 @@ import com.example.ilove.teamd.JsonTransfer;
 import com.example.ilove.teamd.R;
 import com.example.ilove.teamd.TeamD;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -27,6 +29,7 @@ import java.io.PrintWriter;
 import java.lang.ref.ReferenceQueue;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.ResponseCache;
 import java.net.URL;
 import java.sql.DriverManager;
@@ -40,6 +43,7 @@ public class registration extends AppCompatActivity {
     public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_c_pw,et_birthday,et_weight,et_height;
     public boolean validate=false;
     public AlertDialog dialog;
+    public String myResult,resulto;
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_sign_up);
@@ -97,59 +101,60 @@ public class registration extends AppCompatActivity {
                 //아이디가 빈칸일 때
                 if (et_id.getText().toString().equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
-                    dialog = builder.setMessage("아이디는 빈칸일 수 없습니다.").setPositiveButton("확인", null).create();
+                    dialog = builder.setMessage("Please fill out e-mail").setPositiveButton("OK", null).create();
                     dialog.show();
                     return;
                 }
                 //아이디가 빈칸이 아닐 때
-                else {
+                else if(et_id.getText().toString()!=""){
                     try {
-                        URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/signtest");
-                        HttpURLConnection http=(HttpURLConnection)url.openConnection();
+                        URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/email_check");
+                        HttpURLConnection http = (HttpURLConnection) url.openConnection();
                         http.setDefaultUseCaches(false);
-                        http.setDoInput(true);
-                        http.setDoOutput(true);
-                        http.setRequestMethod("POST");
+                        http.setDoInput(true);//서버에서 읽기모드지정
+                        http.setDoOutput(true); //서버에서 쓰기모드 지정
+                        http.setRequestMethod("POST"); //전송방식
+                        http.setRequestProperty("content_type", "application/x-www-form-urlencoded");//서버에서 웹에게 FORM으로 값이 넘어온 것과 같은 방식으로 처리한다고알림
 
-                        http.setRequestProperty("content-type","application/x-www-form-urlencoded");
-
-                        StringBuffer buffer=new StringBuffer();
-                        buffer.append("email").append("=").append(et_id).append("&");
-
-                        OutputStreamWriter outStream=new OutputStreamWriter(http.getOutputStream(),"euc-kr");
-                        PrintWriter writer=new PrintWriter(outStream);
+                        StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼떄
+                        buffer.append("email").append("=").append(et_id.getText().toString());
+                        OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR");
+                        PrintWriter writer = new PrintWriter(outStream);
                         writer.write(buffer.toString());
                         writer.flush();
 
-                        InputStreamReader tmp=new InputStreamReader(http.getInputStream(),"euc-kr");
-                        BufferedReader reader=new BufferedReader(tmp);
-                        StringBuilder builder=new StringBuilder();
+                        InputStreamReader tmp = new InputStreamReader(http.getInputStream(), "EUC-KR");
+                        BufferedReader reader = new BufferedReader(tmp);
+                        StringBuilder builder = new StringBuilder();
                         String str;
-                        while((str=reader.readLine())!=null){
-                            builder.append(str+"\n");
-                        }
-                        String myResult=builder.toString();
 
-                        //json추출
-                        JSONObject json_UserdataTransfer = new JSONObject(myResult);
-                        String tresult = json_UserdataTransfer.getString("true");//아이디가 존재할때 true
-                        String fresult= json_UserdataTransfer.getString("false");//아이디가 없을 때 false
-                        //아이디가 존재하지않을 때
-                        if (tresult=="true") {
-                            AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                            dialog = a.setMessage("사용할수있는 아이디입니다.").setPositiveButton("확인", null).create();
-                            dialog.show();
-                        }//아이디가 존재할 때
-                        else if(fresult=="false") {
-                            AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                            dialog = a.setMessage("사용할수없는 아이디입니다.").setNegativeButton("확인", null).create();
-                            dialog.show();
+                        while ((str = reader.readLine()) != null) {
+                            builder.append(str + "\n");
                         }
-                    } catch (Exception e) {
+
+                        myResult = builder.toString();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    try{
+                        JSONObject jsonid = new JSONObject(myResult);
+                        resulto= jsonid.getString("status");
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (resulto == "true") {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
+                        builder.setMessage("true").setPositiveButton("OK", null).create().show();
+                    }
+                    if (resulto == "false") {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);
+                        builder.setMessage("false").setNegativeButton("OK", null).create().show();
+                        }
+                    }
                 }
-            }
         });
 
         //회원가입 입력 중 비밀번호, 비밀번호 재입력 두개의 비밀번호가 일치하는지 확인하는 버튼
