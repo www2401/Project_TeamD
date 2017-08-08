@@ -66,5 +66,6 @@
             android:text="forgot password"
             android:layout_below="@+id/et_pw"
             android:layout_alignEnd="@+id/et_pw"/>
+
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
