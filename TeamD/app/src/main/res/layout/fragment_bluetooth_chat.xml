@@ -33,66 +33,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TEMP"
-                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/TEMPtextview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="CO"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:background="@drawable/bpm10"/>
 
             <TextView
                 android:id="@+id/COtextview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="O3"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:background="@drawable/bco"/>
 
             <TextView
                 android:id="@+id/O3textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:background="@drawable/bo3"/>
+
 
         </LinearLayout>
 
@@ -100,65 +70,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="SO2"/>
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp">
 
             <TextView
                 android:id="@+id/SO2textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="NO2"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:background="@drawable/bso2"/>
 
             <TextView
                 android:id="@+id/NO2textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="PM2.5"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:background="@drawable/bno2"/>
 
             <TextView
                 android:id="@+id/PM25textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:background="@drawable/bpm25"/>
 
         </LinearLayout>
 
@@ -166,13 +104,39 @@
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="17dp"
             app:srcCompat="@drawable/color"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/allchart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp" />
+
+        <!-- <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/allchart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp" />
+
+            </LinearLayout> -->
 
     </LinearLayout>
 
+
 </android.support.constraint.ConstraintLayout>
+
+
+
