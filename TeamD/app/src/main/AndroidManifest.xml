@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ilove.teamd">
+          package="com.example.ilove.teamd"
+    >
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -14,39 +15,45 @@
         android:label="CAT"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
 
-        <!-- <meta-data
+        <!--
+             <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBM-QI_cobHtSMdo56T1ZijHBDpU0HtCBE" /> 유진키 -->
+            android:value="AIzaSyBM-QI_cobHtSMdo56T1ZijHBDpU0HtCBE" /> 유진키
+        -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBfA6zD0Nl3WNJa-Mi26VOxZA1U9S4aQzU" />
+            android:value="AIzaSyBfA6zD0Nl3WNJa-Mi26VOxZA1U9S4aQzU"
+            />
 
         <service
             android:name=".Heart.PolarBleService"
-            android:enabled="true" />
+            android:enabled="true"
+            />
 
         <activity
             android:name=".TeamD"
             android:label="CAT"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".userfage.logout"></activity>
-        <activity android:name=".graph"></activity>
-        <activity android:name=".userfage.login"></activity>
-        <activity android:name=".DeviceListActivity" />
-        <activity android:name=".userfage.reset_password"></activity>
-        <activity android:name=".userfage.new_password"></activity>
-        <activity android:name=".current"></activity>
-        <activity android:name=".userfage.registration"></activity>
-        <activity android:name=".Airquality" />
+        <activity android:name=".userfage.logout"/>
+        <activity android:name=".graph"/>
+        <activity android:name=".userfage.login"/>
+        <activity android:name=".DeviceListActivity"/>
+        <activity android:name=".userfage.reset_password"/>
+        <activity android:name=".userfage.new_password"/>
+        <activity android:name=".current"/>
+        <activity android:name=".userfage.registration"/>
+        <activity android:name=".Airquality"/>
     </application>
 
 </manifest>
