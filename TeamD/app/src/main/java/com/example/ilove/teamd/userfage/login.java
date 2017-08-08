@@ -103,6 +103,7 @@ public class login extends AppCompatActivity {
                         et_id.setEnabled(false); //로그인 가능
                         Intent page = new Intent(login.this, TeamD.class);
                         startActivity(page);
+
                     }
                     if (resulto == "false") {
                         AlertDialog.Builder builder = new AlertDialog.Builder(login.this);//로그인 불가

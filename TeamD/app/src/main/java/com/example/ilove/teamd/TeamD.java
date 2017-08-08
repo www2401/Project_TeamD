@@ -17,16 +17,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ilove.teamd.Heart.PolarBleService;
 import com.example.ilove.teamd.userfage.login;
 import com.example.ilove.teamd.userfage.registration;
 
 import java.util.StringTokenizer;
-
 
 public class TeamD extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,14 +47,6 @@ public class TeamD extends AppCompatActivity
     //Name of the connected device
     private String mConnectedDeviceName = null;
     //Array adapter for the conversation thread
-
-    /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.bluetooth_chat, menu);
-        return true;
-    } */
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,13 +88,25 @@ public class TeamD extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_logout:
+                break;
+            case R.id.nav_setting:
+                break;
+        }
+        return true;
+    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        Log.v("CLicked","asd");
         try {
             int id = item.getItemId();
             if (id == R.id.nav_current) {
@@ -115,9 +118,8 @@ public class TeamD extends AppCompatActivity
             } else if (id == R.id.nav_registration) {
                 Intent page = new Intent(TeamD.this, registration.class);
                 startActivity(page);
-            } else if (id == R.id.nav_logout) {
-                Toast.makeText(this, "log out", Toast.LENGTH_SHORT).show();
-            } else if (id == R.id.nav_login) {
+            }else if (id == R.id.nav_login) {
+                item.setEnabled(false);
                 Intent page = new Intent(TeamD.this, login.class);
                 startActivity(page);
             } else if (id == R.id.Airquality) {
