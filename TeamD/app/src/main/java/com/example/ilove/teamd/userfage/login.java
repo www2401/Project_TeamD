@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -56,7 +57,7 @@ public class login extends AppCompatActivity {
                 } else {
                     try {
 
-                        URL url = new URL("http://teama-iot.calit2.net/slim-api/android-login");
+                        URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/login_app");
                         HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
                         http.setDefaultUseCaches(false);
@@ -66,10 +67,9 @@ public class login extends AppCompatActivity {
 
                         http.setRequestProperty("content_type", "application/x-www-form-urlencoded");//서버에서 웹에게 FORM으로 값이 넘어온 것과 같은 방식으로 처리한다고알림
 
-
                         StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼떄
-                        buffer.append("user_id").append("=").append(et_id.getText().toString()).append("&");
-                        buffer.append("user_password").append("=").append(et_pw.getText().toString());
+                        buffer.append("email").append("=").append(et_id.getText().toString()).append("&");
+                        buffer.append("password").append("=").append(et_pw.getText().toString());
 
                         OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR"); //OutputStream 전송길을 만들어주는거
                         PrintWriter writer = new PrintWriter(outStream);
@@ -94,21 +94,23 @@ public class login extends AppCompatActivity {
                     }
                     try {
                         JSONObject Json_confirmid = new JSONObject(myResult);
-                        resulto = Json_confirmid.getString("result");
-
-                    } catch (JSONException e) {
+                        resulto = Json_confirmid.getString("status");
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if (resulto == "true") {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
-                        builder.setMessage("log in complete").setPositiveButton("OK", null).create().show();
-                        et_id.setEnabled(false);
-                        Intent page = new Intent(login.this, login.class);
-                        startActivity(page);
-                    } else if (resulto == "false") {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(login.this);//로그인 불가
-                        builder.setMessage("Not log in").setNegativeButton("OK", null).create().show();
-                    }
+                        if (resulto == "femail") {//로그인 인증 완료 전 로그인 불가
+                            AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                            builder.setMessage("Not authentication!").setPositiveButton("OK", null).create().show();
+                        }else if (resulto == "flogin") {//로그인 불가
+                            AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                            builder.setMessage("Not log in!").setNegativeButton("OK", null).create().show();
+                        }
+                        else  {//로그인 완료
+                            AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                            builder.setMessage("log in complete!").setNegativeButton("OK", null).create().show();
+                            Intent page = new Intent(login.this, TeamD.class);
+                            startActivity(page);
+                        }
                 }
             }
         });

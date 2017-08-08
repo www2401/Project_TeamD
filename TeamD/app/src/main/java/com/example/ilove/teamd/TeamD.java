@@ -27,6 +27,8 @@ import com.example.ilove.teamd.userfage.registration;
 
 import java.util.StringTokenizer;
 
+import static com.example.ilove.teamd.R.id.nav_login;
+
 public class TeamD extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -71,14 +73,6 @@ public class TeamD extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         }
-
-
-
-    /*
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }*/
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -95,12 +89,20 @@ public class TeamD extends AppCompatActivity
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.nav_logout:
+        try {
+            int id = item.getItemId();
+            if (id == R.id.nav_logout) {
                 Toast.makeText(TeamD.this, "log out complete", Toast.LENGTH_SHORT).show();
-                break;
+                item.setEnabled(false);
+             //   switch (nav_login) {
+
+              //  }
+            }
+
+        }catch (Exception e){
+            Log.v("catched","sdf");
         }
-        return true;
+                return true;
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -117,7 +119,7 @@ public class TeamD extends AppCompatActivity
             } else if (id == R.id.nav_registration) {
                 Intent page = new Intent(TeamD.this, registration.class);
                 startActivity(page);
-            }else if (id == R.id.nav_login) {
+            }else if (id == nav_login) {
                 item.setEnabled(false);
                 Intent page = new Intent(TeamD.this, login.class);
                 startActivity(page);
@@ -136,9 +138,7 @@ public class TeamD extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.e(this.getClass().getName(), "onDestroy()");
-
         deactivatePolar();
-
     }
 
     protected void activatePolar() {
