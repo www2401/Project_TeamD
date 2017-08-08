@@ -75,18 +75,21 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         mapFragment.getMapAsync(this);
 
         nPickerMONTH = (NumberPicker) findViewById(R.id.numberPickerMONTH);
+        nPickerMONTH.setMinValue(1);
         nPickerMONTH.setMaxValue(1);
         nPickerMONTH.setMaxValue(12);
         nPickerMONTH.setValue(1);
         nPickerMONTH.setWrapSelectorWheel(false);
 
         nPickerDAY = (NumberPicker) findViewById(R.id.numberPickerDAY);
+        nPickerDAY.setMinValue(1);
         nPickerDAY.setMaxValue(1);
         nPickerDAY.setMaxValue(31);
         nPickerDAY.setValue(1);
         nPickerDAY.setWrapSelectorWheel(false);
 
         nPickerYEAR = (NumberPicker) findViewById(R.id.numberPickerYEAR);
+        nPickerYEAR.setMinValue(2015);
         nPickerYEAR.setMaxValue(2015);
         nPickerYEAR.setMaxValue(2017);
         nPickerYEAR.setValue(2015);

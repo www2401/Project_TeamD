@@ -3,6 +3,7 @@ package com.example.ilove.teamd;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.NumberPicker;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -13,6 +14,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import java.util.ArrayList;
 
 public class graph extends AppCompatActivity {
+
+    NumberPicker nPickerYEAR;
+    NumberPicker nPickerMONTH;
+    NumberPicker nPickerDAY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +44,11 @@ public class graph extends AppCompatActivity {
         ArrayList<Entry> valsComp5 = new ArrayList<Entry>();
         // ArrayList<Entry> valsComp6 = new ArrayList<Entry>();
 
-        valsComp1.add(new Entry(0f,0));
-        valsComp2.add(new Entry(0f,1));
-        valsComp3.add(new Entry(0f,2));
-        valsComp4.add(new Entry(0f,3));
-        valsComp5.add(new Entry(0f,4));
+        valsComp1.add(new Entry(0,0));
+        valsComp2.add(new Entry(0,0));
+        valsComp3.add(new Entry(0,0));
+        valsComp4.add(new Entry(0,0));
+        valsComp5.add(new Entry(0,0));
         // valsComp6.add(new Entry(0f,5));
 
 
@@ -111,6 +116,27 @@ public class graph extends AppCompatActivity {
         chart5.setData(data5);
         chart5.invalidate();
         setComp5.setColor(Color.parseColor("#B5B2FF"));
+
+        nPickerMONTH = (NumberPicker) findViewById(R.id.numberPickerMONTH);
+        nPickerMONTH.setMinValue(1);
+        nPickerMONTH.setMaxValue(1);
+        nPickerMONTH.setMaxValue(12);
+        nPickerMONTH.setValue(1);
+        nPickerMONTH.setWrapSelectorWheel(false);
+
+        nPickerDAY = (NumberPicker) findViewById(R.id.numberPickerDAY);
+        nPickerDAY.setMinValue(1);
+        nPickerDAY.setMaxValue(1);
+        nPickerDAY.setMaxValue(31);
+        nPickerDAY.setValue(1);
+        nPickerDAY.setWrapSelectorWheel(false);
+
+        nPickerYEAR = (NumberPicker) findViewById(R.id.numberPickerYEAR);
+        nPickerYEAR.setMinValue(2015);
+        nPickerYEAR.setMaxValue(2015);
+        nPickerYEAR.setMaxValue(2017);
+        nPickerYEAR.setValue(2015);
+        nPickerYEAR.setWrapSelectorWheel(false);
 
     }
 }
