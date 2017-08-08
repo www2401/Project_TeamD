@@ -53,6 +53,10 @@ public class login extends AppCompatActivity {
 
         bt1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(loginid!=null && loginpw!=null) {
+                    if (loginid.equals() && loginpw.equals()) {
+                    }
+                }
                 if(et_id.getText().toString().equals("")||et_pw.getText().toString().equals("")){
                     AlertDialog.Builder a = new AlertDialog.Builder(login.this);
                     dialog = a.setMessage("Please fill out email ").setPositiveButton("OK", null).create();
