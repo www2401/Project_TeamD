@@ -1,5 +1,6 @@
 package com.example.ilove.teamd;
 
+import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -23,11 +24,17 @@ import android.widget.TextView;
 import com.example.ilove.teamd.Heart.PolarBleService;
 import com.example.ilove.teamd.userfage.login;
 import com.example.ilove.teamd.userfage.registration;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.StringTokenizer;
 
 public class TeamD extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     TextView text_input;
     private final String TAG = "TeamD";
@@ -68,6 +75,11 @@ public class TeamD extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        MapFragment mapFragment = (MapFragment)fragmentManager
+                .findFragmentById(R.id.mapp);
+        mapFragment.getMapAsync(this);
 
         }
 
@@ -252,6 +264,19 @@ public class TeamD extends AppCompatActivity
     };
 
 
+    @Override
+    public void onMapReady(final GoogleMap map) {
 
+        LatLng UCSD = new LatLng(32.8824070, -117.2348170);
 
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(UCSD);
+        markerOptions.title("UCSD");
+        markerOptions.snippet("Atkinson Hall");
+        map.addMarker(markerOptions);
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(UCSD));
+        map.animateCamera(CameraUpdateFactory.zoomTo(18));
+
+    }
 }

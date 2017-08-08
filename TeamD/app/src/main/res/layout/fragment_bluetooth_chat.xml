@@ -40,7 +40,7 @@
 
 
             <TextView
-                android:id="@+id/TEMPtextview"
+                android:id="@+id/temptextview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

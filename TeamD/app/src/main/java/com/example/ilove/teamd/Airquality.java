@@ -8,11 +8,9 @@ import android.view.Menu;
 
 import static com.example.ilove.teamd.R.layout.activity_airquality;
 
-public class Airquality extends AppCompatActivity {
+public class Airquality extends AppCompatActivity{
 
     BluetoothChatFragment bt;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +32,6 @@ public class Airquality extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.bluetooth_chat, menu);
         return true;
     }
-
-
 }
 
 

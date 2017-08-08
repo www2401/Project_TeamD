@@ -136,7 +136,7 @@ public class BluetoothChatFragment extends Fragment {
         mChatService = new BluetoothChatService(getActivity(), mHandler);
         view = inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
 
-        temp = (TextView)view.findViewById(R.id.TEMPtextview);
+        temp = (TextView)view.findViewById(R.id.temptextview);
         co_air = (TextView)view.findViewById(R.id.COtextview);
         o3_air = (TextView)view.findViewById(R.id.O3textview);
         so2_air = (TextView)view.findViewById(R.id.SO2textview);
@@ -333,7 +333,13 @@ public class BluetoothChatFragment extends Fragment {
                         no2_air = setText.JsonAir.getInt("NO2");
                         pm25_air = setText.JsonAir.getInt("PM2.5");*/
 
-                        temp.setText(JsonAir.getString("TEMP"));
+                        CO = JsonAir.getInt("CO");
+                        NO2 = JsonAir.getInt("NO2");
+                        SO2 = JsonAir.getInt("SO2");
+                        O3 = JsonAir.getInt("O3");
+                        PM25 = JsonAir.getInt("PM25");
+
+                        temp.setText(JsonAir.getString("temp"));
                         co_air.setText(JsonAir.getString("CO"));   //toString 이 뭔가를 String으로 바꿔주는거
                         o3_air.setText(JsonAir.getString("O3"));
                         so2_air.setText(JsonAir.getString("SO2"));   //toString 이 뭔가를 String으로 바꿔주는거
@@ -367,14 +373,13 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
 
+                        setData();
+
                         //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
                         String json_Astring = json_AirdataTransfer.toString();
 
                         airdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/apptest","["+json_Astring+"]");
                         // airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
-
-                        setData();
-
 
                     }catch (JSONException e){
                         e.printStackTrace();
@@ -497,7 +502,6 @@ public class BluetoothChatFragment extends Fragment {
 
         //ArrayList<Entry> covalue = new ArrayList<Entry>(); //y축세팅 위로올림
         covalue.add(new Entry(CO, count));
-        // Toast.makeText(CO, " rrrr ", Toast.LENGTH_SHORT).show();
         so2value.add(new Entry(SO2, count));
         no2value.add(new Entry(NO2, count));
         o3value.add(new Entry(O3, count));
@@ -553,7 +557,7 @@ public class BluetoothChatFragment extends Fragment {
         chart.setData(o3data);
         chart.setData(pm25data);
 
-        chart.invalidate(); //  dont forget to refresh the drawing
+        chart.invalidate();//  dont forget to refresh the drawing
     }
 
 }
