@@ -1,7 +1,9 @@
 package com.example.ilove.teamd.userfage;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
@@ -32,7 +34,7 @@ public class login extends AppCompatActivity {
     public Button bt1;
     public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_birthday,et_weight,et_height;
     public AlertDialog dialog;
-    String resulto,myResult;
+    String resulto,myResult,loginid,loginpw;
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_login);
@@ -43,9 +45,18 @@ public class login extends AppCompatActivity {
         et_birthday= (EditText)findViewById(R.id.et_birthday);
         et_weight= (EditText)findViewById(R.id.et_weight);
         et_height= (EditText)findViewById(R.id.et_height);
+        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+        loginid =auto.getString("email",null);
+        loginpw=auto.getString("password",null);
+
+
 
         bt1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(loginid!=null && loginpw!=null) {
+                    if (loginid.equals() && loginpw.equals()) {
+                    }
+                }
                 if(et_id.getText().toString().equals("")||et_pw.getText().toString().equals("")){
                     AlertDialog.Builder a = new AlertDialog.Builder(login.this);
                     dialog = a.setMessage("Please fill out email ").setPositiveButton("OK", null).create();
