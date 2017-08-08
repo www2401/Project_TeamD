@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,39 +32,32 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static android.R.attr.id;
+import static android.R.attr.password;
+
 public class login extends AppCompatActivity {
     public Button bt1;
-    public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_birthday,et_weight,et_height;
+    public EditText et_lname, et_fname, et_id, et_pw, et_birthday, et_weight, et_height;
     public AlertDialog dialog;
-    String resulto,myResult,loginid,loginpw;
+    String resulto, myResult;
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_login);
-        et_id = (EditText)findViewById(R.id.et_id);
-        et_pw = (EditText)findViewById(R.id.et_pw);
-        et_fname= (EditText)findViewById(R.id.et_fname);
-        et_lname= (EditText)findViewById(R.id.et_lname);
-        et_birthday= (EditText)findViewById(R.id.et_birthday);
-        et_weight= (EditText)findViewById(R.id.et_weight);
-        et_height= (EditText)findViewById(R.id.et_height);
-        SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
-        loginid =auto.getString("email",null);
-        loginpw=auto.getString("password",null);
-
-
+        et_id = (EditText) findViewById(R.id.et_id);
+        et_pw = (EditText) findViewById(R.id.et_pw);
+        et_fname = (EditText) findViewById(R.id.et_fname);
+        et_lname = (EditText) findViewById(R.id.et_lname);
+        et_birthday = (EditText) findViewById(R.id.et_birthday);
+        et_weight = (EditText) findViewById(R.id.et_weight);
+        et_height = (EditText) findViewById(R.id.et_height);
 
         bt1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(loginid!=null && loginpw!=null) {
-                    if (loginid.equals() && loginpw.equals()) {
-                    }
-                }
-                if(et_id.getText().toString().equals("")||et_pw.getText().toString().equals("")){
+                if (et_id.getText().toString().equals("") || et_pw.getText().toString().equals("")) {
                     AlertDialog.Builder a = new AlertDialog.Builder(login.this);
                     dialog = a.setMessage("Please fill out email ").setPositiveButton("OK", null).create();
                     dialog.show();
-                }
-                else {
+                } else {
                     try {
 
                         URL url = new URL("http://teama-iot.calit2.net/slim-api/android-login");
@@ -111,12 +106,10 @@ public class login extends AppCompatActivity {
                     if (resulto == "true") {
                         AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
                         builder.setMessage("log in complete").setPositiveButton("OK", null).create().show();
-                        et_id.setEnabled(false); //로그인 가능
-                        Intent page = new Intent(login.this, TeamD.class);
+                        et_id.setEnabled(false);
+                        Intent page = new Intent(login.this, login.class);
                         startActivity(page);
-
-                    }
-                    if (resulto == "false") {
+                    } else if (resulto == "false") {
                         AlertDialog.Builder builder = new AlertDialog.Builder(login.this);//로그인 불가
                         builder.setMessage("Not log in").setNegativeButton("OK", null).create().show();
                     }
