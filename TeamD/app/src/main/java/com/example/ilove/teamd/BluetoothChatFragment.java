@@ -537,23 +537,17 @@ public class BluetoothChatFragment extends Fragment {
         xAxis.setPosition( XAxis.XAxisPosition. BOTTOM ); //x축 아래로 내림
         xAxis.setDrawGridLines(true);
         chart.setNoDataText("Chart for Air Quality here.");
+        chart.setVisibleXRangeMaximum(5);
+        chart.moveViewToX(count);
 
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
 
         dataSets.add(cochart);
-        chart.setVisibleXRangeMaximum(5);
-
         dataSets.add(so2chart);
-        chart.setVisibleXRangeMaximum(5);
-
         dataSets.add(no2chart);
-        chart.setVisibleXRangeMaximum(5);
-
         dataSets.add(o3chart);
-        chart.setVisibleXRangeMaximum(5);
-
         dataSets.add(pm25chart);
-        chart.setVisibleXRangeMaximum(5);
+
 
         LineData codata = new LineData(axVals, dataSets);
         LineData so2data = new LineData(axVals, dataSets);
