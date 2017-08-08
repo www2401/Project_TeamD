@@ -6,11 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-
-import java.util.ArrayList;
-
 import static com.example.ilove.teamd.R.layout.activity_airquality;
 
 public class Airquality extends AppCompatActivity {
@@ -23,11 +18,6 @@ public class Airquality extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_airquality);
-
-        LineChart allchart = (LineChart)findViewById(R.id.allchart);
-        allchart.setNoDataText("Chart for all the air quality data.");
-
-        ArrayList<Entry> valsCompall = new ArrayList<Entry>();
 
         bt = new BluetoothChatFragment();
         Log.v("1", "dsdf");
