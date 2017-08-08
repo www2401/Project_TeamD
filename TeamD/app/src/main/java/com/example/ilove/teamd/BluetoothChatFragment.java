@@ -373,6 +373,7 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
 
+                        aqi(CO,NO2,O3,SO2,PM25);
                         setData();
 
                         //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
@@ -562,6 +563,85 @@ public class BluetoothChatFragment extends Fragment {
         chart.setData(pm25data);
 
         chart.invalidate();//  dont forget to refresh the drawing
+    }
+
+
+    public void aqi(int CO, int NO2, int SO2, int O3, int PM25){
+        if(CO >= 0.0 && CO <= 4.4)
+            co_air.setBackgroundResource(R.drawable.g_co);
+        if(CO >= 4.5 && CO <= 9.4)
+            co_air.setBackgroundResource(R.drawable.y_co);
+        if(CO >= 9.5 && CO <= 12.4)
+            co_air.setBackgroundResource(R.drawable.o_co);
+        if(CO >= 12.5 && CO <= 15.4)
+            co_air.setBackgroundResource(R.drawable.r_co);
+        if(CO >= 15.5 && CO <= 30.4)
+            co_air.setBackgroundResource(R.drawable.p_co);
+        if(CO >= 30.5 && CO <= 40.4)
+            co_air.setBackgroundResource(R.drawable.b_co);
+        if(CO >= 40.5 && CO <= 50.4)
+            co_air.setBackgroundResource(R.drawable.b_co);
+
+        if(NO2 >= 0 && NO2 <= 53)
+            no2_air.setBackgroundResource(R.drawable.g_no2);
+        if(NO2 >= 54 && NO2 <= 100)
+            no2_air.setBackgroundResource(R.drawable.y_no2);
+        if(NO2 >= 101 && NO2 <= 360)
+            no2_air.setBackgroundResource(R.drawable.o_no2);
+        if(NO2 >= 361 && NO2 <= 649)
+            no2_air.setBackgroundResource(R.drawable.r_no2);
+        if(NO2 >= 650 && NO2 <= 1249)
+            no2_air.setBackgroundResource(R.drawable.p_no2);
+        if(NO2 >= 1250 && NO2 <= 1649)
+            no2_air.setBackgroundResource(R.drawable.b_no2);
+        if(NO2 >= 1650 && NO2 <= 2049)
+            no2_air.setBackgroundResource(R.drawable.b_no2);
+
+        if(SO2 >= 0 && SO2 <= 35)
+            so2_air.setBackgroundResource(R.drawable.g_so2);
+        if(SO2 >= 36 && SO2 <= 75)
+            so2_air.setBackgroundResource(R.drawable.y_so2);
+        if(SO2 >= 76 && SO2 <= 185)
+            so2_air.setBackgroundResource(R.drawable.o_so2);
+        if(SO2 >= 186 && SO2 <= 304)
+            so2_air.setBackgroundResource(R.drawable.r_so2);
+        if(SO2 >= 305 && SO2 <= 604)
+            so2_air.setBackgroundResource(R.drawable.p_so2);
+        if(SO2 >= 605 && SO2 <= 804)
+            so2_air.setBackgroundResource(R.drawable.b_so2);
+        if(SO2 >= 805 && SO2 <= 1004)
+            so2_air.setBackgroundResource(R.drawable.b_so2);
+
+
+        if(O3 >= 0 && O3 <= 54)
+            o3_air.setBackgroundResource(R.drawable.g_o3);
+        if(O3 >= 55 && O3 <= 70)
+            o3_air.setBackgroundResource(R.drawable.y_o3);
+        if(O3 >= 71 && O3 <= 85)
+            o3_air.setBackgroundResource(R.drawable.o_o3);
+        if(O3 >= 86 && O3 <= 105)
+            o3_air.setBackgroundResource(R.drawable.r_o3);
+        if(O3 >= 106 && O3 <= 404)
+            o3_air.setBackgroundResource(R.drawable.p_o3);
+        if(O3 >= 405 && O3 <= 504)
+            o3_air.setBackgroundResource(R.drawable.b_o3);
+        if(O3 >= 505 && O3 <= 604)
+            o3_air.setBackgroundResource(R.drawable.b_o3);
+
+        if(PM25 >=0.0 && PM25 <=12.0)
+            pm25_air.setBackgroundResource(R.drawable.g_pm25);
+        if(PM25 >= 12.1 && PM25 <= 35.4)
+            pm25_air.setBackgroundResource(R.drawable.y_pm25);
+        if(PM25 >= 35.5 && PM25 <= 55.4)
+            pm25_air.setBackgroundResource(R.drawable.o_pm25);
+        if(PM25 >= 55.5 && PM25 <= 150.4)
+            pm25_air.setBackgroundResource(R.drawable.r_pm25);
+        if(PM25 >= 150.5 && PM25 <= 250.4)
+            pm25_air.setBackgroundResource(R.drawable.p_pm25);
+        if(PM25 >= 250.5 && PM25 <= 350.4)
+            pm25_air.setBackgroundResource(R.drawable.b_pm25);
+        if(PM25 >= 350.5 && PM25 <= 500.4)
+            pm25_air.setBackgroundResource(R.drawable.b_pm25);
     }
 
 }

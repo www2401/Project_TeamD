@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@drawable/bpm10"/>
+                android:background="@drawable/temp"/>
 
             <TextView
                 android:id="@+id/COtextview"
@@ -53,7 +53,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@drawable/bco"/>
+                android:background="@drawable/g_co"/>
 
             <TextView
                 android:id="@+id/O3textview"
@@ -61,7 +61,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@drawable/bo3"/>
+                android:background="@drawable/g_o3"/>
 
 
         </LinearLayout>
@@ -80,7 +80,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@drawable/bso2"/>
+                android:background="@drawable/g_so2"/>
 
             <TextView
                 android:id="@+id/NO2textview"
@@ -88,7 +88,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@drawable/bno2"/>
+                android:background="@drawable/g_no2"/>
 
             <TextView
                 android:id="@+id/PM25textview"
@@ -96,7 +96,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@drawable/bpm25"/>
+                android:background="@drawable/g_pm25"/>
 
         </LinearLayout>
 
