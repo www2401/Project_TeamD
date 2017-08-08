@@ -1,6 +1,7 @@
 package com.example.ilove.teamd.userfage;
 
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.nsd.NsdManager;
 import android.os.Bundle;
@@ -161,7 +162,7 @@ public class registration extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);//알림창이 뜨게한다 여기에
                         builder.setMessage("Vaild ID").setPositiveButton("OK", null).create().show();
                         et_id.setEnabled(false); //아이디 변경불가
-                        //input_User_ID.setBackgroundColor(0xff14148c);
+
                     }
                     if (resulto == "false") {
                         AlertDialog.Builder builder = new AlertDialog.Builder(registration.this);//알림창이 뜨게한다 여기에
