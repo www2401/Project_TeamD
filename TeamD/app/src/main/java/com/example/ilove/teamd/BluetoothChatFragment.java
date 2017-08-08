@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,14 +40,33 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
+
+    public LineChart chart;
+    public ArrayList<String> axVals = new ArrayList<String>();
+
+    public ArrayList<Entry> covalue = new ArrayList<Entry>();
+    public ArrayList<Entry> no2value = new ArrayList<Entry>();
+    public ArrayList<Entry> so2value = new ArrayList<Entry>();
+    public ArrayList<Entry> o3value = new ArrayList<Entry>();
+    public ArrayList<Entry> pm25value = new ArrayList<Entry>();
+
     View view;
 
     private static final String TAG = "BluetoothChatFragment";
@@ -65,6 +85,10 @@ public class BluetoothChatFragment extends Fragment {
     static public TextView so2_air;
     static public TextView no2_air;
     static public TextView pm25_air;
+
+    int CO, NO2, SO2, O3, PM25, TEM  = 0;
+
+    int count = -1;
 
     /**
      * Name of the connected device
@@ -118,6 +142,10 @@ public class BluetoothChatFragment extends Fragment {
         so2_air = (TextView)view.findViewById(R.id.SO2textview);
         no2_air = (TextView)view.findViewById(R.id.NO2textview);
         pm25_air = (TextView)view.findViewById(R.id.PM25textview);
+
+        chart = (LineChart)view.findViewById(R.id.allchart); //차트만듦
+        chart.setNoDataText("Chart for all the airquality data.");
+
         return view;
     }
 
@@ -345,6 +373,8 @@ public class BluetoothChatFragment extends Fragment {
                         airdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/apptest","["+json_Astring+"]");
                         // airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
 
+                        setData();
+
 
                     }catch (JSONException e){
                         e.printStackTrace();
@@ -455,6 +485,75 @@ public class BluetoothChatFragment extends Fragment {
             e.printStackTrace();
             Log.v("eror", "salkdjflkd");
         }
+    }
+
+    public void setData() {
+
+        count++;
+
+        //ArrayList<String> xVals = new ArrayList<String>(); //x축세팅 위로올림
+        axVals.add(String.valueOf(count));
+
+
+        //ArrayList<Entry> covalue = new ArrayList<Entry>(); //y축세팅 위로올림
+        covalue.add(new Entry(CO, count));
+        // Toast.makeText(CO, " rrrr ", Toast.LENGTH_SHORT).show();
+        so2value.add(new Entry(SO2, count));
+        no2value.add(new Entry(NO2, count));
+        o3value.add(new Entry(O3, count));
+        pm25value.add(new Entry(PM25, count));
+
+        LineDataSet cochart = new LineDataSet(covalue, "CO");
+        LineDataSet so2chart = new LineDataSet(so2value, "SO2");
+        LineDataSet no2chart = new LineDataSet(no2value, "NO2");
+        LineDataSet o3chart = new LineDataSet(o3value, "O3");
+        LineDataSet pm25chart = new LineDataSet(pm25value, "PM25");
+
+        //라인색변경
+        cochart.setColor(Color.parseColor("#FFA7A7"));
+        so2chart.setColor(Color.parseColor("#CEF279"));
+        no2chart.setColor(Color.parseColor("#B2EBF4"));
+        o3chart.setColor(Color.parseColor("#FFE08C"));
+        pm25chart.setColor(Color.parseColor("#B5B2FF"));
+
+        cochart.setAxisDependency(YAxis.AxisDependency.LEFT); //creat lineDataSet
+        so2chart.setAxisDependency(YAxis.AxisDependency.LEFT);
+        no2chart.setAxisDependency(YAxis.AxisDependency.LEFT);
+        o3chart.setAxisDependency(YAxis.AxisDependency.LEFT);
+        pm25chart.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        cochart.setDrawValues(false);
+        so2chart.setDrawValues(false);
+        no2chart.setDrawValues(false);
+        o3chart.setDrawValues(false);
+        pm25chart.setDrawValues(false);
+        chart.getAxis(YAxis.AxisDependency.RIGHT).setEnabled(false); //오른쪽 숫자 없앰
+        chart.setDescription(null); //Description text 없앰
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition( XAxis.XAxisPosition. BOTTOM ); //x축 아래로 내림
+        xAxis.setDrawGridLines(true);
+        chart.setNoDataText("Chart for Air Quality here.");
+
+        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+        dataSets.add(cochart);
+        dataSets.add(so2chart);
+        dataSets.add(no2chart);
+        dataSets.add(o3chart);
+        dataSets.add(pm25chart);
+
+        LineData codata = new LineData(axVals, dataSets);
+        LineData so2data = new LineData(axVals, dataSets);
+        LineData no2data = new LineData(axVals, dataSets);
+        LineData o3data = new LineData(axVals, dataSets);
+        LineData pm25data = new LineData(axVals, dataSets);
+
+        chart.setData(codata);
+        chart.setData(so2data);
+        chart.setData(no2data);
+        chart.setData(o3data);
+        chart.setData(pm25data);
+
+        chart.invalidate(); //  dont forget to refresh the drawing
     }
 
 }
