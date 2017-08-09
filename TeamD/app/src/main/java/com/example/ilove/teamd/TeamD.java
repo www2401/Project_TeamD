@@ -14,6 +14,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -105,10 +106,13 @@ public class TeamD extends AppCompatActivity
         try {
             int id = item.getItemId();
             if ((loginn.flag==1)&&(id == R.id.nav_logout)) {
-                Toast.makeText(TeamD.this, "log out complete", Toast.LENGTH_SHORT).show();
-                setVisible(false);
+                AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                builder.setMessage("Log out complete").setPositiveButton("OK", null).create().show();
             }
-
+            else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                builder.setMessage("you can't click this button . Please log in ").setNegativeButton("OK", null).create().show();
+            }
         }catch (Exception e){
             Log.v("catched","sdf");
         }
