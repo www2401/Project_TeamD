@@ -343,12 +343,6 @@ public class BluetoothChatFragment extends Fragment {
 
                     try {
                         JSONObject JsonAir = new JSONObject(readMessage);
-                        /*temp = setText.String.valueOf(JsonAir.getInt("temp"));
-                        co_air = setText.String.valueOf(JsonAir.getInt("CO"));
-                        o3_air = setText.JsonAir.getInt("O3");
-                        so2_air = setText.JsonAir.getInt("SO2");
-                        no2_air = setText.JsonAir.getInt("NO2");
-                        pm25_air = setText.JsonAir.getInt("PM2.5");*/
 
                         CO = JsonAir.getInt("CO");
                         NO2 = JsonAir.getInt("NO2");
