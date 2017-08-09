@@ -128,7 +128,7 @@ public class registration extends AppCompatActivity {
                         http.setRequestProperty("content_type", "application/x-www-form-urlencoded");//서버에서 웹에게 FORM으로 값이 넘어온 것과 같은 방식으로 처리한다고알림
 
 
-                        StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼떄
+                        StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼때
                         buffer.append("email").append("=").append(et_id.getText().toString());
 
                         OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR"); //OutputStream 전송길을 만들어주는거

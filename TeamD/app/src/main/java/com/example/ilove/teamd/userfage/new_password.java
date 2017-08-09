@@ -10,8 +10,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ilove.teamd.JsonTransfer;
 import com.example.ilove.teamd.R;
 import com.example.ilove.teamd.TeamD;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class new_password extends AppCompatActivity {
     public Button bt1,bt2;
@@ -40,6 +53,7 @@ public class new_password extends AppCompatActivity {
                         dialog = a.setMessage("correct").setPositiveButton("OK", null).create();
                         dialog.show();
                     }
+                    //비밀번호,재입력 두개가 일치하지 않을 때
                     else if(et_pw.getText().toString()!=et_c_pw.getText().toString()) {
                         AlertDialog.Builder a = new AlertDialog.Builder(new_password.this);
                         dialog = a.setMessage("Not correct password. Please Check your password.").setPositiveButton("OK", null).create();
@@ -57,17 +71,6 @@ public class new_password extends AppCompatActivity {
         //비밀번호 서버에 전송,확인완료, 새로운 비밀번호 설정
         bt2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if((et_pw.getText().toString().getBytes().length>0)&&(et_c_pw.getText().toString().getBytes().length>0)) {
-                    Intent page = new Intent(new_password.this, TeamD.class);
-                    startActivity(page);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(new_password.this);
-                    builder.setMessage("success new password. Please replay your login.").setPositiveButton("OK", null).create().show();
-                }
-                else{
-                    AlertDialog.Builder a = new AlertDialog.Builder(new_password.this);
-                    dialog = a.setMessage("Please fill out ").setPositiveButton("OK", null).create();
-                    dialog.show();
-                }
             }
         });
     }

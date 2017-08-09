@@ -110,6 +110,7 @@ public class login extends AppCompatActivity {
                             AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
                             builder.setMessage("Not log in! Please sign up or check your email and password.").setNegativeButton("OK", null).create().show();
                         } else {//로그인 완료
+                            //Toast.makeText(login.this,resulto,Toast.LENGTH_SHORT).show();
                             AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
                             builder.setMessage("log in complete! you can do this program").setNegativeButton("OK", null).create().show();
                             Intent page = new Intent(login.this, TeamD.class);
