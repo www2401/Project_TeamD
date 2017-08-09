@@ -38,6 +38,7 @@ public class login extends AppCompatActivity {
     public EditText et_lname, et_fname, et_id, et_pw, et_birthday, et_weight, et_height;
     public AlertDialog dialog;
     String resulto, myResult;
+    static public int flag=0;
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_login);
@@ -115,6 +116,7 @@ public class login extends AppCompatActivity {
                             builder.setMessage("log in complete! you can do this program").setNegativeButton("OK", null).create().show();
                             Intent page = new Intent(login.this, TeamD.class);
                             startActivity(page);
+                            flag=1;
                         }
                 }
             }

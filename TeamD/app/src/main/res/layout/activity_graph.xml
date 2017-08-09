@@ -20,25 +20,25 @@
             >
 
             <NumberPicker
-                android:id="@+id/numberPickerMONTH"
+                android:id="@+id/np_m"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
             <NumberPicker
-                android:id="@+id/numberPickerDAY"
+                android:id="@+id/np_d"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
             <NumberPicker
-                android:id="@+id/numberPickerYEAR"
+                android:id="@+id/np_y"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"/>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/bt_select"
                 android:layout_width="60dp"
                 android:layout_height="80dp"
                 android:text="select"
@@ -47,44 +47,44 @@
         </LinearLayout>
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart1"
+            android:id="@+id/chart_co"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp" />
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart2"
+            android:id="@+id/chart_o3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp" />
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart3"
+            android:id="@+id/chart_no2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp" />
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart4"
+            android:id="@+id/chart_so2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp" />
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart5"
+            android:id="@+id/chart_pm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp" />
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp"/>
 
 
     </LinearLayout>

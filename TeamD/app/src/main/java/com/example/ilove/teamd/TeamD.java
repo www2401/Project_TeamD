@@ -38,7 +38,7 @@ import static com.example.ilove.teamd.R.id.nav_login;
 
 public class TeamD extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
-
+    login loginn;
     TextView text_input;
     private final String TAG = "TeamD";
 
@@ -61,6 +61,7 @@ public class TeamD extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loginn = new login();
         setContentView(R.layout.activity_team_d);
         text_input = (TextView)findViewById(R.id.heartrate);
 
@@ -103,9 +104,9 @@ public class TeamD extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
             int id = item.getItemId();
-            if (id == R.id.nav_logout) {
+            if ((loginn.flag==1)&&(id == R.id.nav_logout)) {
                 Toast.makeText(TeamD.this, "log out complete", Toast.LENGTH_SHORT).show();
-                item.setEnabled(false);
+                setVisible(false);
             }
 
         }catch (Exception e){
@@ -119,20 +120,19 @@ public class TeamD extends AppCompatActivity
         // Handle navigation view item clicks here.
         try {
             int id = item.getItemId();
-            if (id == R.id.nav_current) {
+            if ((loginn.flag==1 )&&(id == R.id.nav_current)) {
                 Intent page = new Intent(TeamD.this, current.class);
                 startActivity(page);
-            } else if (id == R.id.nav_graph) {
+            } else if ((loginn.flag==1 )&& (id == R.id.nav_graph)) {
                 Intent page = new Intent(TeamD.this, graph.class);
                 startActivity(page);
-            } else if (id == R.id.nav_registration) {
+            } else if ((loginn.flag == 0 )&&(id == R.id.nav_registration)) {
                 Intent page = new Intent(TeamD.this, registration.class);
                 startActivity(page);
             }else if (id == nav_login) {
-                item.setEnabled(false);
                 Intent page = new Intent(TeamD.this, login.class);
                 startActivity(page);
-            } else if (id == R.id.Airquality) {
+            } else if ((loginn.flag == 1 )&&(id == R.id.Airquality)) {
                 Intent page = new Intent(TeamD.this, Airquality.class);
                 startActivity(page);
             }
