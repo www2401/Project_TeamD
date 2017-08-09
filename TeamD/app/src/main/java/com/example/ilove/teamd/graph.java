@@ -24,64 +24,57 @@ public class graph extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graph);
 
+        // chart
         LineChart chart1 = (LineChart)findViewById(R.id.chart1);
         LineChart chart2 = (LineChart)findViewById(R.id.chart2);
         LineChart chart3 = (LineChart)findViewById(R.id.chart3);
         LineChart chart4 = (LineChart)findViewById(R.id.chart4);
         LineChart chart5 = (LineChart)findViewById(R.id.chart5);
 
-        chart1.setNoDataText("Chart for CO here.");
-        chart2.setNoDataText("Chart for O3 here.");
-        chart3.setNoDataText("Chart for SO2 here.");
-        chart4.setNoDataText("Chart for NO2 here.");
-        chart5.setNoDataText("Chart for PM2.5 here.");
-
-
+        //각 entry에 값을 주는거
         ArrayList<Entry> valsComp1 = new ArrayList<Entry>();
         ArrayList<Entry> valsComp2 = new ArrayList<Entry>();
         ArrayList<Entry> valsComp3 = new ArrayList<Entry>();
         ArrayList<Entry> valsComp4 = new ArrayList<Entry>();
         ArrayList<Entry> valsComp5 = new ArrayList<Entry>();
-        // ArrayList<Entry> valsComp6 = new ArrayList<Entry>();
 
+        //fake data
         valsComp1.add(new Entry(0,0));
         valsComp2.add(new Entry(0,0));
         valsComp3.add(new Entry(0,0));
         valsComp4.add(new Entry(0,0));
         valsComp5.add(new Entry(0,0));
-        // valsComp6.add(new Entry(0f,5));
 
-
+        //각 entry이름을 명칭해주는거
         LineDataSet setComp1 = new LineDataSet(valsComp1, "CO");
         LineDataSet setComp2 = new LineDataSet(valsComp2, "O3");
         LineDataSet setComp3 = new LineDataSet(valsComp3, "NO2");
         LineDataSet setComp4 = new LineDataSet(valsComp4, "SO2");
         LineDataSet setComp5 = new LineDataSet(valsComp5, "PM-2.5");
 
-
         setComp1.setAxisDependency(YAxis.AxisDependency.LEFT);
 
+        //CO에 대한 데이터 저장 공간
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
         dataSets.add(setComp1);
-        /* dataSets.add(setComp2);
-        dataSets.add(setComp3);
-        dataSets.add(setComp4);
-        dataSets.add(setComp5);
-        dataSets.add(setComp6); */
 
+        //O3에 대한 데이터 저장 공간
         ArrayList<LineDataSet> dataSets2 = new ArrayList<LineDataSet>();
         dataSets2.add(setComp2);
 
+        //NO2에 대한 데이터 저장 공간
         ArrayList<LineDataSet> dataSets3 = new ArrayList<LineDataSet>();
         dataSets3.add(setComp3);
 
+        //SO2에 대한 데이터 저장 공간
         ArrayList<LineDataSet> dataSets4 = new ArrayList<LineDataSet>();
         dataSets4.add(setComp4);
-
+        
+        //PM-2.5에 대한 데이터 저장 공간
         ArrayList<LineDataSet> dataSets5 = new ArrayList<LineDataSet>();
         dataSets5.add(setComp5);
 
-
+        //chart의 가로 수
         ArrayList<String> xVals = new ArrayList<String>();
         xVals.add("1");
         xVals.add("2");
@@ -92,31 +85,37 @@ public class graph extends AppCompatActivity {
         xVals.add("7");
         xVals.add("8");
 
+        //CO
         LineData data1 = new LineData(xVals,dataSets);
         chart1.setData(data1);
         chart1.invalidate();
         setComp1.setColor(Color.parseColor("#FFA7A7"));
 
+        //O3
         LineData data2 = new LineData(xVals,dataSets2);
         chart2.setData(data2);
         chart2.invalidate();
         setComp2.setColor(Color.parseColor("#FFE08C"));
 
+        //NO2
         LineData data3 = new LineData(xVals,dataSets3);
         chart3.setData(data3);
         chart3.invalidate();
         setComp3.setColor(Color.parseColor("#CEF279"));
 
+        //SO2
         LineData data4 = new LineData(xVals,dataSets4);
         chart4.setData(data4);
         chart4.invalidate();
         setComp4.setColor(Color.parseColor("#B2EBF4"));
 
+        //PM-2.5
         LineData data5 = new LineData(xVals,dataSets5);
         chart5.setData(data5);
         chart5.invalidate();
         setComp5.setColor(Color.parseColor("#B5B2FF"));
 
+        //number picker-월
         nPickerMONTH = (NumberPicker) findViewById(R.id.numberPickerMONTH);
         nPickerMONTH.setMinValue(1);
         nPickerMONTH.setMaxValue(1);
@@ -124,6 +123,7 @@ public class graph extends AppCompatActivity {
         nPickerMONTH.setValue(1);
         nPickerMONTH.setWrapSelectorWheel(false);
 
+        //number picker-일
         nPickerDAY = (NumberPicker) findViewById(R.id.numberPickerDAY);
         nPickerDAY.setMinValue(1);
         nPickerDAY.setMaxValue(1);
@@ -131,6 +131,7 @@ public class graph extends AppCompatActivity {
         nPickerDAY.setValue(1);
         nPickerDAY.setWrapSelectorWheel(false);
 
+        //number picker-년도
         nPickerYEAR = (NumberPicker) findViewById(R.id.numberPickerYEAR);
         nPickerYEAR.setMinValue(2015);
         nPickerYEAR.setMaxValue(2015);
