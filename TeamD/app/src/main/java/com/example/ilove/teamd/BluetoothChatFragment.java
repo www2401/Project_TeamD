@@ -352,18 +352,6 @@ public class BluetoothChatFragment extends Fragment {
                         JSONObject json_AirdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
 
                         /*
-                        json_AirdataTransfer.put("macaddress", "00:00:00:00");
-                        json_AirdataTransfer.put("datetime", "2017/08/03");
-                        json_AirdataTransfer.put("lat", "0");
-                        json_AirdataTransfer.put("lng", "0");
-                        json_AirdataTransfer.put("co", JsonAir.getString("CO"));
-                        json_AirdataTransfer.put("co2", JsonAir.getString("NO2"));
-                        json_AirdataTransfer.put("so2", JsonAir.getString("SO2"));
-                        json_AirdataTransfer.put("o3", JsonAir.getString("O3"));
-                        json_AirdataTransfer.put("pm25", JsonAir.getString("PM25"));
-                        json_AirdataTransfer.put("temperature", JsonAir.getString("TEMP"));
-                        */
-
                         json_AirdataTransfer.put("tid", "11");
                         json_AirdataTransfer.put("time", "00:00:00");
                         json_AirdataTransfer.put("type", "asdf");
@@ -372,6 +360,19 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("SO2",JsonAir.getString("SO2"));
                         json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
+                        */
+
+                        json_AirdataTransfer.put("uid","11");
+                        json_AirdataTransfer.put("atime","0");
+                        json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
+                        json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
+                        json_AirdataTransfer.put("SO2",JsonAir.getString("SO2"));
+                        json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
+                        json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
+                        json_AirdataTransfer.put("temp",JsonAir.getString("temp"));
+                        json_AirdataTransfer.put("latitude","31.1234");
+                        json_AirdataTransfer.put("longitude","117.1234");
+                        json_AirdataTransfer.put("wifi_connection","0");
 
                         aqi(CO,NO2,O3,SO2,PM25);
                         setData();
@@ -386,7 +387,8 @@ public class BluetoothChatFragment extends Fragment {
                         e.printStackTrace();
                     }
 
-                    /* air_info_split = readMessage.split(",");
+                    /*  CSV 형식으로 파일 받아올때 
+                    air_info_split = readMessage.split(",");
 
                     for(int i=2;i<air_info_split.length;i++)
                     {
@@ -414,7 +416,8 @@ public class BluetoothChatFragment extends Fragment {
                         {
                             test4.setText(air_info_split[i]);
                         }
-                    } */
+                    }
+                    */
 
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
