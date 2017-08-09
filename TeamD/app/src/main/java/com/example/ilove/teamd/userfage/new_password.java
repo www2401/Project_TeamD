@@ -2,18 +2,21 @@ package com.example.ilove.teamd.userfage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ilove.teamd.R;
 import com.example.ilove.teamd.TeamD;
 
 public class new_password extends AppCompatActivity {
-
-    public Button bt1;
-    public Button bt2;
+    public Button bt1,bt2;
+    public EditText et_lname, et_fname, et_code,et_id, et_pw, et_birthday, et_weight, et_height;
+    public AlertDialog dialog;
+    String resulto, myResult;
     public void init() {
         bt1=(Button)findViewById(R.id.button);
         bt1.setOnClickListener(new View.OnClickListener() {
