@@ -90,6 +90,14 @@ public class BluetoothChatFragment extends Fragment {
 
     int count = -1;
 
+    /*
+    ArrayList o3_one_min;
+    ArrayList o3_eight_min;
+    ArrayList no2_one_min;
+    ArrayList so2_one_min;
+    ArrayList co_eight_min;
+    */
+
     /**
      * Name of the connected device
      */
@@ -128,6 +136,15 @@ public class BluetoothChatFragment extends Fragment {
             Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             activity.finish();
         }
+
+        /*
+        o3_one_min = new ArrayList();
+        o3_eight_min = new ArrayList();
+        no2_one_min = new ArrayList();
+        so2_one_min = new ArrayList();
+        co_eight_min = new ArrayList();
+        */
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -339,12 +356,18 @@ public class BluetoothChatFragment extends Fragment {
                         O3 = JsonAir.getInt("O3");
                         PM25 = JsonAir.getInt("PM25");
 
+                        float co_aqi = calcurate_co_aqi(CO);
+                        float no2_aqi = calcurate_no2_aqi(NO2);
+                        float so2_aqi = calcurate_so2_aqi(SO2);
+                        float o3_aqi = calcurate_o3_aqi(O3);
+                        float pm25_aqi = calcurate_pm25_aqi(PM25);
+
                         temp.setText(JsonAir.getString("temp"));
-                        co_air.setText(JsonAir.getString("CO"));   //toString 이 뭔가를 String으로 바꿔주는거
-                        o3_air.setText(JsonAir.getString("O3"));
-                        so2_air.setText(JsonAir.getString("SO2"));   //toString 이 뭔가를 String으로 바꿔주는거
-                        no2_air.setText(JsonAir.getString("NO2"));
-                        pm25_air.setText(JsonAir.getString("PM25"));
+                        co_air.setText(String.valueOf(co_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
+                        o3_air.setText(String.valueOf(no2_aqi));
+                        so2_air.setText(String.valueOf(so2_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
+                        no2_air.setText(String.valueOf(o3_aqi));
+                        pm25_air.setText(String.valueOf(pm25_aqi));
 
 
                         JsonTransfer airdata_transfer = new JsonTransfer();
@@ -374,20 +397,30 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("longitude","117.1234");
                         json_AirdataTransfer.put("wifi_connection","0");
 
-                        aqi(CO,NO2,O3,SO2,PM25);
+                        /*
+                        int o3_size_one = o3_one_min.size();
+                        int no2_size_one = no2_one_min.size();
+                        int so2_size_one = so2_one_min.size();
+                        int o3_size_eight = o3_eight_min.size();
+                        int co_size_eight = co_eight_min.size();
+                        */
+
+                        // o3_one_min.toString(); 어레이 전체 값을 스트링으로 변환 해서 토스트 값 확인 할 수 있음
+
+                        aqi((int)co_aqi,(int)no2_aqi,(int)so2_aqi,(int)o3_aqi,(int)pm25_aqi);
                         setData();
 
                         //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
                         String json_Astring = json_AirdataTransfer.toString();
 
-                        airdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/apptest","["+json_Astring+"]");
+                        airdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/air_data_app","["+json_Astring+"]");
                         // airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
 
                     }catch (JSONException e){
                         e.printStackTrace();
                     }
 
-                    /*  CSV 형식으로 파일 받아올때 
+                    /*  CSV 형식으로 파일 받아올때
                     air_info_split = readMessage.split(",");
 
                     for(int i=2;i<air_info_split.length;i++)
@@ -570,81 +603,357 @@ public class BluetoothChatFragment extends Fragment {
 
 
     public void aqi(int CO, int NO2, int SO2, int O3, int PM25){
-        if(CO >= 0.0 && CO <= 4.4)
+        if(CO >= 0 && CO <= 50)
             co_air.setBackgroundResource(R.drawable.g_co);
-        if(CO >= 4.5 && CO <= 9.4)
+        if(CO >= 51 && CO <= 100)
             co_air.setBackgroundResource(R.drawable.y_co);
-        if(CO >= 9.5 && CO <= 12.4)
+        if(CO >= 101 && CO <= 150)
             co_air.setBackgroundResource(R.drawable.o_co);
-        if(CO >= 12.5 && CO <= 15.4)
+        if(CO >= 151 && CO <= 200)
             co_air.setBackgroundResource(R.drawable.r_co);
-        if(CO >= 15.5 && CO <= 30.4)
+        if(CO >= 201 && CO <= 300)
             co_air.setBackgroundResource(R.drawable.p_co);
-        if(CO >= 30.5 && CO <= 40.4)
+        if(CO >= 301 && CO <= 400)
             co_air.setBackgroundResource(R.drawable.b_co);
-        if(CO >= 40.5 && CO <= 50.4)
+        if(CO >= 401 && CO <= 500)
             co_air.setBackgroundResource(R.drawable.b_co);
 
-        if(NO2 >= 0 && NO2 <= 53)
+        if(NO2 >= 0 && NO2 <= 50)
             no2_air.setBackgroundResource(R.drawable.g_no2);
-        if(NO2 >= 54 && NO2 <= 100)
+        if(NO2 >= 51 && NO2 <= 100)
             no2_air.setBackgroundResource(R.drawable.y_no2);
-        if(NO2 >= 101 && NO2 <= 360)
+        if(NO2 >= 101 && NO2 <= 150)
             no2_air.setBackgroundResource(R.drawable.o_no2);
-        if(NO2 >= 361 && NO2 <= 649)
+        if(NO2 >= 151 && NO2 <= 200)
             no2_air.setBackgroundResource(R.drawable.r_no2);
-        if(NO2 >= 650 && NO2 <= 1249)
+        if(NO2 >= 201 && NO2 <= 300)
             no2_air.setBackgroundResource(R.drawable.p_no2);
-        if(NO2 >= 1250 && NO2 <= 1649)
+        if(NO2 >= 301 && NO2 <= 400)
             no2_air.setBackgroundResource(R.drawable.b_no2);
-        if(NO2 >= 1650 && NO2 <= 2049)
+        if(NO2 >= 401 && NO2 <= 500)
             no2_air.setBackgroundResource(R.drawable.b_no2);
 
-        if(SO2 >= 0 && SO2 <= 35)
+        if(SO2 >= 0 && SO2 <= 50)
             so2_air.setBackgroundResource(R.drawable.g_so2);
-        if(SO2 >= 36 && SO2 <= 75)
+        if(SO2 >= 51 && SO2 <= 100)
             so2_air.setBackgroundResource(R.drawable.y_so2);
-        if(SO2 >= 76 && SO2 <= 185)
+        if(SO2 >= 101 && SO2 <= 150)
             so2_air.setBackgroundResource(R.drawable.o_so2);
-        if(SO2 >= 186 && SO2 <= 304)
+        if(SO2 >= 151 && SO2 <= 200)
             so2_air.setBackgroundResource(R.drawable.r_so2);
-        if(SO2 >= 305 && SO2 <= 604)
+        if(SO2 >= 201 && SO2 <= 300)
             so2_air.setBackgroundResource(R.drawable.p_so2);
-        if(SO2 >= 605 && SO2 <= 804)
+        if(SO2 >= 301 && SO2 <= 400)
             so2_air.setBackgroundResource(R.drawable.b_so2);
-        if(SO2 >= 805 && SO2 <= 1004)
+        if(SO2 >= 401 && SO2 <= 500)
             so2_air.setBackgroundResource(R.drawable.b_so2);
 
 
-        if(O3 >= 0 && O3 <= 54)
+        if(O3 >= 0 && O3 <= 50)
             o3_air.setBackgroundResource(R.drawable.g_o3);
-        if(O3 >= 55 && O3 <= 70)
+        if(O3 >= 51 && O3 <= 100)
             o3_air.setBackgroundResource(R.drawable.y_o3);
-        if(O3 >= 71 && O3 <= 85)
+        if(O3 >= 101 && O3 <= 150)
             o3_air.setBackgroundResource(R.drawable.o_o3);
-        if(O3 >= 86 && O3 <= 105)
+        if(O3 >= 151  && O3 <= 200)
             o3_air.setBackgroundResource(R.drawable.r_o3);
-        if(O3 >= 106 && O3 <= 404)
+        if(O3 >= 201 && O3 <= 300)
             o3_air.setBackgroundResource(R.drawable.p_o3);
-        if(O3 >= 405 && O3 <= 504)
+        if(O3 >= 301 && O3 <= 400)
             o3_air.setBackgroundResource(R.drawable.b_o3);
-        if(O3 >= 505 && O3 <= 604)
+        if(O3 >= 401 && O3 <= 500)
             o3_air.setBackgroundResource(R.drawable.b_o3);
 
-        if(PM25 >=0.0 && PM25 <=12.0)
+        if(PM25 >=0 && PM25 <=50)
             pm25_air.setBackgroundResource(R.drawable.g_pm25);
-        if(PM25 >= 12.1 && PM25 <= 35.4)
+        if(PM25 >= 51 && PM25 <= 100)
             pm25_air.setBackgroundResource(R.drawable.y_pm25);
-        if(PM25 >= 35.5 && PM25 <= 55.4)
+        if(PM25 >= 101 && PM25 <= 150)
             pm25_air.setBackgroundResource(R.drawable.o_pm25);
-        if(PM25 >= 55.5 && PM25 <= 150.4)
+        if(PM25 >= 151 && PM25 <= 200)
             pm25_air.setBackgroundResource(R.drawable.r_pm25);
-        if(PM25 >= 150.5 && PM25 <= 250.4)
+        if(PM25 >= 201 && PM25 <= 300)
             pm25_air.setBackgroundResource(R.drawable.p_pm25);
-        if(PM25 >= 250.5 && PM25 <= 350.4)
+        if(PM25 >= 301 && PM25 <= 400)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
-        if(PM25 >= 350.5 && PM25 <= 500.4)
+        if(PM25 >= 401 && PM25 <= 500)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
+    }
+
+    // AQI 데이터 계산
+    public float calcurate_co_aqi(float CO){
+        float co_Aqi=0;
+        float C_hight=0;
+        float C_low=0;
+        float I_hight=0;
+        float I_low=0;
+        float C = CO;
+        float I=0;
+        if(CO >= 0.0 && CO <= 4.4){
+            C_hight = (float)4.4;
+            C_low = (float)0;
+            I_hight = (float)50;
+            I_low = (float)0;
+        }
+        if(CO >= 4.5 && CO <= 9.4){
+            C_hight = (float)9.4;
+            C_low = (float)4.5;
+            I_hight = (float)100;
+            I_low = (float)51;
+        }
+        if(CO >= 9.5 && CO <= 12.4){
+            C_hight = (float)12.4;
+            C_low = (float)9.5;
+            I_hight = (float)150;
+            I_low = (float)101;
+        }
+        if(CO >= 12.5 && CO <= 15.4){
+            C_hight = (float)15.4;
+            C_low = (float)12.5;
+            I_hight = (float)200;
+            I_low = (float)151;
+        }
+        if(CO >= 15.5 && CO <= 30.4){
+            C_hight = (float)30.4;
+            C_low = (float)15.5;
+            I_hight = (float)300;
+            I_low = (float)201;
+        }
+        if(CO >= 30.5 && CO <= 40.4){
+            C_hight = (float)40.4;
+            C_low = (float)30.5;
+            I_hight = (float)400;
+            I_low = (float)301;
+        }
+        if(CO >= 40.5 && CO <= 50.4){
+            C_hight = (float)50.4;
+            C_low = (float)40.5;
+            I_hight = (float)500;
+            I_low = (float)401;
+        }
+
+        co_Aqi = ((I_hight-I_low)/(C_hight-C_low))*(C-C_low)+I_low;
+        return co_Aqi;
+    }
+
+    public float calcurate_so2_aqi(float SO2){
+        float so2_Aqi=0;
+        float C_hight=0;
+        float C_low=0;
+        float I_hight=0;
+        float I_low=0;
+        float C = SO2;
+        float I=0;
+        if(SO2 >= 0 && SO2 <= 35){
+            C_hight = (float)35;
+            C_low = (float)0;
+            I_hight = (float)50;
+            I_low = (float)0;
+        }
+        if(SO2 >= 36 && SO2 <= 75){
+            C_hight = (float)75;
+            C_low = (float)36;
+            I_hight = (float)100;
+            I_low = (float)51;
+        }
+        if(SO2 >= 76 && SO2 <= 185){
+            C_hight = (float)185;
+            C_low = (float)76;
+            I_hight = (float)150;
+            I_low = (float)101;
+        }
+        if(SO2 >= 186 && SO2 <= 304){
+            C_hight = (float)304;
+            C_low = (float)186;
+            I_hight = (float)200;
+            I_low = (float)151;
+        }
+        if(SO2 >= 305 && SO2 <= 604){
+            C_hight = (float)604;
+            C_low = (float)305;
+            I_hight = (float)300;
+            I_low = (float)201;
+        }
+        if(SO2 >= 605 && SO2 <= 804){
+            C_hight = (float)804;
+            C_low = (float)605;
+            I_hight = (float)400;
+            I_low = (float)301;
+        }
+        if(SO2 >= 805 && SO2 <= 1004){
+            C_hight = (float)1004;
+            C_low = (float)805;
+            I_hight = (float)500;
+            I_low = (float)401;
+        }
+
+        so2_Aqi = ((I_hight-I_low)/(C_hight-C_low))*(C-C_low)+I_low;
+        return so2_Aqi;
+    }
+
+    public float calcurate_no2_aqi(float NO2){
+        float no2_Aqi=0;
+        float C_hight=0;
+        float C_low=0;
+        float I_hight=0;
+        float I_low=0;
+        float C = NO2;
+        float I=0;
+        if(NO2 >= 0 && NO2 <= 53){
+            C_hight = (float)53;
+            C_low = (float)0;
+            I_hight = (float)50;
+            I_low = (float)0;
+        }
+        if(NO2 >= 54 && NO2 <= 100){
+            C_hight = (float)100;
+            C_low = (float)54;
+            I_hight = (float)100;
+            I_low = (float)51;
+        }
+        if(NO2 >= 101 && NO2 <= 360){
+            C_hight = (float)360;
+            C_low = (float)101;
+            I_hight = (float)150;
+            I_low = (float)101;
+        }
+        if(NO2 >= 361 && NO2 <= 649){
+            C_hight = (float)649;
+            C_low = (float)361;
+            I_hight = (float)200;
+            I_low = (float)151;
+        }
+        if(NO2 >= 650 && NO2 <= 1249){
+            C_hight = (float)1249;
+            C_low = (float)650;
+            I_hight = (float)300;
+            I_low = (float)201;
+        }
+        if(NO2 >= 1250 && NO2 <= 1649){
+            C_hight = (float)1649;
+            C_low = (float)1250;
+            I_hight = (float)400;
+            I_low = (float)301;
+        }
+        if(NO2 >= 1650 && NO2 <= 2049){
+            C_hight = (float)2049;
+            C_low = (float)1650;
+            I_hight = (float)500;
+            I_low = (float)401;
+        }
+
+        no2_Aqi = ((I_hight-I_low)/(C_hight-C_low))*(C-C_low)+I_low;
+        return no2_Aqi;
+    }
+
+    public float calcurate_o3_aqi(float O3){
+        float o3_Aqi=0;
+        float C_hight=0;
+        float C_low=0;
+        float I_hight=0;
+        float I_low=0;
+        float C = O3;
+        float I=0;
+        if(O3 >= 0 && O3 <= 54){
+            C_hight = (float)54;
+            C_low = (float)0;
+            I_hight = (float)50;
+            I_low = (float)0;
+        }
+        if(O3 >= 55 && O3 <= 70){
+            C_hight = (float)70;
+            C_low = (float)55;
+            I_hight = (float)100;
+            I_low = (float)51;
+        }
+        if(O3 >= 71 && O3 <= 85){
+            C_hight = (float)85;
+            C_low = (float)71;
+            I_hight = (float)150;
+            I_low = (float)101;
+        }
+        if(O3 >= 86 && O3 <= 105){
+            C_hight = (float)105;
+            C_low = (float)86;
+            I_hight = (float)200;
+            I_low = (float)151;
+        }
+        if(O3 >= 106 && O3 <= 404){
+            C_hight = (float)404;
+            C_low = (float)106;
+            I_hight = (float)300;
+            I_low = (float)201;
+        }
+        if(O3 >= 405 && O3 <= 504){
+            C_hight = (float)504;
+            C_low = (float)405;
+            I_hight = (float)400;
+            I_low = (float)301;
+        }
+        if(O3 >= 505 && O3 <= 604){
+            C_hight = (float)604;
+            C_low = (float)505;
+            I_hight = (float)500;
+            I_low = (float)401;
+        }
+
+        o3_Aqi = ((I_hight-I_low)/(C_hight-C_low))*(C-C_low)+I_low;
+        return o3_Aqi;
+    }
+
+    public float calcurate_pm25_aqi(float PM25){
+        float pm_Aqi=0;
+        float C_hight=0;
+        float C_low=0;
+        float I_hight=0;
+        float I_low=0;
+        float C = PM25;
+        float I=0;
+        if(PM25 >=0.0 && PM25 <=12.0){
+            C_hight = (float)12.0;
+            C_low = (float)0.0;
+            I_hight = (float)50;
+            I_low = (float)0;
+        }
+        if(PM25 >= 12.1 && PM25 <= 35.4){
+            C_hight = (float)35.4;
+            C_low = (float)12.1;
+            I_hight = (float)100;
+            I_low = (float)51;
+        }
+        if(PM25 >= 35.5 && PM25 <= 55.4){
+            C_hight = (float)55.4;
+            C_low = (float)35.5;
+            I_hight = (float)150;
+            I_low = (float)101;
+        }
+        if(PM25 >= 55.5 && PM25 <= 150.4){
+            C_hight = (float)150.4;
+            C_low = (float)55.5;
+            I_hight = (float)200;
+            I_low = (float)151;
+        }
+        if(PM25 >= 150.5 && PM25 <= 250.4){
+            C_hight = (float)250.4;
+            C_low = (float)150.5;
+            I_hight = (float)300;
+            I_low = (float)201;
+        }
+        if(PM25 >= 250.5 && PM25 <= 350.4){
+            C_hight = (float)350.4;
+            C_low = (float)250.5;
+            I_hight = (float)400;
+            I_low = (float)301;
+        }
+        if(PM25 >= 350.5 && PM25 <= 500.4){
+            C_hight = (float)500.4;
+            C_low = (float)350.5;
+            I_hight = (float)500;
+            I_low = (float)401;
+        }
+
+        pm_Aqi = ((I_hight-I_low)/(C_hight-C_low))*(C-C_low)+I_low;
+        return pm_Aqi;
     }
 
 }
