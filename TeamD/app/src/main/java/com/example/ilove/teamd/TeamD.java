@@ -35,8 +35,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.StringTokenizer;
 
 import static com.example.ilove.teamd.R.id.nav_login;
-import static com.example.ilove.teamd.R.id.nav_logout;
-import static com.example.ilove.teamd.R.id.visible;
 
 public class TeamD extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
