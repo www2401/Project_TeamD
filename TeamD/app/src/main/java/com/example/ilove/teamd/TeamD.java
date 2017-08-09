@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.StringTokenizer;
 
 import static com.example.ilove.teamd.R.id.nav_login;
+import static com.example.ilove.teamd.R.id.nav_logout;
 
 public class TeamD extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
@@ -106,9 +107,6 @@ public class TeamD extends AppCompatActivity
             if (id == R.id.nav_logout) {
                 Toast.makeText(TeamD.this, "log out complete", Toast.LENGTH_SHORT).show();
                 item.setEnabled(false);
-             //   switch (nav_login) {
-
-              //  }
             }
 
         }catch (Exception e){

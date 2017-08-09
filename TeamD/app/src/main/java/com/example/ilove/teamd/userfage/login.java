@@ -98,19 +98,19 @@ public class login extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                        if (resulto == "femail") {//로그인 인증 완료 전 로그인 불가
-                            AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
-                            builder.setMessage("Not authentication!").setPositiveButton("OK", null).create().show();
-                        }else if (resulto == "flogin") {//로그인 불가
-                            AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
-                            builder.setMessage("Not log in!").setNegativeButton("OK", null).create().show();
-                        }
-                        else  {//로그인 완료
-                            AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
-                            builder.setMessage("log in complete!").setNegativeButton("OK", null).create().show();
-                            Intent page = new Intent(login.this, TeamD.class);
-                            startActivity(page);
-                        }
+                    if (resulto == "femail") {//로그인 인증 완료 전 로그인 불가
+                        AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                        builder.setMessage("Not authentication!").setPositiveButton("OK", null).create().show();
+                    }else if (resulto == "flogin") {//로그인 불가
+                        AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                        builder.setMessage("Not log in!").setNegativeButton("OK", null).create().show();
+                    }
+                    else  {//로그인 완료
+                        AlertDialog.Builder builder = new AlertDialog.Builder(login.this);
+                        builder.setMessage("log in complete!").setNegativeButton("OK", null).create().show();
+                    //    Intent page = new Intent(login.this, TeamD.class);
+                      //  startActivity(page);
+                    }
                 }
             }
         });
