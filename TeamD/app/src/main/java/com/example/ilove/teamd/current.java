@@ -19,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,10 +42,6 @@ import java.util.Locale;
 public class current extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener{
-
-    NumberPicker nPickerYEAR;
-    NumberPicker nPickerMONTH;
-    NumberPicker nPickerDAY;
 
     private GoogleApiClient mGoogleApiClient = null;
     private GoogleMap mGoogleMap = null;
@@ -73,27 +68,6 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
-
-        nPickerMONTH = (NumberPicker) findViewById(R.id.numberPickerMONTH);
-        nPickerMONTH.setMinValue(1);
-        nPickerMONTH.setMaxValue(1);
-        nPickerMONTH.setMaxValue(12);
-        nPickerMONTH.setValue(1);
-        nPickerMONTH.setWrapSelectorWheel(false);
-
-        nPickerDAY = (NumberPicker) findViewById(R.id.numberPickerDAY);
-        nPickerDAY.setMinValue(1);
-        nPickerDAY.setMaxValue(1);
-        nPickerDAY.setMaxValue(31);
-        nPickerDAY.setValue(1);
-        nPickerDAY.setWrapSelectorWheel(false);
-
-        nPickerYEAR = (NumberPicker) findViewById(R.id.numberPickerYEAR);
-        nPickerYEAR.setMinValue(2015);
-        nPickerYEAR.setMaxValue(2015);
-        nPickerYEAR.setMaxValue(2017);
-        nPickerYEAR.setValue(2015);
-        nPickerYEAR.setWrapSelectorWheel(false);
 
     }
 
