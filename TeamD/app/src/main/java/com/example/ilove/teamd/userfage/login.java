@@ -118,7 +118,7 @@ public class login extends AppCompatActivity {
                 }
             }
         });
-        //forgot password 버튼 클릭했을때
+        //forgot password 버튼 클릭했을때 forgot password activity로 이동
         bt2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent page =new Intent(login.this,reset_password.class);

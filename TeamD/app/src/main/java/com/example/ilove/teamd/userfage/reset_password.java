@@ -2,6 +2,7 @@ package com.example.ilove.teamd.userfage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,8 +29,24 @@ public class reset_password extends AppCompatActivity {
         et_birthday = (EditText) findViewById(R.id.et_birthday);
         et_weight = (EditText) findViewById(R.id.et_weight);
         et_height = (EditText) findViewById(R.id.et_height);
-        bt1=(Button)findViewById(R.id.button);
+
+        //이메일로 인증코드 전송
         bt1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(reset_password.this);
+                builder.setMessage("We send the authentication code. Please check your email address." +
+                        " you can write the authentication code at next line.").setPositiveButton("OK", null).create().show();
+            }
+        });
+        //코드 일치하는지 확인
+        bt2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(reset_password.this);
+                builder.setMessage("Correct authentication code. Please check next button.").setPositiveButton("OK", null).create().show();
+            }
+        });
+        //비밀번호 새로 설정하는 activity로 이동
+        bt3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent page =new Intent(reset_password.this,new_password.class);
                 startActivity(page);
@@ -41,5 +58,8 @@ public class reset_password extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
         init();
+
+        StrictMode.ThreadPolicy policy =new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 }

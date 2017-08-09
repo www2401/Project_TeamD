@@ -44,10 +44,10 @@
         <Button
             android:id="@+id/bt_login"
             android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:text="log in"
+            android:layout_height="53dp"
+            android:layout_alignStart="@+id/et_pw"
             android:layout_below="@+id/et_pw"
-            android:layout_alignStart="@+id/et_pw"/>
+            android:text="log in"/>
 
         <EditText
             android:id="@+id/et_pw"
@@ -62,10 +62,10 @@
         <Button
             android:id="@+id/bt_forgot"
             android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="forgot password"
+            android:layout_height="53dp"
+            android:layout_alignEnd="@+id/et_pw"
             android:layout_below="@+id/et_pw"
-            android:layout_alignEnd="@+id/et_pw"/>
+            android:text="forgot password"/>
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
