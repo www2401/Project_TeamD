@@ -140,9 +140,8 @@
             android:layout_height="wrap_content"
             android:text="Birthday(yyyy-mm-dd)"
             android:textSize="18sp"
-            android:layout_marginTop="45dp"
-            android:layout_below="@+id/tv_gender"
-            android:layout_alignStart="@+id/tv_gender"/>
+            android:layout_below="@+id/cb_male"
+            android:layout_alignStart="@+id/cb_male"/>
 
         <EditText
             android:id="@+id/et_birthday"
@@ -205,9 +204,9 @@
             android:id="@+id/cb_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/tv_gender"
+            android:text="male"
             android:layout_below="@+id/tv_gender"
-            android:text="male"/>
+            android:layout_alignStart="@+id/tv_gender"/>
 
         <CheckBox
             android:id="@+id/cb_female"

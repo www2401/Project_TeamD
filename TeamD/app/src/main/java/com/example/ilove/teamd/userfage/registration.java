@@ -52,8 +52,7 @@ public class registration extends AppCompatActivity {
     public Button bt1,bt2,bt3;
     public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_c_pw,et_birthday,et_weight,et_height;
     public AlertDialog dialog;
-    public CheckBox cb1,cb2,cb3;
-    public TextView tv1;
+    public CheckBox cb1,cb2;
     String a="";
     String resulto,myResult;
 
@@ -90,8 +89,8 @@ public class registration extends AppCompatActivity {
                 //빈칸없이 모두 채워졌을 경우
                 else {
                     try {
-                        if(cb1.isChecked()==true){a="1";}
-                        else if(cb2.isChecked()==false){a="0";}
+                        if(cb1.isChecked()==true){a="0";}//female=0
+                        else if(cb2.isChecked()==true){a="1";}//male=1
                         JSONObject json_UserdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
                         //json_dataTransfer에 ("키값" : "보낼데이터") 형식으로 저장한다.
                         json_UserdataTransfer.put("email", et_id.getText().toString());
