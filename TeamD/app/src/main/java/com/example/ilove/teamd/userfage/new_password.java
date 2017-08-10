@@ -125,6 +125,8 @@ public class new_password extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     if (resulto.equals("true")) {// 비밀번호 변경완료
+                        Intent page = new Intent(new_password.this, TeamD.class);
+                        startActivity(page);
                         AlertDialog.Builder builder = new AlertDialog.Builder(new_password.this);
                         builder.setMessage("change password").setPositiveButton("OK", null).create().show();
                     }
