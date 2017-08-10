@@ -152,7 +152,8 @@ public class BluetoothChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Initialize the BluetoothChatService to perform bluetooth connections
-        AppController.getinstance().mChatService = new BluetoothChatService(getActivity(), mHandler);
+        //AppController.getinstance().mChatService = new BluetoothChatService(getActivity(), mHandler);
+        AppController.getinstance().mChatService.addFragHandler(mHandler);
         view = inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
 
         temp = (TextView)view.findViewById(R.id.temptextview);
@@ -186,9 +187,10 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        /*
         if (AppController.getinstance().mChatService != null) {
             AppController.getinstance().mChatService.stop();
-        }
+        }*/
     }
 
     @Override
@@ -343,7 +345,7 @@ public class BluetoothChatFragment extends Fragment {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     //temp.setText(readMessage);
 
-
+                    Log.w("BT Chat Frag", "Total bytes received: "+readBuf.length);
                     String form_type = readMessage.substring(0,1);
                     String startMessage = readMessage.substring(1);
 

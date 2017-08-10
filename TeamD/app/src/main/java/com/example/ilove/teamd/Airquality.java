@@ -25,6 +25,8 @@ public class Airquality extends AppCompatActivity{
             BluetoothChatFragment fragment = new BluetoothChatFragment();
             transaction.replace(R.id.Airquality_fragment, fragment).commit();
         }
+        AppController.getinstance().mChatService = new BluetoothChatService(this, null);
+
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

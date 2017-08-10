@@ -22,6 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -72,6 +73,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current);
 
+        Log.w("BT Map Frag", "onCreate()");
         mActivity = this;
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -85,6 +87,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             Toast.makeText(this,"Try again connection with Bluetooth", Toast.LENGTH_SHORT).show();
         }
         if(AppController.getinstance().mChatService!=null) {
+            Log.w("BT Map Frag", "AppController.getinstance().mChatService.addHandler(pmHandler): "+pmHandler);
             AppController.getinstance().mChatService.addHandler(pmHandler);
         }
 
@@ -563,6 +566,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                     break;
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
+                    Log.w("BT Map Frag", "Total bytes received: "+readBuf.length);
                     String start_message = new String(readBuf, 0, msg.arg1);
                     String form_type = start_message.substring(0, 1);
                     String readMessage = start_message.substring(1);
