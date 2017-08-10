@@ -134,51 +134,33 @@
             android:layout_toEndOf="@+id/tv_id"
             android:text="check"/>
 
-        <RadioButton
-            android:id="@+id/rb_male"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/tv_gender"
-            android:layout_below="@+id/tv_gender"
-            android:text="male"
-            android:textSize="18sp"/>
-
-        <RadioButton
-            android:id="@+id/rb_female"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/bt_id"
-            android:layout_alignTop="@+id/rb_male"
-            android:text="female"
-            android:textSize="18sp"/>
-
         <TextView
             android:id="@+id/tv_birthday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/rb_male"
-            android:layout_below="@+id/rb_male"
             android:text="Birthday(yyyy-mm-dd)"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_marginTop="45dp"
+            android:layout_below="@+id/tv_gender"
+            android:layout_alignStart="@+id/tv_gender"/>
 
         <EditText
             android:id="@+id/et_birthday"
             android:layout_width="165dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/tv_birthday"
-            android:layout_below="@+id/tv_birthday"
             android:ems="10"
             android:inputType="textPersonName"
-            />
+            android:layout_below="@+id/tv_birthday"
+            android:layout_alignStart="@+id/tv_birthday"/>
 
         <TextView
             android:id="@+id/tv_height"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/et_birthday"
-            android:layout_below="@+id/et_birthday"
             android:text="Height"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_below="@+id/et_birthday"
+            android:layout_alignStart="@+id/et_birthday"/>
 
         <EditText
             android:id="@+id/et_height"
@@ -214,8 +196,26 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="sign-up"
-            android:layout_marginStart="20dp"
-            android:layout_below="@+id/et_height"
-            android:layout_toEndOf="@+id/tv_lname"/>
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignEnd="@+id/tv_weight"
+            android:layout_marginBottom="30dp"/>
+
+        <CheckBox
+            android:id="@+id/cb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tv_gender"
+            android:layout_below="@+id/tv_gender"
+            android:text="male"/>
+
+        <CheckBox
+            android:id="@+id/cb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="female"
+            android:layout_alignBaseline="@+id/cb_male"
+            android:layout_alignBottom="@+id/cb_male"
+            android:layout_toEndOf="@+id/cb_male"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

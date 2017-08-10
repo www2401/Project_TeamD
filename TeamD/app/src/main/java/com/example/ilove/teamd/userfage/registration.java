@@ -13,9 +13,11 @@ import android.telecom.Connection;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -50,6 +52,9 @@ public class registration extends AppCompatActivity {
     public Button bt1,bt2,bt3;
     public EditText et_lname,et_fname,et_id,et_pw,et_gender,et_c_pw,et_birthday,et_weight,et_height;
     public AlertDialog dialog;
+    public CheckBox cb1,cb2,cb3;
+    public TextView tv1;
+    String a="";
     String resulto,myResult;
 
     public void init() {
@@ -64,6 +69,11 @@ public class registration extends AppCompatActivity {
         et_birthday= (EditText)findViewById(R.id.et_birthday);
         et_weight= (EditText)findViewById(R.id.et_weight);
         et_height= (EditText)findViewById(R.id.et_height);
+        cb1=(CheckBox)findViewById(R.id.cb_female);
+        cb2=(CheckBox)findViewById(R.id.cb_male);
+
+        cb1.setText("female");
+        cb2.setText("male");
 
         //입력하고 signup 버튼을 눌렀을 때
         bt1.setOnClickListener(new View.OnClickListener() {
@@ -80,13 +90,15 @@ public class registration extends AppCompatActivity {
                 //빈칸없이 모두 채워졌을 경우
                 else {
                     try {
+                        if(cb1.isChecked()==true){a="1";}
+                        else if(cb2.isChecked()==false){a="0";}
                         JSONObject json_UserdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
                         //json_dataTransfer에 ("키값" : "보낼데이터") 형식으로 저장한다.
                         json_UserdataTransfer.put("email", et_id.getText().toString());
                         json_UserdataTransfer.put("password", et_pw.getText().toString());
                         json_UserdataTransfer.put("fname", et_fname.getText().toString());
                         json_UserdataTransfer.put("lname", et_lname.getText().toString());
-                        json_UserdataTransfer.put("gender", "1");
+                        json_UserdataTransfer.put("gender", a.toString());
                         json_UserdataTransfer.put("birthday", et_birthday.getText().toString());
                         json_UserdataTransfer.put("height", et_height.getText().toString());
                         json_UserdataTransfer.put("weight", et_weight.getText().toString());
