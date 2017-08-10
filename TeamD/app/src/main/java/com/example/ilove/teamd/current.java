@@ -228,7 +228,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 + " Longitude:" + String.valueOf(location.getLongitude());
 
         GPSlocation.lat = String.valueOf(location.getLatitude());
-        GPSlocation.lng = String.valueOf(location.getLatitude());
+        GPSlocation.lng = String.valueOf(location.getLongitude());
 
         //현재 위치에 마커 생성
         setCurrentLocation(location, markerTitle, markerSnippet);
