@@ -50,6 +50,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -121,7 +123,7 @@ public class BluetoothChatFragment extends Fragment {
     /**
      * Member object for the chat services
      */
-    private BluetoothChatService mChatService = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -150,7 +152,7 @@ public class BluetoothChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Initialize the BluetoothChatService to perform bluetooth connections
-        mChatService = new BluetoothChatService(getActivity(), mHandler);
+        AppController.getinstance().mChatService = new BluetoothChatService(getActivity(), mHandler);
         view = inflater.inflate(R.layout.fragment_bluetooth_chat, container, false);
 
         temp = (TextView)view.findViewById(R.id.temptextview);
@@ -176,7 +178,7 @@ public class BluetoothChatFragment extends Fragment {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             // Otherwise, setup the chat session
-        } else if (mChatService == null) {
+        } else if (AppController.getinstance().mChatService == null) {
             //setupChat();
         }
     }
@@ -184,8 +186,8 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mChatService != null) {
-            mChatService.stop();
+        if (AppController.getinstance().mChatService != null) {
+            AppController.getinstance().mChatService.stop();
         }
     }
 
@@ -196,11 +198,11 @@ public class BluetoothChatFragment extends Fragment {
         // Performing this check in onResume() covers the case in which BT was
         // not enabled during onStart(), so we were paused to enable it...
         // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
-        if (mChatService != null) {
+        if (AppController.getinstance().mChatService != null) {
             // Only if the state is STATE_NONE, do we know that we haven't started already
-            if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
+            if (AppController.getinstance().mChatService.getState() == BluetoothChatService.STATE_NONE) {
                 // Start the Bluetooth chat services
-                mChatService.start();
+                AppController.getinstance().mChatService.start();
             }
         }
     }
@@ -239,7 +241,7 @@ public class BluetoothChatFragment extends Fragment {
      */
     private void sendMessage(String message) {
         // Check that we're actually connected before trying anything
-        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+        if (AppController.getinstance().mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
             Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -248,7 +250,7 @@ public class BluetoothChatFragment extends Fragment {
         if (message.length() > 0) {
             // Get the message bytes and tell the BluetoothChatService to write
             byte[] send = message.getBytes();
-            mChatService.write(send);
+            AppController.getinstance().mChatService.write(send);
 
             // Reset out string buffer to zero and clear the edit text field
             mOutStringBuffer.setLength(0);
@@ -341,42 +343,78 @@ public class BluetoothChatFragment extends Fragment {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     //temp.setText(readMessage);
 
+
                     String form_type = readMessage.substring(0,1);
-                    Toast.makeText(getContext(),form_type,Toast.LENGTH_SHORT).show();
-                    if(form_type.equals("h")){
+                    String startMessage = readMessage.substring(1);
+
+                    //Toast.makeText(getContext(),form_type,Toast.LENGTH_SHORT).show();
+                    if(form_type.equals("h"))
+                    {
                         Toast.makeText(getContext(),"history",Toast.LENGTH_SHORT).show();
+                            /*  CSV 형식으로 파일 받아올때
+                            air_info_split = readMessage.split(",");
+
+                            for(int i=2;i<air_info_split.length;i++)
+                            {
+                                if(i==2)
+                                {
+                                    temp.setText(air_info_split[i]);
+                                }
+                                if(i==3)
+                                {
+                                    test.setText(air_info_split[i]);
+                                }
+                                if(i==4)
+                                {
+                                    test1.setText(air_info_split[i]);
+                                }
+                                if(i==5)
+                                {
+                                    test2.setText(air_info_split[i]);
+                                }
+                                if(i==6)
+                                {
+                                    test3.setText(air_info_split[i]);
+                                }
+                                if(i==7)
+                                {
+                                    test4.setText(air_info_split[i]);
+                                }
+                            }
+                            */
                     }
-                    else if(form_type.equals("r")){
-                        Toast.makeText(getContext(),"realtime",Toast.LENGTH_SHORT).show();
-                    }
+                    else if(form_type.equals("r"))
+                    {
+                        //Toast.makeText(getContext(),"realtime",Toast.LENGTH_SHORT).show();
+
+                        try {
+                            JSONObject JsonAir = new JSONObject(startMessage);
+
+                            CO = JsonAir.getInt("CO");
+                            NO2 = JsonAir.getInt("NO2");
+                            SO2 = JsonAir.getInt("SO2");
+                            O3 = JsonAir.getInt("O3");
+                            PM25 = JsonAir.getInt("PM25");
+
+                            float co_aqi = calcurate_co_aqi(CO);
+                            float no2_aqi = calcurate_no2_aqi(NO2);
+                            float so2_aqi = calcurate_so2_aqi(SO2);
+                            float o3_aqi = calcurate_o3_aqi(O3);
+                            float pm25_aqi = calcurate_pm25_aqi(PM25);
+
+                            temp.setText(JsonAir.getString("temp"));
+                            co_air.setText(String.valueOf(co_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
+                            o3_air.setText(String.valueOf(o3_aqi));
+                            so2_air.setText(String.valueOf(so2_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
+                            no2_air.setText(String.valueOf(no2_aqi));
+                            pm25_air.setText(String.valueOf(pm25_aqi));
 
 
-                    try {
-                        JSONObject JsonAir = new JSONObject(readMessage);
+                            JsonTransfer airdata_transfer = new JsonTransfer();
 
-                        CO = JsonAir.getInt("CO");
-                        NO2 = JsonAir.getInt("NO2");
-                        SO2 = JsonAir.getInt("SO2");
-                        O3 = JsonAir.getInt("O3");
-                        PM25 = JsonAir.getInt("PM25");
+                            JSONObject json_AirdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
 
-                        float co_aqi = calcurate_co_aqi(CO);
-                        float no2_aqi = calcurate_no2_aqi(NO2);
-                        float so2_aqi = calcurate_so2_aqi(SO2);
-                        float o3_aqi = calcurate_o3_aqi(O3);
-                        float pm25_aqi = calcurate_pm25_aqi(PM25);
-
-                        temp.setText(JsonAir.getString("temp"));
-                        co_air.setText(String.valueOf(co_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
-                        o3_air.setText(String.valueOf(no2_aqi));
-                        so2_air.setText(String.valueOf(so2_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
-                        no2_air.setText(String.valueOf(o3_aqi));
-                        pm25_air.setText(String.valueOf(pm25_aqi));
-
-
-                        JsonTransfer airdata_transfer = new JsonTransfer();
-
-                        JSONObject json_AirdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.
+                            String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
 
                         /*
                         json_AirdataTransfer.put("tid", "11");
@@ -389,72 +427,36 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
                         */
 
-                        json_AirdataTransfer.put("uid","11");
-                        json_AirdataTransfer.put("atime","0");
-                        json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
-                        json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
-                        json_AirdataTransfer.put("SO2",JsonAir.getString("SO2"));
-                        json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
-                        json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
-                        json_AirdataTransfer.put("temp",JsonAir.getString("temp"));
-                        json_AirdataTransfer.put("latitude",String.valueOf(GPSlocation.latLng.latitude));
-                        json_AirdataTransfer.put("longitude",String.valueOf(GPSlocation.latLng.longitude));
-                        json_AirdataTransfer.put("wifi_connection","0");
+                            json_AirdataTransfer.put("uid",13);
+                            json_AirdataTransfer.put("atime",time);
+                            json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
+                            json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
+                            json_AirdataTransfer.put("SO2",JsonAir.getString("SO2"));
+                            json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
+                            json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
+                            json_AirdataTransfer.put("temp",JsonAir.getString("temp"));
+                            json_AirdataTransfer.put("latitude",GPSlocation.lat);
+                            json_AirdataTransfer.put("longitude",GPSlocation.lng);
+                            //json_AirdataTransfer.put("latitude",String.valueOf(GPSlocation.latLng.latitude));
+                            //json_AirdataTransfer.put("longitude",String.valueOf(GPSlocation.latLng.longitude));
+                            json_AirdataTransfer.put("wifi_connection",0);
 
-                        /*
-                        int o3_size_one = o3_one_min.size();
-                        int no2_size_one = no2_one_min.size();
-                        int so2_size_one = so2_one_min.size();
-                        int o3_size_eight = o3_eight_min.size();
-                        int co_size_eight = co_eight_min.size();
-                        */
+                            // o3_one_min.toString(); 어레이 전체 값을 스트링으로 변환 해서 토스트 값 확인 할 수 있음
 
-                        // o3_one_min.toString(); 어레이 전체 값을 스트링으로 변환 해서 토스트 값 확인 할 수 있음
+                            aqi((int)co_aqi,(int)no2_aqi,(int)so2_aqi,(int)o3_aqi,(int)pm25_aqi);
+                            setData();
 
-                        aqi((int)co_aqi,(int)no2_aqi,(int)so2_aqi,(int)o3_aqi,(int)pm25_aqi);
-                        setData();
+                            //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
+                            String json_Astring = json_AirdataTransfer.toString();
 
-                        //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
-                        String json_Astring = json_AirdataTransfer.toString();
+                            airdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/air_data_app","["+json_Astring+"]");
+                            // airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
 
-                        airdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/air_data_app","["+json_Astring+"]");
-                        // airdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
 
-                    }catch (JSONException e){
-                        e.printStackTrace();
                     }
-
-                    /*  CSV 형식으로 파일 받아올때
-                    air_info_split = readMessage.split(",");
-
-                    for(int i=2;i<air_info_split.length;i++)
-                    {
-                        if(i==2)
-                        {
-                            temp.setText(air_info_split[i]);
-                        }
-                        if(i==3)
-                        {
-                            test.setText(air_info_split[i]);
-                        }
-                        if(i==4)
-                        {
-                            test1.setText(air_info_split[i]);
-                        }
-                        if(i==5)
-                        {
-                            test2.setText(air_info_split[i]);
-                        }
-                        if(i==6)
-                        {
-                            test3.setText(air_info_split[i]);
-                        }
-                        if(i==7)
-                        {
-                            test4.setText(air_info_split[i]);
-                        }
-                    }
-                    */
 
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -517,7 +519,7 @@ public class BluetoothChatFragment extends Fragment {
         // Get the BluetoothDevice object
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         // Attempt to connect to the device
-        mChatService.connect(device, secure);
+        AppController.getinstance().mChatService.connect(device, secure);
     }
 
     void setText1(String s){

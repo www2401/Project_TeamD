@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ilove.teamd.Heart.PolarBleService;
 import com.example.ilove.teamd.userfage.login;
@@ -63,6 +66,9 @@ public class TeamD extends AppCompatActivity
     private String mConnectedDeviceName = null;
     //Array adapter for the conversation thread
 
+
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +96,14 @@ public class TeamD extends AppCompatActivity
         MapFragment mapFragment = (MapFragment)fragmentManager
                 .findFragmentById(R.id.mapp);
         mapFragment.getMapAsync(this);
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        // If the adapter is null, then Bluetooth is not supported
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this,"Try again connection with Bluetooth", Toast.LENGTH_SHORT).show();
+        }
+        if(AppController.getinstance().mChatService!=null)
+            AppController.getinstance().mChatService.addHandler(pmHandler);
 
         }
     @Override
@@ -287,4 +301,37 @@ public class TeamD extends AppCompatActivity
         map.animateCamera(CameraUpdateFactory.zoomTo(18));
 
     }
+
+    private final Handler pmHandler = new Handler(){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case Constants.MESSAGE_STATE_CHANGE:
+                    break;
+                case Constants.MESSAGE_READ:
+                    byte[] readBuf = (byte[]) msg.obj;
+                    String start_message = new String(readBuf, 0, msg.arg1);
+                    String form_type = start_message.substring(0, 1);
+                    String readMessage = start_message.substring(1);
+                    //Toast.makeText(getContext(),form_type,Toast.LENGTH_SHORT).show();
+                    if (form_type.equals("h")) {
+                        Toast.makeText(TeamD.this, "history", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (form_type.equals("r")) {
+                        try {
+                            Toast.makeText(TeamD.this, "CO", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+
+                        }
+                    }
+                    break;
+
+                case Constants.MESSAGE_DEVICE_NAME:
+                    // save the connected device's name
+                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+                    break;
+
+            }
+        }
+    };
+
 }

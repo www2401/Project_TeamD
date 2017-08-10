@@ -2,6 +2,7 @@ package com.example.ilove.teamd;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +14,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -59,6 +62,11 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
 
     private AppCompatActivity mActivity;
     boolean askPermissionOnceAgain = false;
+
+    private BluetoothAdapter mBluetoothAdapter = null;
+    private String mConnectedDeviceName = null;
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +78,15 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        // If the adapter is null, then Bluetooth is not supported
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this,"Try again connection with Bluetooth", Toast.LENGTH_SHORT).show();
+        }
+        if(AppController.getinstance().mChatService!=null) {
+            AppController.getinstance().mChatService.addHandler(pmHandler);
+        }
 
     }
 
@@ -209,6 +226,9 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         String markerTitle = getCurrentAddress(location);
         String markerSnippet = "Latitude:" + String.valueOf(location.getLatitude())
                 + " Longitude:" + String.valueOf(location.getLongitude());
+
+        GPSlocation.lat = String.valueOf(location.getLatitude());
+        GPSlocation.lng = String.valueOf(location.getLatitude());
 
         //현재 위치에 마커 생성
         setCurrentLocation(location, markerTitle, markerSnippet);
@@ -535,4 +555,32 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 break;
         }
     }
+
+    private final Handler pmHandler = new Handler(){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case Constants.MESSAGE_STATE_CHANGE:
+                    break;
+                case Constants.MESSAGE_READ:
+                    byte[] readBuf = (byte[]) msg.obj;
+                    String start_message = new String(readBuf, 0, msg.arg1);
+                    String form_type = start_message.substring(0, 1);
+                    String readMessage = start_message.substring(1);
+                    //Toast.makeText(getContext(),form_type,Toast.LENGTH_SHORT).show();
+                    if (form_type.equals("h")) {
+                        Toast.makeText(current.this, "history", Toast.LENGTH_SHORT).show();
+                    } else if (form_type.equals("r")) {
+                        Toast.makeText(current.this, "CO", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+
+                case Constants.MESSAGE_DEVICE_NAME:
+                    // save the connected device's name
+                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
+                    break;
+
+            }
+        }
+    };
+
 }
