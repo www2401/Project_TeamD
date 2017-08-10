@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ilove.teamd.Heart.PolarBleService;
 import com.example.ilove.teamd.userfage.login;
