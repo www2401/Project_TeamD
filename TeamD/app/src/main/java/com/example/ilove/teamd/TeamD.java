@@ -9,9 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -102,8 +100,9 @@ public class TeamD extends AppCompatActivity
         if (mBluetoothAdapter == null) {
             Toast.makeText(this,"Try again connection with Bluetooth", Toast.LENGTH_SHORT).show();
         }
+        /*
         if(AppController.getinstance().mChatService!=null)
-            AppController.getinstance().mChatService.addHandler(pmHandler);
+            AppController.getinstance().mChatService.addHandler(pmHandler); */
 
         }
     @Override
@@ -331,6 +330,7 @@ public class TeamD extends AppCompatActivity
 
     }
 
+    /*
     private final Handler pmHandler = new Handler(){
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -361,6 +361,6 @@ public class TeamD extends AppCompatActivity
 
             }
         }
-    };
+    }; */
 
 }
