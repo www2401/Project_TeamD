@@ -47,10 +47,11 @@
             android:id="@+id/et_fname"
             android:layout_width="135dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/tv_fname"
-            android:layout_below="@+id/tv_fname"
             android:ems="10"
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName"
+            android:layout_below="@+id/tv_fname"
+            android:layout_alignStart="@+id/tv_fname"
+            android:layout_alignBottom="@+id/et_lname"/>
 
         <TextView
             android:id="@+id/tv_id"
@@ -195,10 +196,9 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="sign-up"
-            android:layout_marginEnd="15dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignEnd="@+id/tv_weight"
-            android:layout_marginBottom="30dp"/>
+            android:layout_marginStart="21dp"
+            android:layout_below="@+id/et_height"
+            android:layout_toEndOf="@+id/tv_lname"/>
 
         <CheckBox
             android:id="@+id/cb_male"

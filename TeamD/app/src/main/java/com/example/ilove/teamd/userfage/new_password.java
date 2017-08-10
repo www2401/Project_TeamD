@@ -49,14 +49,19 @@ public class new_password extends AppCompatActivity {
                 //비밀번호,재입력 둘다 빈칸이 아닐 때
                 if((et_pw.getText().toString().getBytes().length>0)&&(et_c_pw.getText().toString().getBytes().length>0)) {
                     if (et_pw.getText().toString().equals(et_c_pw.getText().toString())) {
+                        if(et_pw.getText().toString().getBytes().length<8) {
+                            AlertDialog.Builder a = new AlertDialog.Builder(new_password.this);
+                            dialog = a.setMessage("correct").setPositiveButton("OK", null).create();
+                            dialog.show();
+                        }
+                        else {
+                            AlertDialog.Builder a = new AlertDialog.Builder(new_password.this);
+                            dialog = a.setMessage("write password within 8 letters").setPositiveButton("OK", null).create();
+                            dialog.show();
+                        }
+                    } else if (et_pw.getText().toString() != et_c_pw.getText().toString()) {
                         AlertDialog.Builder a = new AlertDialog.Builder(new_password.this);
-                        dialog = a.setMessage("correct").setPositiveButton("OK", null).create();
-                        dialog.show();
-                    }
-                    //비밀번호,재입력 두개가 일치하지 않을 때
-                    else if(et_pw.getText().toString()!=et_c_pw.getText().toString()) {
-                        AlertDialog.Builder a = new AlertDialog.Builder(new_password.this);
-                        dialog = a.setMessage("Not correct password. Please Check your password.").setPositiveButton("OK", null).create();
+                        dialog = a.setMessage("not correct!").setPositiveButton("OK", null).create();
                         dialog.show();
                     }
                 }

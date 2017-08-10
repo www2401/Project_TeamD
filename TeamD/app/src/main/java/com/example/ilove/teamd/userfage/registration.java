@@ -187,17 +187,23 @@ public class registration extends AppCompatActivity {
             public void onClick(View v) {
                 //비밀번호,재입력 둘다 빈칸이 아닐 때
                 if((et_pw.getText().toString().getBytes().length>0)&&(et_c_pw.getText().toString().getBytes().length>0)) {
-                    if (et_pw.getText().toString().equals(et_c_pw.getText().toString())) {
-                        AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                        dialog = a.setMessage("correct").setPositiveButton("OK", null).create();
-                        dialog.show();
+                        if (et_pw.getText().toString().equals(et_c_pw.getText().toString())) {
+                            if(et_pw.getText().toString().getBytes().length<8) {
+                                AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
+                                dialog = a.setMessage("correct").setPositiveButton("OK", null).create();
+                                dialog.show();
+                            }
+                            else {
+                                AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
+                                dialog = a.setMessage("write password within 8 letters").setPositiveButton("OK", null).create();
+                                dialog.show();
+                            }
+                        } else if (et_pw.getText().toString() != et_c_pw.getText().toString()) {
+                            AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
+                            dialog = a.setMessage("not correct!").setPositiveButton("OK", null).create();
+                            dialog.show();
+                        }
                     }
-                    else if(et_pw.getText().toString()!=et_c_pw.getText().toString()) {
-                        AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
-                        dialog = a.setMessage("not correct!").setPositiveButton("OK", null).create();
-                        dialog.show();
-                    }
-                }
                 //비밀번호, 재입력 중 하나라도 입력값이 없으면 채우라는 메세지가 뜸
                 else {
                     AlertDialog.Builder a = new AlertDialog.Builder(registration.this);
