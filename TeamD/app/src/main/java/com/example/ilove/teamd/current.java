@@ -47,6 +47,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
 
+    private Address location;
+
     //디폴트 위치, Seoul
     private static final LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
     private static final String TAG = "googlemap_example";

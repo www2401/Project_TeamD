@@ -341,6 +341,16 @@ public class BluetoothChatFragment extends Fragment {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     //temp.setText(readMessage);
 
+                    String form_type = readMessage.substring(0,1);
+                    Toast.makeText(getContext(),form_type,Toast.LENGTH_SHORT).show();
+                    if(form_type.equals("h")){
+                        Toast.makeText(getContext(),"history",Toast.LENGTH_SHORT).show();
+                    }
+                    else if(form_type.equals("r")){
+                        Toast.makeText(getContext(),"realtime",Toast.LENGTH_SHORT).show();
+                    }
+
+
                     try {
                         JSONObject JsonAir = new JSONObject(readMessage);
 
@@ -387,8 +397,8 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
                         json_AirdataTransfer.put("NO2",JsonAir.getString("NO2"));
                         json_AirdataTransfer.put("temp",JsonAir.getString("temp"));
-                        json_AirdataTransfer.put("latitude","31.1234");
-                        json_AirdataTransfer.put("longitude","117.1234");
+                        json_AirdataTransfer.put("latitude",String.valueOf(GPSlocation.latLng.latitude));
+                        json_AirdataTransfer.put("longitude",String.valueOf(GPSlocation.latLng.longitude));
                         json_AirdataTransfer.put("wifi_connection","0");
 
                         /*
