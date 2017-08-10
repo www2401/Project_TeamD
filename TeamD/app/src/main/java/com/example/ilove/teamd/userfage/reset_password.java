@@ -25,10 +25,10 @@ import java.net.URL;
 
 public class reset_password extends AppCompatActivity {
     public Button bt1,bt2,bt3;
-    public EditText et_lname, et_fname, et_code,et_id, et_pw, et_birthday, et_weight, et_height;
+    public EditText  et_code,et_id, et_pw;
     public AlertDialog dialog;
     String resulto, myResult;
-    String a ="";
+    static public String a ="";
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_id);
@@ -37,11 +37,6 @@ public class reset_password extends AppCompatActivity {
         et_id = (EditText) findViewById(R.id.et_id);
         et_pw = (EditText) findViewById(R.id.et_pw);
         et_code=(EditText)findViewById(R.id.et_code);
-        et_fname = (EditText) findViewById(R.id.et_fname);
-        et_lname = (EditText) findViewById(R.id.et_lname);
-        et_birthday = (EditText) findViewById(R.id.et_birthday);
-        et_weight = (EditText) findViewById(R.id.et_weight);
-        et_height = (EditText) findViewById(R.id.et_height);
 
         //이메일로 인증코드 전송
         bt1.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +50,7 @@ public class reset_password extends AppCompatActivity {
                 //이메일 입력한 경우
                 else {
                         try {
-
+                            a=et_id.getText().toString();
                             URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/email_check_for_rp");
                             HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
@@ -68,7 +63,7 @@ public class reset_password extends AppCompatActivity {
 
 
                             StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼때
-                            buffer.append("email").append("=").append(et_id.getText().toString());
+                            buffer.append("email").append("=").append(a);
 
                             OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR"); //OutputStream 전송길을 만들어주는거
                             PrintWriter writer = new PrintWriter(outStream);
@@ -102,7 +97,6 @@ public class reset_password extends AppCompatActivity {
                             builder.setMessage("We send the authentication code. Please check your email address." +
                                     " you can write the authentication code at next line.").setPositiveButton("OK", null).create().show();
                             et_id.setEnabled(false); //아이디 변경불가
-                            a=et_id.getText().toString();
 
                         }
                         if (resulto == "false") {//이메일이 존재하지 않아서 오류날때

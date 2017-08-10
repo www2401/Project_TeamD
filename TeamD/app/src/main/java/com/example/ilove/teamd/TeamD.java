@@ -124,18 +124,21 @@ public class TeamD extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
             int id = item.getItemId();
-            if ((loginn.flag==1)&&(id == R.id.nav_logout)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
-                builder.setMessage("Log out complete").setPositiveButton("OK", null).create().show();
+            if(loginn.flag==1) {
+                if ((id == R.id.nav_logout)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                    builder.setMessage("Log out complete").setPositiveButton("OK", null).create().show();
+                    loginn.flag=0;
+                }
             }
             else{
                 AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
-                builder.setMessage("you can't click this button . Please log in ").setNegativeButton("OK", null).create().show();
+                builder.setMessage("you can't log out . first , Please log in").setPositiveButton("OK", null).create().show();
             }
         }catch (Exception e){
             Log.v("catched","sdf");
         }
-                return true;
+        return true;
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -143,21 +146,47 @@ public class TeamD extends AppCompatActivity
         // Handle navigation view item clicks here.
         try {
             int id = item.getItemId();
-            if ((loginn.flag==1 )&&(id == R.id.nav_current)) {
-                Intent page = new Intent(TeamD.this, current.class);
-                startActivity(page);
-            } else if ((loginn.flag==1 )&& (id == R.id.nav_graph)) {
-                Intent page = new Intent(TeamD.this, graph.class);
-                startActivity(page);
-            } else if ((loginn.flag == 0 )&&(id == R.id.nav_registration)) {
-                Intent page = new Intent(TeamD.this, registration.class);
-                startActivity(page);
-            }else if (id == nav_login) {
-                Intent page = new Intent(TeamD.this, login.class);
-                startActivity(page);
-            } else if ((loginn.flag == 1 )&&(id == R.id.Airquality)) {
-                Intent page = new Intent(TeamD.this, Airquality.class);
-                startActivity(page);
+            //로그인 됬을때 map, graph, air quality, sign up, log in 클릭했을 때
+            if(loginn.flag==1) {
+                if (id == R.id.nav_current) {
+                    Intent page = new Intent(TeamD.this, current.class);
+                    startActivity(page);
+                } else if (id == R.id.nav_graph) {
+                    Intent page = new Intent(TeamD.this, graph.class);
+                    startActivity(page);
+                } else if (id == R.id.Airquality) {
+                    Intent page = new Intent(TeamD.this, Airquality.class);
+                    startActivity(page);
+                }
+                else if (id == R.id.nav_registration) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                    builder.setMessage("you can't do it . first , Please log out").setPositiveButton("OK", null).create().show();
+                }
+                else if (id == nav_login) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                    builder.setMessage("you can't do it . first , Please log out").setPositiveButton("OK", null).create().show();
+                }
+            }
+            //로그인 안됬는데 map,graph, air qaulity ,sign up, log in 클릭했을 때
+            else if(loginn.flag==0) {
+                if (id == R.id.nav_current) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                    builder.setMessage("you can't do it . first , Please log in").setPositiveButton("OK", null).create().show();
+                } else if (id == R.id.nav_graph) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                    builder.setMessage("you can't do it . first , Please log in").setPositiveButton("OK", null).create().show();
+                } else if (id == R.id.Airquality) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(TeamD.this);
+                    builder.setMessage("you can't do it . first , Please log in").setPositiveButton("OK", null).create().show();
+                }
+                if (id == R.id.nav_registration) {
+                    Intent page = new Intent(TeamD.this, registration.class);
+                    startActivity(page);
+                }
+                else if (id == nav_login) {
+                    Intent page = new Intent(TeamD.this, login.class);
+                    startActivity(page);
+                }
             }
         }catch (Exception e){
             Log.v("catched","sdf");
