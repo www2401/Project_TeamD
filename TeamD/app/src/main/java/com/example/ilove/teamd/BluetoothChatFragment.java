@@ -53,6 +53,8 @@ import org.json.JSONObject;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -124,9 +126,10 @@ public class BluetoothChatFragment extends Fragment {
      * Member object for the chat services
      */
 
-
+    private Handler mTimerHandler = new Handler();
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         // Get local Bluetooth adapter
@@ -137,7 +140,24 @@ public class BluetoothChatFragment extends Fragment {
             FragmentActivity activity = getActivity();
             Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
             activity.finish();
+        }else if(mBluetoothAdapter != null)
+        {
+            TimerTask historyTask = new TimerTask() {
+                @Override
+                public void run() {
+                    mTimerHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), "hoola", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            };
+
+            Timer timer = new Timer();
+            timer.schedule(historyTask, 0, 5*60000);
         }
+    }
 
         /*
         o3_one_min = new ArrayList();
@@ -147,7 +167,6 @@ public class BluetoothChatFragment extends Fragment {
         co_eight_min = new ArrayList();
         */
 
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -242,6 +261,7 @@ public class BluetoothChatFragment extends Fragment {
      * @param message A string of text to send.
      */
     private void sendMessage(String message) {
+
         // Check that we're actually connected before trying anything
         if (AppController.getinstance().mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
             Toast.makeText(getActivity(), R.string.not_connected, Toast.LENGTH_SHORT).show();
@@ -333,12 +353,16 @@ public class BluetoothChatFragment extends Fragment {
                             break;
                     }
                     break;
-                case Constants.MESSAGE_WRITE:
+
+
+                case Constants.MESSAGE_WRITE:    // 여기서 csv 파일 보내줌
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
                     mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
+
+
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
