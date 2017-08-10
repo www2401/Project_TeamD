@@ -110,7 +110,7 @@ public class reset_password extends AppCompatActivity {
         bt2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //코드를 입력하지 않았을 때
-                if(et_id.getText().toString().equals("")){
+                if(et_code.getText().toString().equals("")){
                     AlertDialog.Builder a = new AlertDialog.Builder(reset_password.this);
                     dialog = a.setMessage("Please fill out authentication code number ").setPositiveButton("OK", null).create();
                     dialog.show();
@@ -119,7 +119,7 @@ public class reset_password extends AppCompatActivity {
                 else {
                     try {
 
-                        URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/email_check");
+                        URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/code_check_app");
                         HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
                         http.setDefaultUseCaches(false);
@@ -131,7 +131,8 @@ public class reset_password extends AppCompatActivity {
 
 
                         StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼때
-                        buffer.append("email").append("=").append(et_id.getText().toString());
+                        buffer.append("email").append("=").append(a);
+                        buffer.append("status").append("=").append(et_code.getText().toString());
 
                         OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR"); //OutputStream 전송길을 만들어주는거
                         PrintWriter writer = new PrintWriter(outStream);
@@ -163,7 +164,7 @@ public class reset_password extends AppCompatActivity {
                     if (resulto == "true") {//인증코드가 일치해서 완료되었을 때
                         AlertDialog.Builder builder = new AlertDialog.Builder(reset_password.this);
                         builder.setMessage("Correct authentication code. Please check next button.").setPositiveButton("OK", null).create().show();
-                        et_id.setEnabled(false); //코드 변경 불가
+                        et_code.setEnabled(false); //코드 변경 불가
 
                     }
                     if (resulto == "false") {//인증코드가 일치하지 않을 때
