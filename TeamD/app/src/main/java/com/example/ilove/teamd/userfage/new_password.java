@@ -31,6 +31,7 @@ public class new_password extends AppCompatActivity {
     public EditText et_lname, et_fname, et_code,et_id, et_pw,et_c_pw, et_birthday, et_weight, et_height;
     public AlertDialog dialog;
     String resulto, myResult;
+    reset_password reset;
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_pw);
         bt2= (Button)findViewById(R.id.bt_complete);
@@ -85,7 +86,7 @@ public class new_password extends AppCompatActivity {
                 else {
                     try {
 
-                        URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/login_app");
+                        URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/reset_password_app");
                         HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
                         http.setDefaultUseCaches(false);
@@ -96,7 +97,7 @@ public class new_password extends AppCompatActivity {
                         http.setRequestProperty("content_type", "application/x-www-form-urlencoded");//서버에서 웹에게 FORM으로 값이 넘어온 것과 같은 방식으로 처리한다고알림
 
                         StringBuffer buffer = new StringBuffer(); //서버에 데이터보낼떄
-                        buffer.append("email").append("=").append(et_id.getText().toString()).append("&");
+                        buffer.append("email").append("=").append(reset.a).append("&");
                         buffer.append("password").append("=").append(et_pw.getText().toString());
 
                         OutputStreamWriter outStream = new OutputStreamWriter(http.getOutputStream(), "EUC-KR"); //OutputStream 전송길을 만들어주는거
@@ -126,12 +127,12 @@ public class new_password extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if (resulto.equals("femail")) {//uid에 비밀번호 변경이 되었을 때
+                    if (resulto.equals("true")) {//uid에 비밀번호 변경이 되었을 때
                         AlertDialog.Builder builder = new AlertDialog.Builder(new_password.this);
                         builder.setMessage("password change complete  ").setPositiveButton("OK", null).create().show();
-                    } else if (resulto.equals("flogin")) {//uid에 비밀번호 변경이 안되었을 때
+                    } else if (resulto.equals("false")) {//uid에 비밀번호 변경이 안되었을 때
                         AlertDialog.Builder builder = new AlertDialog.Builder(new_password.this);
-                        builder.setMessage("password Not change.").setNegativeButton("OK", null).create().show();
+                        builder.setMessage("password Not change. ").setNegativeButton("OK", null).create().show();
                     }
                 }
             }
@@ -142,6 +143,7 @@ public class new_password extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
         init();
+        reset =new reset_password();
 
         StrictMode.ThreadPolicy policy =new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);

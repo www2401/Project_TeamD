@@ -28,6 +28,7 @@ public class reset_password extends AppCompatActivity {
     public EditText et_lname, et_fname, et_code,et_id, et_pw, et_birthday, et_weight, et_height;
     public AlertDialog dialog;
     String resulto, myResult;
+    String a ="";
 
     public void init() {
         bt1 = (Button) findViewById(R.id.bt_id);
@@ -55,7 +56,7 @@ public class reset_password extends AppCompatActivity {
                 else {
                         try {
 
-                            URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/email_check");
+                            URL url = new URL("http://teamd-iot.calit2.net/finally/slim-api/email_check_for_rp");
                             HttpURLConnection http = (HttpURLConnection) url.openConnection();
 
                             http.setDefaultUseCaches(false);
@@ -101,6 +102,7 @@ public class reset_password extends AppCompatActivity {
                             builder.setMessage("We send the authentication code. Please check your email address." +
                                     " you can write the authentication code at next line.").setPositiveButton("OK", null).create().show();
                             et_id.setEnabled(false); //아이디 변경불가
+                            a=et_id.getText().toString();
 
                         }
                         if (resulto == "false") {//이메일이 존재하지 않아서 오류날때

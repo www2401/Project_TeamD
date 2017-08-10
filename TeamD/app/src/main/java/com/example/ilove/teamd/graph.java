@@ -79,14 +79,13 @@ public class graph extends AppCompatActivity {
                         ArrayList<Entry> entry_so2 = new ArrayList<Entry>();
                         ArrayList<Entry> entry_pm = new ArrayList<Entry>();
                         entry_co.add(new Entry(0,0));
-                        entry_co.add(new Entry((float) 4.4,1));
+                        entry_co.add(new Entry( (float)4.4,1));
                         entry_co.add(new Entry((float) 9.4,2));
                         entry_co.add(new Entry((float) 10.8,3));
                         entry_co.add(new Entry((float) 5.6,4));
                         entry_co.add(new Entry((float) 12.4,5));
                         entry_co.add(new Entry((float) 7.2,6));
                         entry_co.add(new Entry((float) 3.3,7));
-                        entry_co.add(new Entry((float) 2.2,8));
 
                         entry_o3.add(new Entry((float) 0.059,0));
                         entry_o3.add(new Entry((float) 0.06,1));
@@ -96,7 +95,6 @@ public class graph extends AppCompatActivity {
                         entry_o3.add(new Entry((float) 0.02,5));
                         entry_o3.add(new Entry((float) 0.05,6));
                         entry_o3.add(new Entry((float) 0.077,7));
-                        entry_o3.add(new Entry((float) 0.06,8));
 
                         entry_no2.add(new Entry(53,0));
                         entry_no2.add(new Entry(48,1));
@@ -106,7 +104,6 @@ public class graph extends AppCompatActivity {
                         entry_no2.add(new Entry(70,5));
                         entry_no2.add(new Entry(64,6));
                         entry_no2.add(new Entry(60,7));
-                        entry_no2.add(new Entry(53,8));
 
                         entry_so2.add(new Entry(15,0));
                         entry_so2.add(new Entry(25,1));
@@ -116,17 +113,15 @@ public class graph extends AppCompatActivity {
                         entry_so2.add(new Entry(45,5));
                         entry_so2.add(new Entry(35,6));
                         entry_so2.add(new Entry(22,7));
-                        entry_so2.add(new Entry(15,8));
 
                         entry_pm.add(new Entry(12,0));
-                        entry_pm.add(new Entry(19,1));
+                       entry_pm.add(new Entry(19,1));
                         entry_pm.add(new Entry(22,2));
                         entry_pm.add(new Entry(24,3));
                         entry_pm.add(new Entry(30,4));
                         entry_pm.add(new Entry(34,5));
                         entry_pm.add(new Entry(15,6));
                         entry_pm.add(new Entry(13,7));
-                        entry_pm.add(new Entry(11,8));
 
                         //각 entry이름을 명칭해주는거
                         LineDataSet data_co = new LineDataSet(entry_co, "CO");
