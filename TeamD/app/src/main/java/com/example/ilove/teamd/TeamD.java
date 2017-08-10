@@ -32,12 +32,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.StringTokenizer;
 
 import static com.example.ilove.teamd.R.id.nav_login;
 
 public class TeamD extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
+
     login loginn;
     TextView text_input;
     private final String TAG = "TeamD";
@@ -185,27 +191,28 @@ public class TeamD extends AppCompatActivity
                 text_input.setText(""+ hr);
                 Log.w("heart", ""+ hr);
 
-                /* 심박수 데이터 서버로 전송
+                //심박수 데이터 서버로 전송
                 try
                 {
                     JsonTransfer heartdata_transfer = new JsonTransfer();
 
                     JSONObject json_HeartdataTransfer = new JSONObject();
 
-                    json_HeartdataTransfer.put("hid", "00");
+                    String time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+
                     json_HeartdataTransfer.put("uid", "asdf");
                     json_HeartdataTransfer.put("heart_bit", hr);
-                    json_HeartdataTransfer.put("htime", "00:00:00");
+                    json_HeartdataTransfer.put("htime", time);
 
                     String json_Astring = json_HeartdataTransfer.toString();
 
-                    heartdata_transfer.execute("http://teama-iot.calit2.net/slim-api/receive-air-data","["+json_Astring+"]");
+                    heartdata_transfer.execute("http://teamd-iot.calit2.net/finally/slim-api/heart_send_app","["+json_Astring+"]");
 
                 }
                 catch (JSONException e)
                 {
                     e.printStackTrace();
-                } */
+                }
 
                 int prrPercenteage = Integer.parseInt(tokens.nextToken());
                 int prrCount = Integer.parseInt(tokens.nextToken());
