@@ -51,13 +51,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.example.ilove.teamd.current.Mstatus;
 
 
 /**
@@ -93,18 +90,17 @@ public class BluetoothChatFragment extends Fragment {
     static public TextView no2_air;
     static public TextView pm25_air;
 
-    public float CO, NO2, SO2, O3, PM25, TEM  = 0;
-    public float co_avg, no2_avg, so2_avg, o3_avg, pm25_avg = 0;
-    public float co_old, no2_old, so2_old, o3_old, pm25_old = 0;
-    public float CO_AQI, NO2_AQI, SO2_AQI, O3_AQI, PM25_AQI = 0;
-
-    public static ArrayList<Float> co_bufferArrayList = new ArrayList<Float>();
-    public static ArrayList<Float> no2_bufferArrayList = new ArrayList<Float>();
-    public static ArrayList<Float> so2_bufferArrayList = new ArrayList<Float>();
-    public static ArrayList<Float> o3_bufferArrayList = new ArrayList<Float>();
-    public static ArrayList<Float> pm25_bufferArrayList = new ArrayList<Float>();
+    int CO, NO2, SO2, O3, PM25, TEM  = 0;
 
     int count = -1;
+
+    /*
+    ArrayList o3_one_min;
+    ArrayList o3_eight_min;
+    ArrayList no2_one_min;
+    ArrayList so2_one_min;
+    ArrayList co_eight_min;
+    */
 
     /**
      * Name of the connected device
@@ -149,38 +145,27 @@ public class BluetoothChatFragment extends Fragment {
             TimerTask historyTask = new TimerTask() {
                 @Override
                 public void run() {
-                    mTimerHandler.post(new Runnable(){
-                        public void run(){
-                            String now_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
-                            SimpleDateFormat now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            java.util.Date now_date = null;
-                            java.util.Date old_date = null;
-                            try {
-                                now_date = now.parse(now_time);
-                                old_date = now.parse(now_time);
-                            }catch (ParseException e){
-                                e.printStackTrace();
-                            }
-                            old_date.setMinutes(old_date.getMinutes()-3);
-                            /*
-                            Calendar cal;
-                            cal = now.getCalendar();
-                            cal.add(Calendar.MINUTE,-3);*/
-                            long now_epoch = now_date.getTime();
-                            long old_epoch = old_date.getTime();
-                            String now_epoch_time = String.format("%10d", now_epoch);
-                            now_epoch_time = now_epoch_time.substring(0,10);
-                            String old_epoch_time = String.format("%10d", old_epoch);
-                            old_epoch_time = old_epoch_time.substring(0,10);
-                            sendMessage("history " + old_epoch_time + " " + now_epoch_time + "\n");
+                    mTimerHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), "hoola", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             };
+
             Timer timer = new Timer();
-            timer.schedule(historyTask,0,3*60000);
-        };
+            timer.schedule(historyTask, 0, 5*60000);
+        }
     }
+
+        /*
+        o3_one_min = new ArrayList();
+        o3_eight_min = new ArrayList();
+        no2_one_min = new ArrayList();
+        so2_one_min = new ArrayList();
+        co_eight_min = new ArrayList();
+        */
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -222,11 +207,9 @@ public class BluetoothChatFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         /*
-        if (AppController.getinstance().mChatService != null)
-        {
+        if (AppController.getinstance().mChatService != null) {
             AppController.getinstance().mChatService.stop();
-        }
-        */
+        }*/
     }
 
     @Override
@@ -292,8 +275,8 @@ public class BluetoothChatFragment extends Fragment {
             AppController.getinstance().mChatService.write(send);
 
             // Reset out string buffer to zero and clear the edit text field
-            //mOutStringBuffer.setLength(0);
-            //mOutEditText.setText(mOutStringBuffer);
+            mOutStringBuffer.setLength(0);
+            mOutEditText.setText(mOutStringBuffer);
         }
     }
 
@@ -376,7 +359,7 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
-                    //mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
 
 
@@ -431,14 +414,8 @@ public class BluetoothChatFragment extends Fragment {
                         //Toast.makeText(getContext(),"realtime",Toast.LENGTH_SHORT).show();
 
                         try {
+
                             JSONObject JsonAir = new JSONObject(startMessage);
-                            count++;
-                            Mstatus = tempValue.Mstatus_tv;
-                            if(Mstatus == 1){current.setCircleColorButton(tempValue.CO_AQI_tv); }
-                            if(Mstatus == 2){current.setCircleColorButton(tempValue.SO2_AQI_tv); }
-                            if(Mstatus == 3){current.comfirmsetCircleColorButton(tempValue.NO2_tv); } //이것만 로우데이터로 확인중 나머지는 AQI
-                            if(Mstatus == 4){current.setCircleColorButton(tempValue.O3_AQI_tv); }
-                            if(Mstatus == 5){current.setCircleColorButton(tempValue.PM25_AQI_tv); }
 
                             CO = JsonAir.getInt("CO");
                             NO2 = JsonAir.getInt("NO2");
@@ -446,17 +423,12 @@ public class BluetoothChatFragment extends Fragment {
                             O3 = JsonAir.getInt("O3");
                             PM25 = JsonAir.getInt("PM25");
 
-                            co_bufferArrayList.add(CO);
-                            no2_bufferArrayList.add(NO2);
-                            so2_bufferArrayList.add(SO2);
-                            o3_bufferArrayList.add(O3);
-                            pm25_bufferArrayList.add(PM25);
-
-                            CO_AQI = calcurate_co_aqi(calcurate_co_avg());
-                            SO2_AQI = calcurate_so2_aqi(calcurate_so2_avg());
-                            NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
-                            O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
-                            PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
+                            float co_aqi = calcurate_co_aqi(CO);
+                            float no2_aqi = calcurate_no2_aqi(NO2);
+                            float so2_aqi = calcurate_so2_aqi(SO2);
+                            float o3_aqi = calcurate_o3_aqi(O3);
+                            float pm25_aqi = calcurate_pm25_aqi(PM25);
+/*
                             tempValue.CO_AQI_tv = CO_AQI;//값넘기는거
                             tempValue.SO2_AQI_tv = SO2_AQI;
                             tempValue.NO2_AQI_tv = NO2_AQI;
@@ -466,22 +438,14 @@ public class BluetoothChatFragment extends Fragment {
                             tempValue.SO2_tv = SO2;
                             tempValue.NO2_tv = NO2;
                             tempValue.O3_tv = O3;
-                            tempValue.PM25_tv = PM25;
-
-                            /*
-                            float co_aqi = calcurate_co_aqi(CO);
-                            float no2_aqi = calcurate_no2_aqi(NO2);
-                            float so2_aqi = calcurate_so2_aqi(SO2);
-                            float o3_aqi = calcurate_o3_aqi(O3);
-                            float pm25_aqi = calcurate_pm25_aqi(PM25);
-                            */
+                            tempValue.PM25_tv = PM25;*/
 
                             temp.setText(JsonAir.getString("temp"));
-                            co_air.setText(String.valueOf(CO_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
-                            o3_air.setText(String.valueOf(O3_AQI));
-                            so2_air.setText(String.valueOf(SO2_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
-                            no2_air.setText(String.valueOf(NO2_AQI));
-                            pm25_air.setText(String.valueOf(PM25_AQI));
+                            co_air.setText(String.valueOf(co_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
+                            o3_air.setText(String.valueOf(o3_aqi));
+                            so2_air.setText(String.valueOf(so2_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
+                            no2_air.setText(String.valueOf(no2_aqi));
+                            pm25_air.setText(String.valueOf(pm25_aqi));
 
 
                             JsonTransfer airdata_transfer = new JsonTransfer();
@@ -501,7 +465,7 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
                         */
 
-                            json_AirdataTransfer.put("uid",84);
+                            json_AirdataTransfer.put("uid",13);
                             json_AirdataTransfer.put("atime",time);
                             json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
                             json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
@@ -517,7 +481,7 @@ public class BluetoothChatFragment extends Fragment {
 
                             // o3_one_min.toString(); 어레이 전체 값을 스트링으로 변환 해서 토스트 값 확인 할 수 있음
 
-                            aqi((int)CO,(int)NO2,(int)SO2,(int)O3,(int)PM25);
+                            aqi((int)co_aqi,(int)no2_aqi,(int)so2_aqi,(int)o3_aqi,(int)pm25_aqi);
                             setData();
 
                             //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
@@ -618,11 +582,11 @@ public class BluetoothChatFragment extends Fragment {
 
 
         //ArrayList<Entry> covalue = new ArrayList<Entry>(); //y축세팅 위로올림
-        covalue.add(new Entry(CO_AQI, count));
-        so2value.add(new Entry(SO2_AQI, count));
-        no2value.add(new Entry(NO2_AQI, count));
-        o3value.add(new Entry(O3_AQI, count));
-        pm25value.add(new Entry(PM25_AQI, count));
+        covalue.add(new Entry(CO, count));
+        so2value.add(new Entry(SO2, count));
+        no2value.add(new Entry(NO2, count));
+        o3value.add(new Entry(O3, count));
+        pm25value.add(new Entry(PM25, count));
 
         LineDataSet cochart = new LineDataSet(covalue, "CO");
         LineDataSet so2chart = new LineDataSet(so2value, "SO2");
@@ -682,81 +646,81 @@ public class BluetoothChatFragment extends Fragment {
     }
 
 
-    public void aqi(int CO_AQI, int NO2_AQI, int SO2_AQI, int O3_AQI, int PM25_AQI){
-        if(CO_AQI >= 0 && CO_AQI <= 50)
+    public void aqi(int CO, int NO2, int SO2, int O3, int PM25){
+        if(CO >= 0 && CO <= 50)
             co_air.setBackgroundResource(R.drawable.g_co);
-        if(CO_AQI >= 51 && CO_AQI <= 100)
+        if(CO >= 51 && CO <= 100)
             co_air.setBackgroundResource(R.drawable.y_co);
-        if(CO_AQI >= 101 && CO_AQI <= 150)
+        if(CO >= 101 && CO <= 150)
             co_air.setBackgroundResource(R.drawable.o_co);
-        if(CO_AQI >= 151 && CO_AQI <= 200)
+        if(CO >= 151 && CO <= 200)
             co_air.setBackgroundResource(R.drawable.r_co);
-        if(CO_AQI >= 201 && CO_AQI <= 300)
+        if(CO >= 201 && CO <= 300)
             co_air.setBackgroundResource(R.drawable.p_co);
-        if(CO_AQI >= 301 && CO_AQI <= 400)
+        if(CO >= 301 && CO <= 400)
             co_air.setBackgroundResource(R.drawable.b_co);
-        if(CO_AQI >= 401 && CO_AQI <= 500)
+        if(CO >= 401 && CO <= 500)
             co_air.setBackgroundResource(R.drawable.b_co);
 
-        if(NO2_AQI >= 0 && NO2_AQI <= 50)
+        if(NO2 >= 0 && NO2 <= 50)
             no2_air.setBackgroundResource(R.drawable.g_no2);
-        if(NO2_AQI >= 51 && NO2_AQI <= 100)
+        if(NO2 >= 51 && NO2 <= 100)
             no2_air.setBackgroundResource(R.drawable.y_no2);
-        if(NO2_AQI >= 101 && NO2_AQI <= 150)
+        if(NO2 >= 101 && NO2 <= 150)
             no2_air.setBackgroundResource(R.drawable.o_no2);
-        if(NO2_AQI >= 151 && NO2_AQI <= 200)
+        if(NO2 >= 151 && NO2 <= 200)
             no2_air.setBackgroundResource(R.drawable.r_no2);
-        if(NO2_AQI >= 201 && NO2_AQI <= 300)
+        if(NO2 >= 201 && NO2 <= 300)
             no2_air.setBackgroundResource(R.drawable.p_no2);
-        if(NO2_AQI >= 301 && NO2_AQI <= 400)
+        if(NO2 >= 301 && NO2 <= 400)
             no2_air.setBackgroundResource(R.drawable.b_no2);
-        if(NO2_AQI >= 401 && NO2_AQI <= 500)
+        if(NO2 >= 401 && NO2 <= 500)
             no2_air.setBackgroundResource(R.drawable.b_no2);
 
-        if(SO2_AQI >= 0 && SO2_AQI <= 50)
+        if(SO2 >= 0 && SO2 <= 50)
             so2_air.setBackgroundResource(R.drawable.g_so2);
-        if(SO2_AQI >= 51 && SO2_AQI <= 100)
+        if(SO2 >= 51 && SO2 <= 100)
             so2_air.setBackgroundResource(R.drawable.y_so2);
-        if(SO2_AQI >= 101 && SO2_AQI <= 150)
+        if(SO2 >= 101 && SO2 <= 150)
             so2_air.setBackgroundResource(R.drawable.o_so2);
-        if(SO2_AQI >= 151 && SO2_AQI <= 200)
+        if(SO2 >= 151 && SO2 <= 200)
             so2_air.setBackgroundResource(R.drawable.r_so2);
-        if(SO2_AQI >= 201 && SO2_AQI <= 300)
+        if(SO2 >= 201 && SO2 <= 300)
             so2_air.setBackgroundResource(R.drawable.p_so2);
-        if(SO2_AQI >= 301 && SO2_AQI <= 400)
+        if(SO2 >= 301 && SO2 <= 400)
             so2_air.setBackgroundResource(R.drawable.b_so2);
-        if(SO2_AQI >= 401 && SO2_AQI <= 500)
+        if(SO2 >= 401 && SO2 <= 500)
             so2_air.setBackgroundResource(R.drawable.b_so2);
 
 
-        if(O3_AQI >= 0 && O3_AQI <= 50)
+        if(O3 >= 0 && O3 <= 50)
             o3_air.setBackgroundResource(R.drawable.g_o3);
-        if(O3_AQI >= 51 && O3_AQI <= 100)
+        if(O3 >= 51 && O3 <= 100)
             o3_air.setBackgroundResource(R.drawable.y_o3);
-        if(O3_AQI >= 101 && O3_AQI <= 150)
+        if(O3 >= 101 && O3 <= 150)
             o3_air.setBackgroundResource(R.drawable.o_o3);
-        if(O3_AQI >= 151  && O3_AQI <= 200)
+        if(O3 >= 151  && O3 <= 200)
             o3_air.setBackgroundResource(R.drawable.r_o3);
-        if(O3_AQI >= 201 && O3_AQI <= 300)
+        if(O3 >= 201 && O3 <= 300)
             o3_air.setBackgroundResource(R.drawable.p_o3);
-        if(O3_AQI >= 301 && O3_AQI <= 400)
+        if(O3 >= 301 && O3 <= 400)
             o3_air.setBackgroundResource(R.drawable.b_o3);
-        if(O3_AQI >= 401 && O3_AQI <= 500)
+        if(O3 >= 401 && O3 <= 500)
             o3_air.setBackgroundResource(R.drawable.b_o3);
 
-        if(PM25_AQI >=0 && PM25_AQI <=50)
+        if(PM25 >=0 && PM25 <=50)
             pm25_air.setBackgroundResource(R.drawable.g_pm25);
-        if(PM25_AQI >= 51 && PM25_AQI <= 100)
+        if(PM25 >= 51 && PM25 <= 100)
             pm25_air.setBackgroundResource(R.drawable.y_pm25);
-        if(PM25_AQI >= 101 && PM25_AQI <= 150)
+        if(PM25 >= 101 && PM25 <= 150)
             pm25_air.setBackgroundResource(R.drawable.o_pm25);
-        if(PM25_AQI >= 151 && PM25_AQI <= 200)
+        if(PM25 >= 151 && PM25 <= 200)
             pm25_air.setBackgroundResource(R.drawable.r_pm25);
-        if(PM25_AQI >= 201 && PM25_AQI <= 300)
+        if(PM25 >= 201 && PM25 <= 300)
             pm25_air.setBackgroundResource(R.drawable.p_pm25);
-        if(PM25_AQI >= 301 && PM25_AQI <= 400)
+        if(PM25 >= 301 && PM25 <= 400)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
-        if(PM25_AQI >= 401 && PM25_AQI <= 500)
+        if(PM25 >= 401 && PM25 <= 500)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
     }
 
@@ -1036,142 +1000,5 @@ public class BluetoothChatFragment extends Fragment {
         return pm_Aqi;
     }
 
-    public float calcurate_co_avg(){
-        float co_sum=0;
-        if(count > 9600){
-            co_avg = (co_avg * 9600 + co_bufferArrayList.get(count) - co_old)/9600;
-            co_bufferArrayList.remove(0);
-            co_old = co_bufferArrayList.get(0);
-        }
-        else if(count == 9600){
-            co_avg = CO;
-            co_old = co_bufferArrayList.get(0);
-        }
-        else {
-            for(int i = 0; i < co_bufferArrayList.size(); i++) {
-                co_sum += co_bufferArrayList.get(i);
-            }
-            co_avg = co_sum / co_bufferArrayList.size();
-        }
-        return co_avg;
-    }
-
-    public float calcurate_no2_avg(){
-        float no2_sum=0;
-        if(count > 1200){
-            no2_avg = (no2_avg * 1200 + no2_bufferArrayList.get(count) - no2_old)/1200;
-            no2_bufferArrayList.remove(0);
-            no2_old = no2_bufferArrayList.get(0);
-        }
-        else if(count == 1200){
-            no2_avg = NO2;
-            no2_old = no2_bufferArrayList.get(0);
-        }
-        else {
-            for(int i = 0; i < no2_bufferArrayList.size(); i++) {
-                no2_sum += no2_bufferArrayList.get(i);
-            }
-            no2_avg = no2_sum / no2_bufferArrayList.size();
-        }
-        return no2_avg;
-    }
-
-    public float calcurate_so2_avg(){
-        float so2_sum=0;
-        if(SO2 >= 0 && SO2 <=304){
-            if(count > 1200){
-                so2_avg = (so2_avg * 1200 + so2_bufferArrayList.get(count) - so2_old)/1200;
-                so2_bufferArrayList.remove(0);
-                so2_old = so2_bufferArrayList.get(0);
-            }
-            else if(count == 1200){
-                so2_avg = SO2;
-                so2_old = so2_bufferArrayList.get(0);
-            }
-            else {
-                for(int i = 0; i < so2_bufferArrayList.size(); i++) {
-                    so2_sum += so2_bufferArrayList.get(i);
-                }
-                so2_avg = so2_sum / so2_bufferArrayList.size();
-            }
-        }
-        else if(SO2 >= 305 && SO2 <= 1004){
-            if(count > 28800){
-                so2_avg = (so2_avg * 28800 + so2_bufferArrayList.get(count) - so2_old)/28800;
-                so2_bufferArrayList.remove(0);
-                so2_old = so2_bufferArrayList.get(0);
-            }
-            else if(count == 28800){
-                so2_avg = SO2;
-                so2_avg = so2_bufferArrayList.get(0);
-            }
-            else {
-                for(int i = 0; i < so2_bufferArrayList.size(); i++) {
-                    so2_sum += so2_bufferArrayList.get(i);
-                }
-                so2_avg = so2_sum / so2_bufferArrayList.size();
-            }
-        }
-        return so2_avg;
-    }
-
-    public float calcurate_o3_avg(){
-        float o3_sum=0;
-        if(O3 >= 0 && O3 <=200){
-            if(count > 9600){
-                o3_avg = (o3_avg * 9600 + o3_bufferArrayList.get(count) - o3_old)/9600;
-                o3_bufferArrayList.remove(0);
-                o3_old = o3_bufferArrayList.get(0);
-            }
-            else if(count == 9600){
-                o3_avg = O3;
-                o3_old = o3_bufferArrayList.get(0);
-            }
-            else {
-                for(int i = 0; i < o3_bufferArrayList.size(); i++) {
-                    o3_sum += o3_bufferArrayList.get(i);
-                }
-                o3_avg = o3_sum / o3_bufferArrayList.size();
-            }
-        }
-        else if(O3 >= 201 && O3 <= 604){
-            if(count > 1200){
-                o3_avg = (o3_avg * 1200 + o3_bufferArrayList.get(count) - o3_old)/1200;
-                o3_bufferArrayList.remove(0);
-                o3_old = o3_bufferArrayList.get(0);
-            }
-            else if(count == 1200){
-                o3_avg = O3;
-                o3_avg = o3_bufferArrayList.get(0);
-            }
-            else {
-                for(int i = 0; i < o3_bufferArrayList.size(); i++) {
-                    o3_sum += o3_bufferArrayList.get(i);
-                }
-                o3_avg = o3_sum / o3_bufferArrayList.size();
-            }
-        }
-        return o3_avg;
-    }
-
-    public float calcurate_pm25_avg(){
-        float pm25_sum=0;
-        if(count > 28800){
-            pm25_avg = (pm25_avg * 28800 + pm25_bufferArrayList.get(count) - pm25_old)/28800;
-            pm25_bufferArrayList.remove(0);
-            pm25_old = pm25_bufferArrayList.get(0);
-        }
-        else if(count == 28800){
-            pm25_avg = PM25;
-            pm25_old = pm25_bufferArrayList.get(0);
-        }
-        else {
-            for(int i = 0; i < pm25_bufferArrayList.size(); i++) {
-                pm25_sum += pm25_bufferArrayList.get(i);
-            }
-            pm25_avg = pm25_sum / pm25_bufferArrayList.size();
-        }
-        return pm25_avg;
-    }
-
 }
+

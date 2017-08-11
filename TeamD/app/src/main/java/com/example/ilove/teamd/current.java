@@ -26,7 +26,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -51,11 +50,11 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         com.google.android.gms.location.LocationListener{
 
     private GoogleApiClient mGoogleApiClient = null;
-    private static GoogleMap mGoogleMap = null;
+    private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
 
-    static LatLng currentLocation;
     private Address location;
+    Button bt1,bt2,bt3,bt4,bt5;
 
     //디폴트 위치, Seoul
     private static final LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
@@ -66,105 +65,46 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     private static final int FASTEST_UPDATE_INTERVAL_MS = 1000; // 1초
 
     private AppCompatActivity mActivity;
-    public static int Mstatus = 0;
+    boolean askPermissionOnceAgain = false;
 
     private BluetoothAdapter mBluetoothAdapter = null;
     private String mConnectedDeviceName = null;
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
-    ToggleButton bt_co,bt_so2,bt_no2,bt_o3,bt_pm;
-    public float CO_AQI, NO2_AQI, SO2_AQI, O3_AQI, PM25_AQI,NO2 = 0;
-    public String circleColor;
-    static CircleOptions circle;
-    boolean askPermissionOnceAgain = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current);
-        bt_co=(ToggleButton)findViewById(R.id.bt_co);
-        bt_so2=(ToggleButton)findViewById(R.id.bt_so2);
-        bt_no2=(ToggleButton)findViewById(R.id.bt_no2);
-        bt_o3=(ToggleButton)findViewById(R.id.bt_o3);
-        bt_pm=(ToggleButton)findViewById(R.id.bt_pm);
+        bt1=(Button)findViewById(R.id.bt_co);
+        bt2=(Button)findViewById(R.id.bt_so2);
+        bt3=(Button)findViewById(R.id.bt_no2);
+        bt4=(Button)findViewById(R.id.bt_o3);
+        bt5=(Button)findViewById(R.id.bt_pm);
 
         //co
-        bt_co.setOnClickListener(new View.OnClickListener() {
+        bt1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_co.isChecked()) {
-                    Mstatus = 1;
-                    CO_AQI = tempValue.CO_AQI_tv;
-                    setCircleColorButton(CO_AQI);
-                    bt_so2.setEnabled(false);bt_no2.setEnabled(false);bt_o3.setEnabled(false);bt_pm.setEnabled(false);
-                }else{
-                    Mstatus = 0;
-                    mGoogleMap.clear();
-                    bt_so2.setEnabled(true);bt_no2.setEnabled(true);bt_o3.setEnabled(true);bt_pm.setEnabled(true);
-                }
-                tempValue.Mstatus_tv = Mstatus;
+                Toast.makeText(current.this, "Wrong GPS coordinate.", Toast.LENGTH_LONG).show();
             }
         });
         //so2
-        bt_so2.setOnClickListener(new View.OnClickListener() {
+        bt2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_so2.isChecked()) {
-                    Mstatus = 2;
-                    //SO2_AQI = tempValue.SO2_AQI_tv;
-                    //setCircleColorButton(SO2_AQI);
-                    bt_co.setEnabled(false);bt_no2.setEnabled(false);bt_o3.setEnabled(false);bt_pm.setEnabled(false);
-                }else{
-                    Mstatus = 0;
-                    mGoogleMap.clear();
-                    bt_co.setEnabled(true);bt_no2.setEnabled(true);bt_o3.setEnabled(true);bt_pm.setEnabled(true);
-                }
-                tempValue.Mstatus_tv = Mstatus;
             }
         });
         //no2
-        bt_no2.setOnClickListener(new View.OnClickListener() {
+        bt3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_no2.isChecked()) {
-                    Mstatus = 3;
-                    //NO2 = tempValue.NO2_tv;
-                    //setCircleColorButton(NO2);
-                    //comfirmsetCircleColorButton();---------------------------------------------------------------------------------------------------
-                    bt_co.setEnabled(false);bt_so2.setEnabled(false);bt_o3.setEnabled(false);bt_pm.setEnabled(false);
-                }else{
-                    Mstatus = 0;
-                    mGoogleMap.clear();
-                    bt_co.setEnabled(true);bt_so2.setEnabled(true);bt_o3.setEnabled(true);bt_pm.setEnabled(true);
-                }
-                tempValue.Mstatus_tv = Mstatus;
             }
         });
         //o3
-        bt_o3.setOnClickListener(new View.OnClickListener() {
+        bt4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_o3.isChecked()) {
-                    Mstatus = 4;
-                    //O3_AQI = tempValue.O3_AQI_tv;
-                    //setCircleColorButton(O3_AQI);
-                    bt_co.setEnabled(false);bt_so2.setEnabled(false);bt_no2.setEnabled(false);bt_pm.setEnabled(false);
-                }else{
-                    Mstatus = 0;
-                    mGoogleMap.clear();
-                    bt_co.setEnabled(true);bt_so2.setEnabled(true);bt_no2.setEnabled(true);bt_pm.setEnabled(true);
-                }
-                tempValue.Mstatus_tv = Mstatus;
             }
         });
         //pm2.5
-        bt_pm.setOnClickListener(new View.OnClickListener() {
+        bt5.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_pm.isChecked()) {
-                    Mstatus = 5;
-                    //PM25_AQI = tempValue.PM25_AQI_tv;
-                    //setCircleColorButton(PM25_AQI);
-                    bt_so2.setEnabled(false);bt_no2.setEnabled(false);bt_o3.setEnabled(false);bt_co.setEnabled(false);
-                }else{
-                    Mstatus = 0;
-                    mGoogleMap.clear();
-                    bt_so2.setEnabled(true);bt_no2.setEnabled(true);bt_o3.setEnabled(true);bt_co.setEnabled(true);
-                }
-                tempValue.Mstatus_tv = Mstatus;
             }
         });
 
@@ -681,107 +621,5 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             }
         }
     };
-    static public void setCircleColorButton(float value) {
-        if (value <= 50) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#68F200"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-
-        }
-        if (value > 50 && value <= 100) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#FCFC00"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 100 && value <= 150) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#F9960C"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 150 && value <= 200) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#7fff0000"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 200 && value <= 300) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#A80B93"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 300 && value <= 400) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#871121"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-
-        if (value > 400 && value <= 500) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#871121"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-    }
-
-
-    static public void comfirmsetCircleColorButton(float value) {
-        //float value = tempValue.NO2_tv;
-
-        if (value <= 53) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#68F200"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 54 && value <= 100) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#FCFC00"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 100 && value <= 360) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#F9960C"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 360 && value <= 649) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#7fff0000"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 649 && value <= 1250) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#A80B93"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-        if (value > 1250 ) {
-            circle = new CircleOptions().center(currentLocation).radius(400)
-                    .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#871121"));
-            mGoogleMap.clear();
-            mGoogleMap.addCircle(circle);
-        }
-
-    }
 
 }
