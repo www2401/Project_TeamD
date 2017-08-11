@@ -39,8 +39,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -463,7 +461,7 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
                         */
 
-                            json_AirdataTransfer.put("uid",88);
+                            json_AirdataTransfer.put("uid",uidValue.tempUid);
                             json_AirdataTransfer.put("atime",time);
                             json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
                             json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
