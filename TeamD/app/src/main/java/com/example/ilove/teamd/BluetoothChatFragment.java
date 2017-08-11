@@ -663,81 +663,81 @@ public class BluetoothChatFragment extends Fragment {
     }
 
 
-    public void aqi(int CO, int NO2, int SO2, int O3, int PM25){
-        if(CO >= 0 && CO <= 50)
+    public void aqi(int CO_AQI, int NO2_AQI, int SO2_AQI, int O3_AQI, int PM25_AQI){
+        if(CO_AQI >= 0 && CO_AQI <= 50)
             co_air.setBackgroundResource(R.drawable.g_co);
-        if(CO >= 51 && CO <= 100)
+        if(CO_AQI >= 51 && CO_AQI <= 100)
             co_air.setBackgroundResource(R.drawable.y_co);
-        if(CO >= 101 && CO <= 150)
+        if(CO_AQI >= 101 && CO_AQI <= 150)
             co_air.setBackgroundResource(R.drawable.o_co);
-        if(CO >= 151 && CO <= 200)
+        if(CO_AQI >= 151 && CO_AQI <= 200)
             co_air.setBackgroundResource(R.drawable.r_co);
-        if(CO >= 201 && CO <= 300)
+        if(CO_AQI >= 201 && CO_AQI <= 300)
             co_air.setBackgroundResource(R.drawable.p_co);
-        if(CO >= 301 && CO <= 400)
+        if(CO_AQI >= 301 && CO_AQI <= 400)
             co_air.setBackgroundResource(R.drawable.b_co);
-        if(CO >= 401 && CO <= 500)
+        if(CO_AQI >= 401 && CO_AQI <= 500)
             co_air.setBackgroundResource(R.drawable.b_co);
 
-        if(NO2 >= 0 && NO2 <= 50)
+        if(NO2_AQI >= 0 && NO2_AQI <= 50)
             no2_air.setBackgroundResource(R.drawable.g_no2);
-        if(NO2 >= 51 && NO2 <= 100)
+        if(NO2_AQI >= 51 && NO2_AQI <= 100)
             no2_air.setBackgroundResource(R.drawable.y_no2);
-        if(NO2 >= 101 && NO2 <= 150)
+        if(NO2_AQI >= 101 && NO2_AQI <= 150)
             no2_air.setBackgroundResource(R.drawable.o_no2);
-        if(NO2 >= 151 && NO2 <= 200)
+        if(NO2_AQI >= 151 && NO2_AQI <= 200)
             no2_air.setBackgroundResource(R.drawable.r_no2);
-        if(NO2 >= 201 && NO2 <= 300)
+        if(NO2_AQI >= 201 && NO2_AQI <= 300)
             no2_air.setBackgroundResource(R.drawable.p_no2);
-        if(NO2 >= 301 && NO2 <= 400)
+        if(NO2_AQI >= 301 && NO2_AQI <= 400)
             no2_air.setBackgroundResource(R.drawable.b_no2);
-        if(NO2 >= 401 && NO2 <= 500)
+        if(NO2_AQI >= 401 && NO2_AQI <= 500)
             no2_air.setBackgroundResource(R.drawable.b_no2);
 
-        if(SO2 >= 0 && SO2 <= 50)
+        if(SO2_AQI >= 0 && SO2_AQI <= 50)
             so2_air.setBackgroundResource(R.drawable.g_so2);
-        if(SO2 >= 51 && SO2 <= 100)
+        if(SO2_AQI >= 51 && SO2_AQI <= 100)
             so2_air.setBackgroundResource(R.drawable.y_so2);
-        if(SO2 >= 101 && SO2 <= 150)
+        if(SO2_AQI >= 101 && SO2_AQI <= 150)
             so2_air.setBackgroundResource(R.drawable.o_so2);
-        if(SO2 >= 151 && SO2 <= 200)
+        if(SO2_AQI >= 151 && SO2_AQI <= 200)
             so2_air.setBackgroundResource(R.drawable.r_so2);
-        if(SO2 >= 201 && SO2 <= 300)
+        if(SO2_AQI >= 201 && SO2_AQI <= 300)
             so2_air.setBackgroundResource(R.drawable.p_so2);
-        if(SO2 >= 301 && SO2 <= 400)
+        if(SO2_AQI >= 301 && SO2_AQI <= 400)
             so2_air.setBackgroundResource(R.drawable.b_so2);
-        if(SO2 >= 401 && SO2 <= 500)
+        if(SO2_AQI >= 401 && SO2_AQI <= 500)
             so2_air.setBackgroundResource(R.drawable.b_so2);
 
 
-        if(O3 >= 0 && O3 <= 50)
+        if(O3_AQI >= 0 && O3_AQI <= 50)
             o3_air.setBackgroundResource(R.drawable.g_o3);
-        if(O3 >= 51 && O3 <= 100)
+        if(O3_AQI >= 51 && O3_AQI <= 100)
             o3_air.setBackgroundResource(R.drawable.y_o3);
-        if(O3 >= 101 && O3 <= 150)
+        if(O3_AQI >= 101 && O3_AQI <= 150)
             o3_air.setBackgroundResource(R.drawable.o_o3);
-        if(O3 >= 151  && O3 <= 200)
+        if(O3_AQI >= 151  && O3_AQI <= 200)
             o3_air.setBackgroundResource(R.drawable.r_o3);
-        if(O3 >= 201 && O3 <= 300)
+        if(O3_AQI >= 201 && O3_AQI <= 300)
             o3_air.setBackgroundResource(R.drawable.p_o3);
-        if(O3 >= 301 && O3 <= 400)
+        if(O3_AQI >= 301 && O3_AQI <= 400)
             o3_air.setBackgroundResource(R.drawable.b_o3);
-        if(O3 >= 401 && O3 <= 500)
+        if(O3_AQI >= 401 && O3_AQI <= 500)
             o3_air.setBackgroundResource(R.drawable.b_o3);
 
-        if(PM25 >=0 && PM25 <=50)
+        if(PM25_AQI >=0 && PM25_AQI <=50)
             pm25_air.setBackgroundResource(R.drawable.g_pm25);
-        if(PM25 >= 51 && PM25 <= 100)
+        if(PM25_AQI >= 51 && PM25_AQI <= 100)
             pm25_air.setBackgroundResource(R.drawable.y_pm25);
-        if(PM25 >= 101 && PM25 <= 150)
+        if(PM25_AQI >= 101 && PM25_AQI <= 150)
             pm25_air.setBackgroundResource(R.drawable.o_pm25);
-        if(PM25 >= 151 && PM25 <= 200)
+        if(PM25_AQI >= 151 && PM25_AQI <= 200)
             pm25_air.setBackgroundResource(R.drawable.r_pm25);
-        if(PM25 >= 201 && PM25 <= 300)
+        if(PM25_AQI >= 201 && PM25_AQI <= 300)
             pm25_air.setBackgroundResource(R.drawable.p_pm25);
-        if(PM25 >= 301 && PM25 <= 400)
+        if(PM25_AQI >= 301 && PM25_AQI <= 400)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
-        if(PM25 >= 401 && PM25 <= 500)
+        if(PM25_AQI >= 401 && PM25_AQI <= 500)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
     }
 
