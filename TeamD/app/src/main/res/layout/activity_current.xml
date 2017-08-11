@@ -11,39 +11,56 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/cb_co"
-            android:layout_width="wrap_content"
+        <ToggleButton
+            android:id="@+id/bt_co"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="co"/>
+            android:text="CO"
+            android:textOff="CO"
+            android:textOn="CO"
+            />
 
-        <CheckBox
-            android:id="@+id/cb_so2"
-            android:layout_width="wrap_content"
+        <ToggleButton
+            android:id="@+id/bt_no2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="so2"/>
+            android:text="no2"
+            android:textOff="no2"
+            android:textOn="no2"
+            />
 
-        <CheckBox
-            android:id="@+id/cb_no2"
-            android:layout_width="wrap_content"
+        <ToggleButton
+            android:id="@+id/bt_so2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="no2"/>
+            android:text="so2"
+            android:textOff="so2"
+            android:textOn="so2"
+            />
 
-        <CheckBox
-            android:id="@+id/cb_o3"
-            android:layout_width="wrap_content"
+        <ToggleButton
+            android:id="@+id/bt_o3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="o3"/>
+            android:text="O3"
+            android:textOff="O3"
+            android:textOn="O3"
+            />
 
-        <CheckBox
-            android:id="@+id/cb_pm"
-            android:layout_width="83dp"
+        <ToggleButton
+            android:id="@+id/bt_pm"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="pm2.5"/>
+            android:layout_weight="1"
+            android:text="PM25"
+            android:textOff="PM25"
+            android:textOn="PM25"
+            />
+
     </LinearLayout>
 
 

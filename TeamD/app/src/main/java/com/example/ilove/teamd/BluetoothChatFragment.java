@@ -57,6 +57,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.ilove.teamd.current.Mstatus;
+
 
 /**
  * This fragment controls Bluetooth to communicate with other devices.
@@ -177,7 +179,7 @@ public class BluetoothChatFragment extends Fragment {
             };
             Timer timer = new Timer();
             timer.schedule(historyTask,0,3*60000);
-            };
+        };
     }
 
     @Override
@@ -430,6 +432,13 @@ public class BluetoothChatFragment extends Fragment {
 
                         try {
                             JSONObject JsonAir = new JSONObject(startMessage);
+                            count++;
+                            Mstatus = tempValue.Mstatus_tv;
+                            if(Mstatus == 1){current.setCircleColorButton(tempValue.CO_AQI_tv); }
+                            if(Mstatus == 2){current.setCircleColorButton(tempValue.SO2_AQI_tv); }
+                            if(Mstatus == 3){current.comfirmsetCircleColorButton(tempValue.NO2_tv); } //이것만 로우데이터로 확인중 나머지는 AQI
+                            if(Mstatus == 4){current.setCircleColorButton(tempValue.O3_AQI_tv); }
+                            if(Mstatus == 5){current.setCircleColorButton(tempValue.PM25_AQI_tv); }
 
                             CO = JsonAir.getInt("CO");
                             NO2 = JsonAir.getInt("NO2");
@@ -448,6 +457,16 @@ public class BluetoothChatFragment extends Fragment {
                             NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
                             O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
                             PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
+                            tempValue.CO_AQI_tv = CO_AQI;//값넘기는거
+                            tempValue.SO2_AQI_tv = SO2_AQI;
+                            tempValue.NO2_AQI_tv = NO2_AQI;
+                            tempValue.O3_AQI_tv = O3_AQI;
+                            tempValue.PM25_AQI_tv = PM25_AQI;
+                            tempValue.CO_tv = CO;//값넘기는거
+                            tempValue.SO2_tv = SO2;
+                            tempValue.NO2_tv = NO2;
+                            tempValue.O3_tv = O3;
+                            tempValue.PM25_tv = PM25;
 
                             /*
                             float co_aqi = calcurate_co_aqi(CO);
@@ -1156,4 +1175,3 @@ public class BluetoothChatFragment extends Fragment {
     }
 
 }
-
