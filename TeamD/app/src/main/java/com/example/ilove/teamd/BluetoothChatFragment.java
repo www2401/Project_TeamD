@@ -90,7 +90,16 @@ public class BluetoothChatFragment extends Fragment {
     static public TextView no2_air;
     static public TextView pm25_air;
 
-    int CO, NO2, SO2, O3, PM25, TEM  = 0;
+    public float CO, NO2, SO2, O3, PM25, TEM  = 0;
+    public float co_avg, no2_avg, so2_avg, o3_avg, pm25_avg = 0;
+    public float co_old, no2_old, so2_old, o3_old, pm25_old = 0;
+    public float CO_AQI, NO2_AQI, SO2_AQI, O3_AQI, PM25_AQI = 0;
+
+    public static ArrayList<Float> co_bufferArrayList = new ArrayList<Float>();
+    public static ArrayList<Float> no2_bufferArrayList = new ArrayList<Float>();
+    public static ArrayList<Float> so2_bufferArrayList = new ArrayList<Float>();
+    public static ArrayList<Float> o3_bufferArrayList = new ArrayList<Float>();
+    public static ArrayList<Float> pm25_bufferArrayList = new ArrayList<Float>();
 
     int count = -1;
 
@@ -422,18 +431,33 @@ public class BluetoothChatFragment extends Fragment {
                             O3 = JsonAir.getInt("O3");
                             PM25 = JsonAir.getInt("PM25");
 
+                            co_bufferArrayList.add(CO);
+                            no2_bufferArrayList.add(NO2);
+                            so2_bufferArrayList.add(SO2);
+                            o3_bufferArrayList.add(O3);
+                            pm25_bufferArrayList.add(PM25);
+
+                            CO_AQI = calcurate_co_aqi(calcurate_co_avg());
+
+                            SO2_AQI = calcurate_so2_aqi(calcurate_so2_avg());
+                            NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
+                            O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
+                            PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
+
+                            /*
                             float co_aqi = calcurate_co_aqi(CO);
                             float no2_aqi = calcurate_no2_aqi(NO2);
                             float so2_aqi = calcurate_so2_aqi(SO2);
                             float o3_aqi = calcurate_o3_aqi(O3);
                             float pm25_aqi = calcurate_pm25_aqi(PM25);
+                            */
 
                             temp.setText(JsonAir.getString("temp"));
-                            co_air.setText(String.valueOf(co_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
-                            o3_air.setText(String.valueOf(o3_aqi));
-                            so2_air.setText(String.valueOf(so2_aqi));   //toString 이 뭔가를 String으로 바꿔주는거
-                            no2_air.setText(String.valueOf(no2_aqi));
-                            pm25_air.setText(String.valueOf(pm25_aqi));
+                            co_air.setText(String.valueOf(CO_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
+                            o3_air.setText(String.valueOf(O3_AQI));
+                            so2_air.setText(String.valueOf(SO2_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
+                            no2_air.setText(String.valueOf(NO2_AQI));
+                            pm25_air.setText(String.valueOf(PM25_AQI));
 
 
                             JsonTransfer airdata_transfer = new JsonTransfer();
@@ -469,7 +493,7 @@ public class BluetoothChatFragment extends Fragment {
 
                             // o3_one_min.toString(); 어레이 전체 값을 스트링으로 변환 해서 토스트 값 확인 할 수 있음
 
-                            aqi((int)co_aqi,(int)no2_aqi,(int)so2_aqi,(int)o3_aqi,(int)pm25_aqi);
+                            aqi((int)CO_AQI,(int)NO2_AQI,(int)SO2_AQI,(int)O3_AQI,(int)PM25_AQI);
                             setData();
 
                             //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
@@ -986,6 +1010,144 @@ public class BluetoothChatFragment extends Fragment {
 
         pm_Aqi = ((I_hight-I_low)/(C_hight-C_low))*(C-C_low)+I_low;
         return pm_Aqi;
+    }
+
+    public float calcurate_co_avg(){
+        float co_sum=0;
+        if(count > 9600){
+            co_avg = (co_avg * 9600 + co_bufferArrayList.get(count) - co_old)/9600;
+            co_bufferArrayList.remove(0);
+            co_old = co_bufferArrayList.get(0);
+        }
+        else if(count == 9600){
+            co_avg = CO;
+            co_old = co_bufferArrayList.get(0);
+        }
+        else {
+            for(int i = 0; i < co_bufferArrayList.size(); i++) {
+                co_sum += co_bufferArrayList.get(i);
+            }
+            co_avg = co_sum / co_bufferArrayList.size();
+        }
+        return co_avg;
+    }
+
+    public float calcurate_no2_avg(){
+        float no2_sum=0;
+        if(count > 1200){
+            no2_avg = (no2_avg * 1200 + no2_bufferArrayList.get(count) - no2_old)/1200;
+            no2_bufferArrayList.remove(0);
+            no2_old = no2_bufferArrayList.get(0);
+        }
+        else if(count == 1200){
+            no2_avg = NO2;
+            no2_old = no2_bufferArrayList.get(0);
+        }
+        else {
+            for(int i = 0; i < no2_bufferArrayList.size(); i++) {
+                no2_sum += no2_bufferArrayList.get(i);
+            }
+            no2_avg = no2_sum / no2_bufferArrayList.size();
+        }
+        return no2_avg;
+    }
+
+    public float calcurate_so2_avg(){
+        float so2_sum=0;
+        if(SO2 >= 0 && SO2 <=304){
+            if(count > 1200){
+                so2_avg = (so2_avg * 1200 + so2_bufferArrayList.get(count) - so2_old)/1200;
+                so2_bufferArrayList.remove(0);
+                so2_old = so2_bufferArrayList.get(0);
+            }
+            else if(count == 1200){
+                so2_avg = SO2;
+                so2_old = so2_bufferArrayList.get(0);
+            }
+            else {
+                for(int i = 0; i < so2_bufferArrayList.size(); i++) {
+                    so2_sum += so2_bufferArrayList.get(i);
+                }
+                so2_avg = so2_sum / so2_bufferArrayList.size();
+            }
+        }
+        else if(SO2 >= 305 && SO2 <= 1004){
+            if(count > 28800){
+                so2_avg = (so2_avg * 28800 + so2_bufferArrayList.get(count) - so2_old)/28800;
+                so2_bufferArrayList.remove(0);
+                so2_old = so2_bufferArrayList.get(0);
+            }
+            else if(count == 28800){
+                so2_avg = SO2;
+                so2_avg = so2_bufferArrayList.get(0);
+            }
+            else {
+                for(int i = 0; i < so2_bufferArrayList.size(); i++) {
+                    so2_sum += so2_bufferArrayList.get(i);
+                }
+                so2_avg = so2_sum / so2_bufferArrayList.size();
+            }
+        }
+        return so2_avg;
+    }
+
+    public float calcurate_o3_avg(){
+        float o3_sum=0;
+        if(O3 >= 0 && O3 <=200){
+            if(count > 9600){
+                o3_avg = (o3_avg * 9600 + o3_bufferArrayList.get(count) - o3_old)/9600;
+                o3_bufferArrayList.remove(0);
+                o3_old = o3_bufferArrayList.get(0);
+            }
+            else if(count == 9600){
+                o3_avg = O3;
+                o3_old = o3_bufferArrayList.get(0);
+            }
+            else {
+                for(int i = 0; i < o3_bufferArrayList.size(); i++) {
+                    o3_sum += o3_bufferArrayList.get(i);
+                }
+                o3_avg = o3_sum / o3_bufferArrayList.size();
+            }
+        }
+        else if(O3 >= 201 && O3 <= 604){
+            if(count > 1200){
+                o3_avg = (o3_avg * 1200 + o3_bufferArrayList.get(count) - o3_old)/1200;
+                o3_bufferArrayList.remove(0);
+                o3_old = o3_bufferArrayList.get(0);
+            }
+            else if(count == 1200){
+                o3_avg = O3;
+                o3_avg = o3_bufferArrayList.get(0);
+            }
+            else {
+                for(int i = 0; i < o3_bufferArrayList.size(); i++) {
+                    o3_sum += o3_bufferArrayList.get(i);
+                }
+                o3_avg = o3_sum / o3_bufferArrayList.size();
+            }
+        }
+        return o3_avg;
+    }
+
+    public float calcurate_pm25_avg(){
+        float pm25_sum=0;
+        if(count > 28800){
+            pm25_avg = (pm25_avg * 28800 + pm25_bufferArrayList.get(count) - pm25_old)/28800;
+            pm25_bufferArrayList.remove(0);
+            pm25_old = pm25_bufferArrayList.get(0);
+        }
+        else if(count == 28800){
+            pm25_avg = PM25;
+            pm25_old = pm25_bufferArrayList.get(0);
+        }
+        else {
+            for(int i = 0; i < pm25_bufferArrayList.size(); i++) {
+                pm25_sum += pm25_bufferArrayList.get(i);
+            }
+            pm25_avg = pm25_sum / pm25_bufferArrayList.size();
+        }
+        return pm25_avg;
     }
 
 }
