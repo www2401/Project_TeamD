@@ -51,6 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -103,14 +104,6 @@ public class BluetoothChatFragment extends Fragment {
 
     int count = -1;
 
-    /*
-    ArrayList o3_one_min;
-    ArrayList o3_eight_min;
-    ArrayList no2_one_min;
-    ArrayList so2_one_min;
-    ArrayList co_eight_min;
-    */
-
     /**
      * Name of the connected device
      */
@@ -154,27 +147,38 @@ public class BluetoothChatFragment extends Fragment {
             TimerTask historyTask = new TimerTask() {
                 @Override
                 public void run() {
-                    mTimerHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), "hoola", Toast.LENGTH_SHORT).show();
+                    mTimerHandler.post(new Runnable(){
+                        public void run(){
+                            String now_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                            SimpleDateFormat now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            java.util.Date now_date = null;
+                            java.util.Date old_date = null;
+                            try {
+                                now_date = now.parse(now_time);
+                                old_date = now.parse(now_time);
+                            }catch (ParseException e){
+                                e.printStackTrace();
+                            }
+                            old_date.setMinutes(old_date.getMinutes()-3);
+                            /*
+                            Calendar cal;
+                            cal = now.getCalendar();
+                            cal.add(Calendar.MINUTE,-3);*/
+                            long now_epoch = now_date.getTime();
+                            long old_epoch = old_date.getTime();
+                            String now_epoch_time = String.format("%10d", now_epoch);
+                            now_epoch_time = now_epoch_time.substring(0,10);
+                            String old_epoch_time = String.format("%10d", old_epoch);
+                            old_epoch_time = old_epoch_time.substring(0,10);
+                            sendMessage("history " + old_epoch_time + " " + now_epoch_time + "\n");
                         }
                     });
                 }
             };
-
             Timer timer = new Timer();
-            timer.schedule(historyTask, 0, 5*60000);
-        }
+            timer.schedule(historyTask,0,3*60000);
+            };
     }
-
-        /*
-        o3_one_min = new ArrayList();
-        o3_eight_min = new ArrayList();
-        no2_one_min = new ArrayList();
-        so2_one_min = new ArrayList();
-        co_eight_min = new ArrayList();
-        */
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -438,7 +442,6 @@ public class BluetoothChatFragment extends Fragment {
                             pm25_bufferArrayList.add(PM25);
 
                             CO_AQI = calcurate_co_aqi(calcurate_co_avg());
-
                             SO2_AQI = calcurate_so2_aqi(calcurate_so2_avg());
                             NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
                             O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
