@@ -166,6 +166,7 @@ public class BluetoothChatFragment extends Fragment {
             Timer timer = new Timer();
             timer.schedule(historyTask, 0, 5*60000);
         }
+
     }
 
         /*
