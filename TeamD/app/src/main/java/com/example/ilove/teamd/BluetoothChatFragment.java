@@ -71,12 +71,13 @@ public class BluetoothChatFragment extends Fragment {
     public ArrayList<Entry> so2value = new ArrayList<Entry>();
     public ArrayList<Entry> o3value = new ArrayList<Entry>();
     public ArrayList<Entry> pm25value = new ArrayList<Entry>();
-    public float CO_AQI=0, NO2_AQI=0, SO2_AQI=0, O3_AQI=0, PM25_AQI = 0;
-    public float CO=0, NO2=0, SO2=0, O3=0, PM25=0, TEM  = 0;
+    public float CO, NO2, SO2, O3, PM25, TEM  = 0;
     public float co_avg, no2_avg, so2_avg, o3_avg, pm25_avg = 0;
     public float co_old, no2_old, so2_old, o3_old, pm25_old = 0;
+    public float CO_AQI, NO2_AQI, SO2_AQI, O3_AQI, PM25_AQI = 0;
 
     View view;
+
 
     private static final String TAG = "BluetoothChatFragment";
 
@@ -158,7 +159,7 @@ public class BluetoothChatFragment extends Fragment {
                     mTimerHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getContext(), "hoola", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(), "hoola", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -348,6 +349,7 @@ public class BluetoothChatFragment extends Fragment {
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+
             FragmentActivity activity = getActivity();
             switch (msg.what) {
                 case Constants.MESSAGE_STATE_CHANGE:

@@ -710,7 +710,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                     if (form_type.equals("h")) {
                         Toast.makeText(current.this, "history", Toast.LENGTH_SHORT).show();
                     } else if (form_type.equals("r")) {
-                        Toast.makeText(current.this, "CO", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(current.this, "CO", Toast.LENGTH_SHORT).show();
                     }
                     break;
 
