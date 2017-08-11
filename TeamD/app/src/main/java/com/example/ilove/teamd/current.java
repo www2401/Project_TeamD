@@ -20,6 +20,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.accessibility.AccessibilityManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -41,20 +42,29 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.ilove.teamd.BluetoothChatFragment.co_bufferArrayList;
+import static com.example.ilove.teamd.BluetoothChatFragment.no2_bufferArrayList;
+import static com.example.ilove.teamd.BluetoothChatFragment.o3_bufferArrayList;
+import static com.example.ilove.teamd.BluetoothChatFragment.pm25_bufferArrayList;
+import static com.example.ilove.teamd.BluetoothChatFragment.so2_bufferArrayList;
+
 public class current extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener{
+        com.google.android.gms.location.LocationListener {
+    static  tempValue b;
 
     private GoogleApiClient mGoogleApiClient = null;
-    static private GoogleMap mGoogleMap = null;
+     private GoogleMap mGoogleMap = null;
     private Marker currentMarker = null;
     public String circleColor;
-    static CircleOptions circle;
-     static LatLng currentLocation;
+    CircleOptions circle;
+     LatLng currentLocation;
 
     private Address location;
 
@@ -72,18 +82,20 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     private BluetoothAdapter mBluetoothAdapter = null;
     private String mConnectedDeviceName = null;
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
-    ToggleButton bt_co,bt_so2,bt_no2,bt_o3,bt_pm;
-    public static int Mstatus = 0;
-    public float CO_AQI, NO2_AQI, SO2_AQI, O3_AQI, PM25_AQI,NO2 = 0;
+    ToggleButton bt_co, bt_so2, bt_no2, bt_o3, bt_pm;
+    public  int Mstatus = 0;
+    public float CO_AQI = 0, NO2_AQI = 0, SO2_AQI = 0, O3_AQI = 0, PM25_AQI, NO2 = 0;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        b=new tempValue();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current);
-        bt_co=(ToggleButton)findViewById(R.id.bt_co);
-        bt_so2=(ToggleButton)findViewById(R.id.bt_so2);
-        bt_no2=(ToggleButton)findViewById(R.id.bt_no2);
-        bt_o3=(ToggleButton)findViewById(R.id.bt_o3);
-        bt_pm=(ToggleButton)findViewById(R.id.bt_pm);
+        bt_co = (ToggleButton) findViewById(R.id.bt_co);
+        bt_so2 = (ToggleButton) findViewById(R.id.bt_so2);
+        bt_no2 = (ToggleButton) findViewById(R.id.bt_no2);
+        bt_o3 = (ToggleButton) findViewById(R.id.bt_o3);
+        bt_pm = (ToggleButton) findViewById(R.id.bt_pm);
 
         //co
         bt_co.setOnClickListener(new View.OnClickListener() {
@@ -91,8 +103,9 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 Toast.makeText(current.this, "Wrong GPS coordinate.", Toast.LENGTH_LONG).show();
                 if (bt_co.isChecked()) {
                     Mstatus = 1;
-                    CO_AQI = tempValue.CO_AQI_tv;
+                    CO_AQI = b.CO_AQI_tv;
                     setCircleColorButton(CO_AQI);
+                    Toast.makeText(current.this, "aaaaa", Toast.LENGTH_LONG).show();
                     bt_so2.setEnabled(false);
                     bt_no2.setEnabled(false);
                     bt_o3.setEnabled(false);
@@ -105,72 +118,96 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                     bt_o3.setEnabled(true);
                     bt_pm.setEnabled(true);
                 }
-                tempValue.Mstatus_tv = Mstatus;
+                b.Mstatus_tv = Mstatus;
             }
         });
         //so2
         bt_so2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_so2.isChecked()) {
+                if (bt_so2.isChecked()) {
                     Mstatus = 2;
                     //SO2_AQI = tempValue.SO2_AQI_tv;
                     //setCircleColorButton(SO2_AQI);
-                    bt_co.setEnabled(false);bt_no2.setEnabled(false);bt_o3.setEnabled(false);bt_pm.setEnabled(false);
-                }else{
+                    bt_co.setEnabled(false);
+                    bt_no2.setEnabled(false);
+                    bt_o3.setEnabled(false);
+                    bt_pm.setEnabled(false);
+                } else {
                     Mstatus = 0;
                     mGoogleMap.clear();
-                    bt_co.setEnabled(true);bt_no2.setEnabled(true);bt_o3.setEnabled(true);bt_pm.setEnabled(true);
+                    bt_co.setEnabled(true);
+                    bt_no2.setEnabled(true);
+                    bt_o3.setEnabled(true);
+                    bt_pm.setEnabled(true);
                 }
-                tempValue.Mstatus_tv = Mstatus;
+                b.Mstatus_tv = Mstatus;
             }
         });
         //no2
         bt_no2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_no2.isChecked()) {
+                if (bt_no2.isChecked()) {
                     Mstatus = 3;
                     //NO2 = tempValue.NO2_tv;
                     //setCircleColorButton(NO2);
                     //comfirmsetCircleColorButton();---------------------------------------------------------------------------------------------------
-                    bt_co.setEnabled(false);bt_so2.setEnabled(false);bt_o3.setEnabled(false);bt_pm.setEnabled(false);
-                }else{
+                    bt_co.setEnabled(false);
+                    bt_so2.setEnabled(false);
+                    bt_o3.setEnabled(false);
+                    bt_pm.setEnabled(false);
+                } else {
                     Mstatus = 0;
                     mGoogleMap.clear();
-                    bt_co.setEnabled(true);bt_so2.setEnabled(true);bt_o3.setEnabled(true);bt_pm.setEnabled(true);
+                    bt_co.setEnabled(true);
+                    bt_so2.setEnabled(true);
+                    bt_o3.setEnabled(true);
+                    bt_pm.setEnabled(true);
                 }
-                tempValue.Mstatus_tv = Mstatus;
+                b.Mstatus_tv = Mstatus;
             }
         });
         //o3
         bt_o3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_o3.isChecked()) {
+                if (bt_o3.isChecked()) {
                     Mstatus = 4;
                     //O3_AQI = tempValue.O3_AQI_tv;
                     //setCircleColorButton(O3_AQI);
-                    bt_co.setEnabled(false);bt_so2.setEnabled(false);bt_no2.setEnabled(false);bt_pm.setEnabled(false);
-                }else{
+                    bt_co.setEnabled(false);
+                    bt_so2.setEnabled(false);
+                    bt_no2.setEnabled(false);
+                    bt_pm.setEnabled(false);
+                } else {
                     Mstatus = 0;
                     mGoogleMap.clear();
-                    bt_co.setEnabled(true);bt_so2.setEnabled(true);bt_no2.setEnabled(true);bt_pm.setEnabled(true);
+                    bt_co.setEnabled(true);
+                    bt_so2.setEnabled(true);
+                    bt_no2.setEnabled(true);
+                    bt_pm.setEnabled(true);
                 }
-                tempValue.Mstatus_tv = Mstatus;
+                b.Mstatus_tv = Mstatus;
             }
         });
         //pm2.5
         bt_pm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(bt_pm.isChecked()) {
+                if (bt_pm.isChecked()) {
                     Mstatus = 5;
                     //PM25_AQI = tempValue.PM25_AQI_tv;
                     //setCircleColorButton(PM25_AQI);
-                    bt_so2.setEnabled(false);bt_no2.setEnabled(false);bt_o3.setEnabled(false);bt_co.setEnabled(false);
-                }else{
+                    bt_so2.setEnabled(false);
+                    bt_no2.setEnabled(false);
+                    bt_o3.setEnabled(false);
+                    bt_co.setEnabled(false);
+                } else {
                     Mstatus = 0;
                     mGoogleMap.clear();
-                    bt_so2.setEnabled(true);bt_no2.setEnabled(true);bt_o3.setEnabled(true);bt_co.setEnabled(true);
+                    bt_so2.setEnabled(true);
+                    bt_no2.setEnabled(true);
+                    bt_o3.setEnabled(true);
+                    bt_co.setEnabled(true);
                 }
-                tempValue.Mstatus_tv = Mstatus;
+                b.Mstatus_tv = Mstatus;
             }
         });
 
@@ -185,15 +222,13 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
         if (mBluetoothAdapter == null) {
-            Toast.makeText(this,"Try again connection with Bluetooth", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Try again connection with Bluetooth", Toast.LENGTH_SHORT).show();
         }
-        if(AppController.getinstance().mChatService!=null) {
-            Log.w("BT Map Frag", "AppController.getinstance().mChatService.addHandler(pmHandler): "+pmHandler);
+        if (AppController.getinstance().mChatService != null) {
+            Log.w("BT Map Frag", "AppController.getinstance().mChatService.addHandler(pmHandler): " + pmHandler);
             AppController.getinstance().mChatService.addHandler(pmHandler);
         }
-
     }
-
     protected void onStart() {
         super.onStart();
     }
@@ -687,14 +722,14 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             }
         }
     };
-    public static void setCircleColorButton(float value) {
+
+    public void setCircleColorButton(float value) {
         if (value <= 50) {
             circle = new CircleOptions().center(currentLocation).radius(400)
                     .strokeWidth(0f)//선너비 0f : 선없음
                     .fillColor(Color.parseColor("#68F200"));
             mGoogleMap.clear();
             mGoogleMap.addCircle(circle);
-
         }
         if (value > 50 && value <= 100) {
             circle = new CircleOptions().center(currentLocation).radius(400)
@@ -740,9 +775,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             mGoogleMap.addCircle(circle);
         }
     }
-
-
-    public static void comfirmsetCircleColorButton(float value) {
+    public void comfirmsetCircleColorButton(float value) {
         //float value = tempValue.NO2_tv;
 
         if (value <= 53) {
@@ -789,4 +822,4 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         }
 
     }
-    }
+}

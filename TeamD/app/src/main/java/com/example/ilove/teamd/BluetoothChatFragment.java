@@ -39,6 +39,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -56,24 +58,23 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.example.ilove.teamd.current.Mstatus;
-
-
 /**
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
+    int Mstatus = 0;
 
+    static tempValue b;
+    static current a;
     public LineChart chart;
     public ArrayList<String> axVals = new ArrayList<String>();
-
     public ArrayList<Entry> covalue = new ArrayList<Entry>();
     public ArrayList<Entry> no2value = new ArrayList<Entry>();
     public ArrayList<Entry> so2value = new ArrayList<Entry>();
     public ArrayList<Entry> o3value = new ArrayList<Entry>();
     public ArrayList<Entry> pm25value = new ArrayList<Entry>();
-    public float CO_AQI, NO2_AQI, SO2_AQI, O3_AQI, PM25_AQI = 0;
-    public float CO, NO2, SO2, O3, PM25, TEM  = 0;
+    public float CO_AQI=0, NO2_AQI=0, SO2_AQI=0, O3_AQI=0, PM25_AQI = 0;
+    public float CO=0, NO2=0, SO2=0, O3=0, PM25=0, TEM  = 0;
     public float co_avg, no2_avg, so2_avg, o3_avg, pm25_avg = 0;
     public float co_old, no2_old, so2_old, o3_old, pm25_old = 0;
 
@@ -138,6 +139,8 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        a=new current();
+        b=new tempValue();
 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -425,44 +428,15 @@ public class BluetoothChatFragment extends Fragment {
 
                         try {
 
-                            count++;
                             JSONObject JsonAir = new JSONObject(startMessage);
+                            printAir(JsonAir);
+                            Mstatus = b.Mstatus_tv;
+                            if(Mstatus == 1){a.setCircleColorButton(b.CO_AQI_tv); }
+                            if(Mstatus == 2){a.setCircleColorButton(b.SO2_AQI_tv); }
+                            if(Mstatus == 3){a.comfirmsetCircleColorButton(b.NO2_tv); } //이것만 로우데이터로 확인중 나머지는 AQI
+                            if(Mstatus == 4){a.setCircleColorButton(b.O3_AQI_tv); }
+                            if(Mstatus == 5){a.setCircleColorButton(b.PM25_AQI_tv); }
 
-                            Mstatus = tempValue.Mstatus_tv;
-                            if(Mstatus == 1){current.setCircleColorButton(tempValue.CO_AQI_tv); }
-                            if(Mstatus == 2){current.setCircleColorButton(tempValue.SO2_AQI_tv); }
-                            if(Mstatus == 3){current.comfirmsetCircleColorButton(tempValue.NO2_tv); } //이것만 로우데이터로 확인중 나머지는 AQI
-                            if(Mstatus == 4){current.setCircleColorButton(tempValue.O3_AQI_tv); }
-                            if(Mstatus == 5){current.setCircleColorButton(tempValue.PM25_AQI_tv); }
-                            //Toast.makeText(activity, readMessage, Toast.LENGTH_SHORT).show();
-                            CO = JsonAir.getInt("CO");
-                            NO2 = JsonAir.getInt("NO2");
-                            SO2 = JsonAir.getInt("SO2");
-                            O3 = JsonAir.getInt("O3");
-                            PM25 = JsonAir.getInt("PM25");
-                            co_bufferArrayList.add(CO);
-                            no2_bufferArrayList.add(NO2);
-                            so2_bufferArrayList.add(SO2);
-                            o3_bufferArrayList.add(O3);
-                            pm25_bufferArrayList.add(PM25);
-
-
-                            CO_AQI = calcurate_co_aqi(calcurate_co_avg());
-                            SO2_AQI = calcurate_so2_aqi(calcurate_so2_avg());
-                            NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
-                            O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
-                            PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
-
-                            tempValue.CO_AQI_tv = CO_AQI;//값넘기는거
-                            tempValue.SO2_AQI_tv = SO2_AQI;
-                            tempValue.NO2_AQI_tv = NO2_AQI;
-                            tempValue.O3_AQI_tv = O3_AQI;
-                            tempValue.PM25_AQI_tv = PM25_AQI;
-                            tempValue.CO_tv = CO;//값넘기는거
-                            tempValue.SO2_tv = SO2;
-                            tempValue.NO2_tv = NO2;
-                            tempValue.O3_tv = O3;
-                            tempValue.PM25_tv = PM25;
 
                             temp.setText(JsonAir.getString("temp"));
                             co_air.setText(String.valueOf(CO_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
@@ -489,7 +463,7 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
                         */
 
-                            json_AirdataTransfer.put("uid",13);
+                            json_AirdataTransfer.put("uid",88);
                             json_AirdataTransfer.put("atime",time);
                             json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
                             json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
@@ -667,6 +641,42 @@ public class BluetoothChatFragment extends Fragment {
         chart.setData(pm25data);
 
         chart.invalidate();//  dont forget to refresh the drawing
+    }
+    public void printAir(JSONObject jsonAir) {
+        try {
+            count++;
+
+            CO = jsonAir.getInt("CO"); //JSONAir에 갑을 각 변수에 대입
+            NO2 = jsonAir.getInt("NO2");
+            SO2 = jsonAir.getInt("SO2");
+            O3 = jsonAir.getInt("O3");
+            PM25 = jsonAir.getInt("PM25");
+
+            co_bufferArrayList.add(CO);
+            no2_bufferArrayList.add(NO2);
+            so2_bufferArrayList.add(SO2);
+            o3_bufferArrayList.add(O3);
+            pm25_bufferArrayList.add(PM25);
+
+            CO_AQI = calcurate_co_aqi(calcurate_co_avg());
+            SO2_AQI = calcurate_so2_aqi(calcurate_so2_avg());
+            NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
+            O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
+            PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
+
+            b.CO_AQI_tv = CO_AQI;//값넘기는거
+            b.SO2_AQI_tv = SO2_AQI;
+            b.NO2_AQI_tv = NO2_AQI;
+            b.O3_AQI_tv = O3_AQI;
+            b.PM25_AQI_tv = PM25_AQI;
+            b.CO_tv = CO;//값넘기는거
+            b.SO2_tv = SO2;
+            b.NO2_tv = NO2;
+            b.O3_tv = O3;
+            b.PM25_tv = PM25;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -1160,6 +1170,7 @@ public class BluetoothChatFragment extends Fragment {
         }
         return pm25_avg;
     }
+
 
 }
 
