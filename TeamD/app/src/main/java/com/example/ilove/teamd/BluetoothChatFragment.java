@@ -220,9 +220,11 @@ public class BluetoothChatFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         /*
-        if (AppController.getinstance().mChatService != null) {
+        if (AppController.getinstance().mChatService != null)
+        {
             AppController.getinstance().mChatService.stop();
-        }*/
+        }
+        */
     }
 
     @Override
@@ -288,8 +290,8 @@ public class BluetoothChatFragment extends Fragment {
             AppController.getinstance().mChatService.write(send);
 
             // Reset out string buffer to zero and clear the edit text field
-            mOutStringBuffer.setLength(0);
-            mOutEditText.setText(mOutStringBuffer);
+            //mOutStringBuffer.setLength(0);
+            //mOutEditText.setText(mOutStringBuffer);
         }
     }
 
@@ -372,7 +374,7 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
-                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    //mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
 
 
@@ -496,7 +498,7 @@ public class BluetoothChatFragment extends Fragment {
 
                             // o3_one_min.toString(); 어레이 전체 값을 스트링으로 변환 해서 토스트 값 확인 할 수 있음
 
-                            aqi((int)CO_AQI,(int)NO2_AQI,(int)SO2_AQI,(int)O3_AQI,(int)PM25_AQI);
+                            aqi((int)CO,(int)NO2,(int)SO2,(int)O3,(int)PM25);
                             setData();
 
                             //json_dataTransfer의 데이터들을 하나의 json_string으로 묶는다.
@@ -597,11 +599,11 @@ public class BluetoothChatFragment extends Fragment {
 
 
         //ArrayList<Entry> covalue = new ArrayList<Entry>(); //y축세팅 위로올림
-        covalue.add(new Entry(CO, count));
-        so2value.add(new Entry(SO2, count));
-        no2value.add(new Entry(NO2, count));
-        o3value.add(new Entry(O3, count));
-        pm25value.add(new Entry(PM25, count));
+        covalue.add(new Entry(CO_AQI, count));
+        so2value.add(new Entry(SO2_AQI, count));
+        no2value.add(new Entry(NO2_AQI, count));
+        o3value.add(new Entry(O3_AQI, count));
+        pm25value.add(new Entry(PM25_AQI, count));
 
         LineDataSet cochart = new LineDataSet(covalue, "CO");
         LineDataSet so2chart = new LineDataSet(so2value, "SO2");
