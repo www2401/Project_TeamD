@@ -25,7 +25,7 @@
             <item
                 android:id="@+id/nav_registration"
                 android:icon="@drawable/registration"
-                android:title="registration"/>
+                android:title="sign-up"/>
 
         </menu>
     </item>

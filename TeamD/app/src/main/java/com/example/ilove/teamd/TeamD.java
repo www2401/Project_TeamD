@@ -242,7 +242,7 @@ public class TeamD extends AppCompatActivity
 
                     String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
 
-                    json_HeartdataTransfer.put("uid", 84);
+                    json_HeartdataTransfer.put("uid", uidValue.tempUid);
                     json_HeartdataTransfer.put("heart_bit", hr);
                     json_HeartdataTransfer.put("htime", time);
 
