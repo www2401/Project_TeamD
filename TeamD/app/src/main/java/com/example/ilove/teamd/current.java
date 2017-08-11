@@ -14,19 +14,15 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -36,7 +32,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -226,7 +221,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     protected void onStart() {
 
         super.onStart();
-        mapView.onStart();
+        //mapView.onStart();
     }
 
     @Override
@@ -245,7 +240,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 checkPermissions();
             }
         }
-        mapView.onResume();
+        //mapView.onResume();
     }
 
     @Override
@@ -255,7 +250,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             mGoogleApiClient.disconnect();
         }
         super.onStop();
-        mapView.onStop();
+        //mapView.onStop();
     }
 
     @Override
@@ -270,7 +265,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         }
 
         super.onPause();
-        mapView.onPause();
+        //mapView.onPause();
     }
 
     @Override
@@ -289,7 +284,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
 
         }
         super.onDestroy();
-        mapView.onDestroy();
+        //mapView.onDestroy();
     }
 
     @Override
