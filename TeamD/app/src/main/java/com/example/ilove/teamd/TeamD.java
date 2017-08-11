@@ -240,9 +240,9 @@ public class TeamD extends AppCompatActivity
 
                     JSONObject json_HeartdataTransfer = new JSONObject();
 
-                    String time = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                    String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
 
-                    json_HeartdataTransfer.put("uid", "asdf");
+                    json_HeartdataTransfer.put("uid", Integer.parseInt(uidValue.tempUid));
                     json_HeartdataTransfer.put("heart_bit", hr);
                     json_HeartdataTransfer.put("htime", time);
 

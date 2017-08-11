@@ -480,7 +480,7 @@ public class BluetoothChatFragment extends Fragment {
                         json_AirdataTransfer.put("PM25",JsonAir.getString("PM25"));
                         */
 
-                            json_AirdataTransfer.put("uid",13);
+                            json_AirdataTransfer.put("uid", Integer.parseInt(uidValue.tempUid));
                             json_AirdataTransfer.put("atime",time);
                             json_AirdataTransfer.put("CO",JsonAir.getString("CO"));
                             json_AirdataTransfer.put("O3",JsonAir.getString("O3"));
