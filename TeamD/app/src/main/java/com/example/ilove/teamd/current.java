@@ -105,8 +105,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 if (bt_co.isChecked()) {
                     Mstatus = 1;
                     CO_AQI = CO_AQI_tv;
-                    //setCircleColorButton(CO_AQI);
-                    Toast.makeText(current.this, (int)CO_AQI, Toast.LENGTH_LONG).show();
+                    setCircleColorButton(CO_AQI);
+                    //Toast.makeText(current.this, (int)CO_AQI, Toast.LENGTH_LONG).show();
                 } else {
                     Mstatus = 0;
                     mGoogleMap.clear();
