@@ -61,7 +61,7 @@ import java.util.TimerTask;
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
-
+     current current;
     public LineChart chart;
     public ArrayList<String> axVals = new ArrayList<String>();
     public ArrayList<Entry> covalue = new ArrayList<Entry>();
@@ -69,6 +69,7 @@ public class BluetoothChatFragment extends Fragment {
     public ArrayList<Entry> so2value = new ArrayList<Entry>();
     public ArrayList<Entry> o3value = new ArrayList<Entry>();
     public ArrayList<Entry> pm25value = new ArrayList<Entry>();
+    int Mstatus = 0;
 
     public float CO, NO2, SO2, O3, PM25, TEM  = 0;
     public float co_avg, no2_avg, so2_avg, o3_avg, pm25_avg = 0;
@@ -137,6 +138,7 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        current=new current();
 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -441,12 +443,8 @@ public class BluetoothChatFragment extends Fragment {
                     }
                     else if(form_type.equals("r"))
                     {
-                        //Toast.makeText(getContext(),"realtime",Toast.LENGTH_SHORT).show();
-
                         try {
-
                             JSONObject JsonAir = new JSONObject(startMessage);
-
                             CO = JsonAir.getInt("CO");
                             NO2 = JsonAir.getInt("NO2");
                             SO2 = JsonAir.getInt("SO2");
@@ -466,15 +464,22 @@ public class BluetoothChatFragment extends Fragment {
                             O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
                             PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
 
-
+                            tempValue.CO_AQI_tv = CO_AQI;//값넘기는거
+                            tempValue.SO2_AQI_tv = SO2_AQI;
+                            tempValue.NO2_AQI_tv = NO2_AQI;
+                            tempValue.O3_AQI_tv = O3_AQI;
+                            tempValue.PM25_AQI_tv = PM25_AQI;
+                            tempValue.CO_tv = CO;//값넘기는거
+                            tempValue.SO2_tv = SO2;
+                            tempValue.NO2_tv = NO2;
+                            tempValue.O3_tv = O3;
+                            tempValue.PM25_tv = PM25;
                             temp.setText(JsonAir.getString("temp"));
-                            co_air.setText(String.valueOf(CO_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
-                            o3_air.setText(String.valueOf(SO2_AQI));
-                            so2_air.setText(String.valueOf(NO2_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
-                            no2_air.setText(String.valueOf(O3_AQI));
-                            pm25_air.setText(String.valueOf(PM25_AQI));
-
-
+                            co_air.setText(String.valueOf((int)CO_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
+                            o3_air.setText(String.valueOf((int)SO2_AQI));
+                            so2_air.setText(String.valueOf((int)NO2_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
+                            no2_air.setText(String.valueOf((int)O3_AQI));
+                            pm25_air.setText(String.valueOf((int)PM25_AQI));
                             JsonTransfer airdata_transfer = new JsonTransfer();
 
                             JSONObject json_AirdataTransfer = new JSONObject();  //JSONObject는 JSON을 만들기 위함.

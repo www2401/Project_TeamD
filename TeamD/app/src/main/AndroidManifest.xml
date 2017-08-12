@@ -18,14 +18,14 @@
         android:theme="@style/AppTheme"
         >
 
-        <!-- <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBM-QI_cobHtSMdo56T1ZijHBDpU0HtCBE"/> // 유진키  -->
-
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBfA6zD0Nl3WNJa-Mi26VOxZA1U9S4aQzU"
+            android:value="AIzaSyBM-QI_cobHtSMdo56T1ZijHBDpU0HtCBE"/> // 유진키
+
+
+        <!--   <meta-data
+             android:name="com.google.android.geo.API_KEY"
+             android:value="AIzaSyBfA6zD0Nl3WNJa-Mi26VOxZA1U9S4aQzU"-->
             /> //언니꺼
 
 
