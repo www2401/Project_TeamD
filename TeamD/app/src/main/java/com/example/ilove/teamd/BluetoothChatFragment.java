@@ -51,6 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -156,17 +157,37 @@ public class BluetoothChatFragment extends Fragment {
             TimerTask historyTask = new TimerTask() {
                 @Override
                 public void run() {
-                    mTimerHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Toast.makeText(getContext(), "hoola", Toast.LENGTH_SHORT).show();
+                    mTimerHandler.post(new Runnable(){
+                        public void run(){
+                            String now_time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                            SimpleDateFormat now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            java.util.Date now_date = null;
+                            java.util.Date old_date = null;
+                            try {
+                                now_date = now.parse(now_time);
+                                old_date = now.parse(now_time);
+                            }catch (ParseException e){
+                                e.printStackTrace();
+                            }
+                            old_date.setMinutes(old_date.getMinutes()-3);
+                            /*
+                            Calendar cal;
+                            cal = now.getCalendar();
+                            cal.add(Calendar.MINUTE,-3);*/
+                            long now_epoch = now_date.getTime();
+                            long old_epoch = old_date.getTime();
+                            String now_epoch_time = String.format("%10d", now_epoch);
+                            now_epoch_time = now_epoch_time.substring(0,10);
+                            String old_epoch_time = String.format("%10d", old_epoch);
+                            old_epoch_time = old_epoch_time.substring(0,10);
+                            sendMessage("history " + old_epoch_time + " " + now_epoch_time + "\n");
                         }
                     });
                 }
             };
 
             Timer timer = new Timer();
-            timer.schedule(historyTask, 0, 5*60000);
+            timer.schedule(historyTask, 0, 60000);
         }
 
     }
@@ -287,8 +308,8 @@ public class BluetoothChatFragment extends Fragment {
             AppController.getinstance().mChatService.write(send);
 
             // Reset out string buffer to zero and clear the edit text field
-            mOutStringBuffer.setLength(0);
-            mOutEditText.setText(mOutStringBuffer);
+           // mOutStringBuffer.setLength(0);
+           // mOutEditText.setText(mOutStringBuffer);
         }
     }
 
@@ -372,7 +393,7 @@ public class BluetoothChatFragment extends Fragment {
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
-                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    //mConversationArrayAdapter.add("Me:  " + writeMessage);
                     break;
 
 
