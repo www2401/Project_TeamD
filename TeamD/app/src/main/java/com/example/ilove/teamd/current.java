@@ -274,6 +274,8 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
                 "Please check location permission and GPS activation.");
 
         mGoogleMap.getUiSettings().setCompassEnabled(true);
+
+        
         //mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(22));
 
