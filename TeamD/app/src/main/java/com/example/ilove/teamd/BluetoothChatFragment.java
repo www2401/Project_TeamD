@@ -61,10 +61,7 @@ import java.util.TimerTask;
  * This fragment controls Bluetooth to communicate with other devices.
  */
 public class BluetoothChatFragment extends Fragment {
-    int Mstatus = 0;
 
-    static tempValue b;
-    static current a;
     public LineChart chart;
     public ArrayList<String> axVals = new ArrayList<String>();
     public ArrayList<Entry> covalue = new ArrayList<Entry>();
@@ -72,6 +69,7 @@ public class BluetoothChatFragment extends Fragment {
     public ArrayList<Entry> so2value = new ArrayList<Entry>();
     public ArrayList<Entry> o3value = new ArrayList<Entry>();
     public ArrayList<Entry> pm25value = new ArrayList<Entry>();
+
     public float CO, NO2, SO2, O3, PM25, TEM  = 0;
     public float co_avg, no2_avg, so2_avg, o3_avg, pm25_avg = 0;
     public float co_old, no2_old, so2_old, o3_old, pm25_old = 0;
@@ -139,8 +137,6 @@ public class BluetoothChatFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        a=new current();
-        b=new tempValue();
 
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -308,8 +304,8 @@ public class BluetoothChatFragment extends Fragment {
             AppController.getinstance().mChatService.write(send);
 
             // Reset out string buffer to zero and clear the edit text field
-           // mOutStringBuffer.setLength(0);
-           // mOutEditText.setText(mOutStringBuffer);
+            // mOutStringBuffer.setLength(0);
+            // mOutEditText.setText(mOutStringBuffer);
         }
     }
 
@@ -450,13 +446,25 @@ public class BluetoothChatFragment extends Fragment {
                         try {
 
                             JSONObject JsonAir = new JSONObject(startMessage);
-                            printAir(JsonAir);
-                            Mstatus = b.Mstatus_tv;
-                            if(Mstatus == 1){a.setCircleColorButton(b.CO_AQI_tv); }
-                            if(Mstatus == 2){a.setCircleColorButton(b.SO2_AQI_tv); }
-                            if(Mstatus == 3){a.comfirmsetCircleColorButton(b.NO2_tv); } //이것만 로우데이터로 확인중 나머지는 AQI
-                            if(Mstatus == 4){a.setCircleColorButton(b.O3_AQI_tv); }
-                            if(Mstatus == 5){a.setCircleColorButton(b.PM25_AQI_tv); }
+
+                            CO = JsonAir.getInt("CO");
+                            NO2 = JsonAir.getInt("NO2");
+                            SO2 = JsonAir.getInt("SO2");
+                            O3 = JsonAir.getInt("O3");
+                            PM25 = JsonAir.getInt("PM25");
+
+                            co_bufferArrayList.add(CO);
+                            no2_bufferArrayList.add(NO2);
+                            so2_bufferArrayList.add(SO2);
+                            o3_bufferArrayList.add(O3);
+                            pm25_bufferArrayList.add(PM25);
+
+
+                            CO_AQI = calcurate_co_aqi(calcurate_co_avg());
+                            SO2_AQI = calcurate_so2_aqi(calcurate_so2_avg());
+                            NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
+                            O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
+                            PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
 
 
                             temp.setText(JsonAir.getString("temp"));
@@ -663,119 +671,83 @@ public class BluetoothChatFragment extends Fragment {
 
         chart.invalidate();//  dont forget to refresh the drawing
     }
-    public void printAir(JSONObject jsonAir) {
-        try {
-            count++;
-
-            CO = jsonAir.getInt("CO"); //JSONAir에 갑을 각 변수에 대입
-            NO2 = jsonAir.getInt("NO2");
-            SO2 = jsonAir.getInt("SO2");
-            O3 = jsonAir.getInt("O3");
-            PM25 = jsonAir.getInt("PM25");
-
-            co_bufferArrayList.add(CO);
-            no2_bufferArrayList.add(NO2);
-            so2_bufferArrayList.add(SO2);
-            o3_bufferArrayList.add(O3);
-            pm25_bufferArrayList.add(PM25);
-
-            CO_AQI = calcurate_co_aqi(calcurate_co_avg());
-            SO2_AQI = calcurate_so2_aqi(calcurate_so2_avg());
-            NO2_AQI = calcurate_no2_aqi(calcurate_no2_avg());
-            O3_AQI = calcurate_o3_aqi(calcurate_o3_avg());
-            PM25_AQI = calcurate_pm25_aqi(calcurate_pm25_avg());
-
-            b.CO_AQI_tv = CO_AQI;//값넘기는거
-            b.SO2_AQI_tv = SO2_AQI;
-            b.NO2_AQI_tv = NO2_AQI;
-            b.O3_AQI_tv = O3_AQI;
-            b.PM25_AQI_tv = PM25_AQI;
-            b.CO_tv = CO;//값넘기는거
-            b.SO2_tv = SO2;
-            b.NO2_tv = NO2;
-            b.O3_tv = O3;
-            b.PM25_tv = PM25;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
 
-    public void aqi(int CO, int NO2, int SO2, int O3, int PM25){
-        if(CO >= 0 && CO <= 50)
+    public void aqi(int CO_AQI, int NO2_AQI, int SO2_AQI, int O3_AQI, int PM25_AQI){
+        if(CO_AQI >= 0 && CO_AQI <= 50)
             co_air.setBackgroundResource(R.drawable.g_co);
-        if(CO >= 51 && CO <= 100)
+        if(CO_AQI >= 51 && CO_AQI <= 100)
             co_air.setBackgroundResource(R.drawable.y_co);
-        if(CO >= 101 && CO <= 150)
+        if(CO_AQI >= 101 && CO_AQI <= 150)
             co_air.setBackgroundResource(R.drawable.o_co);
-        if(CO >= 151 && CO <= 200)
+        if(CO_AQI >= 151 && CO_AQI <= 200)
             co_air.setBackgroundResource(R.drawable.r_co);
-        if(CO >= 201 && CO <= 300)
+        if(CO_AQI >= 201 && CO_AQI <= 300)
             co_air.setBackgroundResource(R.drawable.p_co);
-        if(CO >= 301 && CO <= 400)
+        if(CO_AQI >= 301 && CO_AQI <= 400)
             co_air.setBackgroundResource(R.drawable.b_co);
-        if(CO >= 401 && CO <= 500)
+        if(CO_AQI >= 401 && CO_AQI <= 500)
             co_air.setBackgroundResource(R.drawable.b_co);
 
-        if(NO2 >= 0 && NO2 <= 50)
+        if(NO2_AQI >= 0 && NO2_AQI <= 50)
             no2_air.setBackgroundResource(R.drawable.g_no2);
-        if(NO2 >= 51 && NO2 <= 100)
+        if(NO2_AQI >= 51 && NO2_AQI <= 100)
             no2_air.setBackgroundResource(R.drawable.y_no2);
-        if(NO2 >= 101 && NO2 <= 150)
+        if(NO2_AQI >= 101 && NO2_AQI <= 150)
             no2_air.setBackgroundResource(R.drawable.o_no2);
-        if(NO2 >= 151 && NO2 <= 200)
+        if(NO2_AQI >= 151 && NO2_AQI <= 200)
             no2_air.setBackgroundResource(R.drawable.r_no2);
-        if(NO2 >= 201 && NO2 <= 300)
+        if(NO2_AQI >= 201 && NO2_AQI <= 300)
             no2_air.setBackgroundResource(R.drawable.p_no2);
-        if(NO2 >= 301 && NO2 <= 400)
+        if(NO2_AQI >= 301 && NO2_AQI <= 400)
             no2_air.setBackgroundResource(R.drawable.b_no2);
-        if(NO2 >= 401 && NO2 <= 500)
+        if(NO2_AQI >= 401 && NO2_AQI <= 500)
             no2_air.setBackgroundResource(R.drawable.b_no2);
 
-        if(SO2 >= 0 && SO2 <= 50)
+        if(SO2_AQI >= 0 && SO2_AQI <= 50)
             so2_air.setBackgroundResource(R.drawable.g_so2);
-        if(SO2 >= 51 && SO2 <= 100)
+        if(SO2_AQI >= 51 && SO2_AQI <= 100)
             so2_air.setBackgroundResource(R.drawable.y_so2);
-        if(SO2 >= 101 && SO2 <= 150)
+        if(SO2_AQI >= 101 && SO2_AQI <= 150)
             so2_air.setBackgroundResource(R.drawable.o_so2);
-        if(SO2 >= 151 && SO2 <= 200)
+        if(SO2_AQI >= 151 && SO2_AQI <= 200)
             so2_air.setBackgroundResource(R.drawable.r_so2);
-        if(SO2 >= 201 && SO2 <= 300)
+        if(SO2_AQI >= 201 && SO2_AQI <= 300)
             so2_air.setBackgroundResource(R.drawable.p_so2);
-        if(SO2 >= 301 && SO2 <= 400)
+        if(SO2_AQI >= 301 && SO2_AQI <= 400)
             so2_air.setBackgroundResource(R.drawable.b_so2);
-        if(SO2 >= 401 && SO2 <= 500)
+        if(SO2_AQI >= 401 && SO2_AQI <= 500)
             so2_air.setBackgroundResource(R.drawable.b_so2);
 
 
-        if(O3 >= 0 && O3 <= 50)
+        if(O3_AQI >= 0 && O3_AQI <= 50)
             o3_air.setBackgroundResource(R.drawable.g_o3);
-        if(O3 >= 51 && O3 <= 100)
+        if(O3_AQI >= 51 && O3_AQI <= 100)
             o3_air.setBackgroundResource(R.drawable.y_o3);
-        if(O3 >= 101 && O3 <= 150)
+        if(O3_AQI >= 101 && O3_AQI <= 150)
             o3_air.setBackgroundResource(R.drawable.o_o3);
-        if(O3 >= 151  && O3 <= 200)
+        if(O3_AQI >= 151  && O3_AQI <= 200)
             o3_air.setBackgroundResource(R.drawable.r_o3);
-        if(O3 >= 201 && O3 <= 300)
+        if(O3_AQI >= 201 && O3_AQI <= 300)
             o3_air.setBackgroundResource(R.drawable.p_o3);
-        if(O3 >= 301 && O3 <= 400)
+        if(O3_AQI >= 301 && O3_AQI <= 400)
             o3_air.setBackgroundResource(R.drawable.b_o3);
-        if(O3 >= 401 && O3 <= 500)
+        if(O3_AQI >= 401 && O3_AQI <= 500)
             o3_air.setBackgroundResource(R.drawable.b_o3);
 
-        if(PM25 >=0 && PM25 <=50)
+        if(PM25_AQI >=0 && PM25_AQI <=50)
             pm25_air.setBackgroundResource(R.drawable.g_pm25);
-        if(PM25 >= 51 && PM25 <= 100)
+        if(PM25_AQI >= 51 && PM25_AQI <= 100)
             pm25_air.setBackgroundResource(R.drawable.y_pm25);
-        if(PM25 >= 101 && PM25 <= 150)
+        if(PM25_AQI >= 101 && PM25_AQI <= 150)
             pm25_air.setBackgroundResource(R.drawable.o_pm25);
-        if(PM25 >= 151 && PM25 <= 200)
+        if(PM25_AQI >= 151 && PM25_AQI <= 200)
             pm25_air.setBackgroundResource(R.drawable.r_pm25);
-        if(PM25 >= 201 && PM25 <= 300)
+        if(PM25_AQI >= 201 && PM25_AQI <= 300)
             pm25_air.setBackgroundResource(R.drawable.p_pm25);
-        if(PM25 >= 301 && PM25 <= 400)
+        if(PM25_AQI >= 301 && PM25_AQI <= 400)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
-        if(PM25 >= 401 && PM25 <= 500)
+        if(PM25_AQI >= 401 && PM25_AQI <= 500)
             pm25_air.setBackgroundResource(R.drawable.b_pm25);
     }
 
@@ -1194,4 +1166,3 @@ public class BluetoothChatFragment extends Fragment {
 
 
 }
-
