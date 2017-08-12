@@ -24,7 +24,7 @@
     android:focusableInTouchMode="true">
 
     <LinearLayout
-        android:layout_width="368dp"
+        android:layout_width="360dp"
         android:layout_height="495dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteY="8dp"
@@ -104,7 +104,7 @@
             android:id="@+id/imageView4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/color"
+            app:srcCompat="@drawable/colorbaraqi"
             android:layout_weight="1"
             tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp" />

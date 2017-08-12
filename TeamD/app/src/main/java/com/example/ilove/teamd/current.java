@@ -1,7 +1,6 @@
 package com.example.ilove.teamd;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
@@ -21,14 +20,12 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.accessibility.AccessibilityManagerCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,8 +40,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -319,7 +314,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
 
             mGoogleMap.getUiSettings().setCompassEnabled(true);
             //mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(16));
         }
     }
 

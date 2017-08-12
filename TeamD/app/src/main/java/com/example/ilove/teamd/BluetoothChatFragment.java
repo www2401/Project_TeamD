@@ -185,7 +185,7 @@ public class BluetoothChatFragment extends Fragment {
             };
 
             Timer timer = new Timer();
-            timer.schedule(historyTask, 0, 60000);
+            timer.schedule(historyTask, 0, 3*60000);
         }
 
     }
@@ -474,6 +474,7 @@ public class BluetoothChatFragment extends Fragment {
                             tempValue.NO2_tv = NO2;
                             tempValue.O3_tv = O3;
                             tempValue.PM25_tv = PM25;
+
                             temp.setText(JsonAir.getString("temp"));
                             co_air.setText(String.valueOf((int)CO_AQI));   //toString 이 뭔가를 String으로 바꿔주는거
                             o3_air.setText(String.valueOf((int)SO2_AQI));
