@@ -100,9 +100,6 @@ public class TeamD extends AppCompatActivity
         if (mBluetoothAdapter == null) {
             Toast.makeText(this,"Try again connection with Bluetooth", Toast.LENGTH_SHORT).show();
         }
-        /*
-        if(AppController.getinstance().mChatService!=null)
-            AppController.getinstance().mChatService.addHandler(pmHandler); */
 
         }
     @Override
@@ -317,50 +314,15 @@ public class TeamD extends AppCompatActivity
     @Override
     public void onMapReady(final GoogleMap map) {
 
-        LatLng Atkinson = new LatLng(32.8818010, -117.2335230);
+        LatLng CSE = new LatLng(32.8818010, -117.2335230);
 
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(Atkinson);
-        //markerOptions.title("Atkinson Hall");
-        //markerOptions.snippet("We're here!");
+        markerOptions.position(CSE);
         map.addMarker(markerOptions);
 
-        map.moveCamera(CameraUpdateFactory.newLatLng(Atkinson));
+        map.moveCamera(CameraUpdateFactory.newLatLng(CSE));
         map.animateCamera(CameraUpdateFactory.zoomTo(18));
 
     }
-
-    /*
-    private final Handler pmHandler = new Handler(){
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case Constants.MESSAGE_STATE_CHANGE:
-                    break;
-                case Constants.MESSAGE_READ:
-                    byte[] readBuf = (byte[]) msg.obj;
-                    String start_message = new String(readBuf, 0, msg.arg1);
-                    String form_type = start_message.substring(0, 1);
-                    String readMessage = start_message.substring(1);
-                    //Toast.makeText(getContext(),form_type,Toast.LENGTH_SHORT).show();
-                    if (form_type.equals("h")) {
-                        Toast.makeText(TeamD.this, "history", Toast.LENGTH_SHORT).show();
-                    }
-                    else if (form_type.equals("r")) {
-                        try {
-                            Toast.makeText(TeamD.this, "CO", Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-
-                        }
-                    }
-                    break;
-
-                case Constants.MESSAGE_DEVICE_NAME:
-                    // save the connected device's name
-                    mConnectedDeviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    break;
-
-            }
-        }
-    }; */
 
 }
