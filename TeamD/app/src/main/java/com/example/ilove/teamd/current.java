@@ -626,25 +626,24 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
     };
 
     public void setCircleColorButton(int value) {
-        Toast.makeText(current.this, ""+value, Toast.LENGTH_LONG).show();
         if (value <= 50) {
            circle = new CircleOptions().center(currentLocation).radius(500)
                     .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#68F200"));
+                    .fillColor(Color.parseColor("#e2ed9b"));
             mGoogleMap.clear();
             mGoogleMap.addCircle(circle);
         }
         if (value > 50 && value <= 100) {
              circle = new CircleOptions().center(currentLocation).radius(500)
                     .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#FCFC00"));
+                    .fillColor(Color.parseColor("#fff59d"));
             mGoogleMap.clear();
             mGoogleMap.addCircle(circle);
         }
         if (value > 100 && value <= 150) {
              circle = new CircleOptions().center(currentLocation).radius(500)
                     .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#F9960C"));
+                    .fillColor(Color.parseColor("#ffcc80"));
             mGoogleMap.clear();
             mGoogleMap.addCircle(circle);
         }
@@ -654,7 +653,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             circle.center(currentLocation);
             circle.radius(500);
             circle.strokeWidth(0f);//선너비 0f : 선없음
-            circle.fillColor(Color.parseColor("#871121"));
+            circle.fillColor(Color.parseColor("#ef5350"));
          /*   circle = new CircleOptions().center(currentLocation).radius(500)
                     .strokeWidth(0f)//선너비 0f : 선없음
                     .fillColor(Color.parseColor("#7fff0000"));*/
@@ -664,7 +663,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         if (value > 200 && value <= 300) {
              circle = new CircleOptions().center(currentLocation).radius(500)
                     .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#A80B93"));
+                    .fillColor(Color.parseColor("#ce93d8"));
             mGoogleMap.clear();
             mGoogleMap.addCircle(circle);
         }
@@ -673,7 +672,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
             circle.center(currentLocation);
                     circle.radius(500);
                     circle.strokeWidth(0f);//선너비 0f : 선없음
-                    circle.fillColor(Color.parseColor("#871121"));
+                    circle.fillColor(Color.parseColor("#795548"));
             mGoogleMap.clear();
             mGoogleMap.addCircle(circle);
         }
@@ -681,7 +680,7 @@ public class current extends AppCompatActivity implements OnMapReadyCallback, Go
         if (value > 400 && value <= 500) {
             circle = new CircleOptions().center(currentLocation).radius(500)
                     .strokeWidth(0f)//선너비 0f : 선없음
-                    .fillColor(Color.parseColor("#871121"));
+                    .fillColor(Color.parseColor("#795548"));
             mGoogleMap.clear();
             mGoogleMap.addCircle(circle);
         }
