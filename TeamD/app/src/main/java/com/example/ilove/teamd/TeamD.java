@@ -317,12 +317,12 @@ public class TeamD extends AppCompatActivity
     @Override
     public void onMapReady(final GoogleMap map) {
 
-        LatLng Atkinson = new LatLng(32.8824070, -117.2348170);
+        LatLng Atkinson = new LatLng(32.8818010, -117.2335230);
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(Atkinson);
-        markerOptions.title("Atkinson Hall");
-        markerOptions.snippet("We're here!");
+        //markerOptions.title("Atkinson Hall");
+        //markerOptions.snippet("We're here!");
         map.addMarker(markerOptions);
 
         map.moveCamera(CameraUpdateFactory.newLatLng(Atkinson));
